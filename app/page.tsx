@@ -2,19 +2,19 @@ const featuredProjects = [
   {
     index: "01",
     title: "MIP",
-    label: "Performance-led website rebuild",
-    role: "Frontend Developer · 2024–2025",
+    label: "Marketing leadership + website performance",
+    role: "Marketing Manager · Web Development · 2025–2026",
     status: "Production result",
     summary:
-      "A media-heavy agency website rebuilt around speed, clarity, and a stronger first impression.",
+      "A marketing-management role that also included hands-on ownership of the agency’s web presence and performance.",
     problem:
-      "The site needed a complete frontend refresh without letting high-resolution visual content compromise performance.",
+      "The agency needed stronger marketing execution and a website refresh without letting high-resolution visual content compromise performance.",
     contribution:
-      "Rebuilt the experience in Next.js, improved frontend delivery and media handling, and strengthened its SEO foundation.",
+      "Worked primarily as Marketing Manager while also rebuilding the experience in Next.js, improving media delivery, performance, and its SEO foundation.",
     proof: "Lighthouse 77 → 100 · LCP 4.8s → 0.8s",
     boundary:
       "Performance is verified through the professional record; no conversion or revenue claim is attached.",
-    stack: ["Next.js", "React", "Performance", "SEO"],
+    stack: ["Marketing", "Next.js", "Performance", "SEO"],
     href: "https://mipksa.com",
     linkLabel: "Visit MIP",
   },
@@ -22,14 +22,14 @@ const featuredProjects = [
     index: "02",
     title: "Maeen",
     label: "Public experience and operations platform",
-    role: "Web Developer · 2024–2025",
+    role: "Freelance product & web development · Since 2023",
     status: "Operational product",
     summary:
-      "A public website and internal product connecting stakeholder needs, program visibility, and day-to-day operations.",
+      "A long-running freelance project connecting a public website, stakeholder needs, program visibility, and day-to-day operations.",
     problem:
       "The team needed a polished public experience and better internal visibility across progress, milestones, and operational workflows.",
     contribution:
-      "Built the React and Supabase experience from design, added database-backed forms, and delivered dashboard workflows while iterating directly with stakeholders.",
+      "As a freelance product and web partner, built the React and Supabase experience from design, added database-backed forms, and delivered dashboard workflows while iterating directly with stakeholders.",
     proof: "Internal software supporting 60+ users",
     boundary:
       "The audience figure means supported users, not monthly active users. Current games and payment work are not presented as launched.",
@@ -41,17 +41,17 @@ const featuredProjects = [
     index: "03",
     title: "QARAR",
     label: "Arabic-first mobile authentication",
-    role: "Selected product engineering · 2026",
-    status: "Committed release checkpoint",
+    role: "Mrasim project work · Since Apr 2026",
+    status: "Verified delivery checkpoint",
     summary:
-      "Cross-system mobile work that restored the intended expert onboarding journey and made release evidence part of the solution.",
+      "One of the applications I contribute to through Mrasim, including cross-system work on its Arabic-first mobile experience.",
     problem:
       "Phone verification could succeed while an expert was sent into the wrong role journey or left behind an apparently unresponsive screen.",
     contribution:
       "Coordinated Flutter and Laravel OTP behavior, separated identity from role continuation, strengthened recovery paths, and verified the real application journey.",
     proof: "Verify phone → continue to the expert form",
     boundary:
-      "This is a verified historical delivery checkpoint, not a claim of permanent production health or sole authorship.",
+      "This reflects my contribution within Mrasim, not sole authorship or a claim of permanent production health.",
     stack: ["Flutter", "Laravel", "Authentication", "Release QA"],
   },
 ];
@@ -89,10 +89,16 @@ const explorations = [
 
 const experience = [
   {
-    period: "2026",
-    title: "Selected Product Engineering Work",
-    organization: "Independent project portfolio",
-    text: "Arabic-first web and mobile systems spanning Flutter/Laravel authentication, operational workflows, product specifications, QA, and release preparation.",
+    period: "Apr 2026–Present",
+    title: "Product & Software Delivery",
+    organization: "Mrasim",
+    text: "Joined Mrasim in April 2026. QARAR is one of the company projects I work on, contributing across product clarification, Flutter/Laravel coordination, Arabic UX, QA, and release preparation.",
+  },
+  {
+    period: "2025–2026",
+    title: "Marketing Manager",
+    organization: "MIP Marketing Agency",
+    text: "Joined after Nana and worked primarily in marketing management while also handling web development, including the agency’s Next.js rebuild and verified performance improvements.",
   },
   {
     period: "Feb–Apr 2025",
@@ -101,16 +107,10 @@ const experience = [
     text: "Contributed to engagement concepts, cross-functional product documentation, competitive analysis, and user acceptance testing.",
   },
   {
-    period: "2024–2025",
-    title: "Web Developer",
+    period: "Freelance · Since 2023",
+    title: "Product & Web Development",
     organization: "Maeen",
-    text: "Built the public React/Supabase product and an internal progress dashboard supporting 60+ users while managing stakeholder requirements directly.",
-  },
-  {
-    period: "2024–2025",
-    title: "Frontend Developer",
-    organization: "MIP Marketing Agency",
-    text: "Rebuilt the agency website in Next.js and delivered measurable improvements in Lighthouse performance and Largest Contentful Paint.",
+    text: "Independent freelance project developed since 2023, spanning the public React/Supabase product, stakeholder iteration, and an internal progress dashboard supporting 60+ users.",
   },
 ];
 
@@ -423,7 +423,7 @@ export default function Home() {
         <section className="section experience-section" id="experience">
           <div className="shell experience-layout">
             <div className="experience-heading">
-              <p className="section-kicker">Experience & education</p>
+              <p className="section-kicker">Employment, freelance work & education</p>
               <h2>A software engineering foundation, expanded through product ownership.</h2>
               <a href="/Sameer_Awaji_Resume.pdf" download>
                 Download résumé (PDF) <span aria-hidden="true">↓</span>
