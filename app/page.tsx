@@ -188,7 +188,10 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">
               <span className="signal" aria-hidden="true" />
-              Software engineering · Product thinking · Delivery
+              <span className="eyebrow-full">
+                Software engineering · Product thinking · Delivery
+              </span>
+              <span className="eyebrow-short">Engineering · Product · Delivery</span>
             </p>
             <h1>
               I turn ambiguous product ideas into software people can

@@ -21,7 +21,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 92px;
+  scroll-padding-top: 75px;
 }
 
 body {
@@ -93,7 +93,8 @@ h3 {
   top: 0;
   z-index: 30;
   border-bottom: 1px solid var(--line);
-  background: rgba(243, 240, 232, 0.97);
+  background: var(--paper);
+  isolation: isolate;
 }
 
 .header-inner {
@@ -105,6 +106,7 @@ h3 {
 
 .wordmark {
   display: inline-flex;
+  min-height: 44px;
   align-items: center;
   justify-self: start;
   gap: 12px;
@@ -167,6 +169,9 @@ h3 {
 }
 
 .header-action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
   justify-self: end;
   padding: 10px 14px;
   border: 1px solid var(--ink);
@@ -204,6 +209,10 @@ h3 {
   font-weight: 650;
   letter-spacing: 0.095em;
   text-transform: uppercase;
+}
+
+.eyebrow-short {
+  display: none;
 }
 
 .signal {
@@ -1002,7 +1011,7 @@ h3 {
 
 @keyframes rise-in {
   from {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(18px);
   }
   to {
@@ -1070,11 +1079,26 @@ h3 {
   }
 
   .hero {
-    padding-block: 70px 84px;
+    padding-block: 58px 72px;
   }
 
   .hero h1 {
-    font-size: clamp(3.15rem, 15vw, 5.2rem);
+    font-size: clamp(3.05rem, 13.5vw, 4.5rem);
+    line-height: 0.99;
+  }
+
+  .eyebrow {
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 0.075em;
+  }
+
+  .eyebrow-full {
+    display: none;
+  }
+
+  .eyebrow-short {
+    display: inline;
   }
 
   .hero-ledger {
@@ -1154,6 +1178,15 @@ h3 {
     min-height: 350px;
   }
 
+  .principle {
+    min-height: 245px;
+    padding: 24px;
+  }
+
+  .principle > span {
+    margin-bottom: 52px;
+  }
+
   .capability-ledger {
     gap: 44px;
     margin-top: 76px;
@@ -1176,6 +1209,19 @@ h3 {
     gap: 50px;
   }
 
+  .contact-layout h2 {
+    font-size: clamp(2.7rem, 13vw, 3.6rem);
+    line-height: 1.08;
+  }
+
+  .case-footer a,
+  .contact-links a,
+  .experience-heading a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+  }
+
   .footer-inner {
     flex-direction: column;
     align-items: flex-start;
@@ -1183,8 +1229,9 @@ h3 {
 }
 
 @media (max-width: 440px) {
-  .wordmark > span:last-child {
-    display: none;
+  .wordmark {
+    gap: 8px;
+    font-size: 14px;
   }
 
   .header-action {
