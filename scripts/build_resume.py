@@ -114,7 +114,7 @@ def build_resume():
     pdf.drawString(name_x, y - 8, "Sameer Awaji")
     pdf.setFillColor(TEAL)
     pdf.setFont("Helvetica-Bold", 9.6)
-    pdf.drawString(name_x, y - 24, "SOFTWARE ENGINEER | PRODUCT & WEB DEVELOPMENT | MARKETING")
+    pdf.drawString(name_x, y - 24, "SOFTWARE ENGINEER | WEB & MOBILE | PRODUCT & MARKETING EXPERIENCE")
 
     pdf.setFillColor(SOFT)
     pdf.setFont("Helvetica", 8.3)
@@ -128,10 +128,9 @@ def build_resume():
 
     y = section_title(pdf, "Profile", y)
     summary = (
-        "Software engineer with experience in freelance development, product management, marketing, and web and mobile products. "
-        "I began freelance work with Maeen in 2023, completed a Product Manager internship at Nana in early 2025, then joined "
-        "MIP mainly as Marketing Manager while also developing its website. Since April 2026, I have worked at Mrasim, where "
-        "QARAR is one of the projects I contribute to."
+        "Software engineer working across web, mobile, APIs, Arabic UX, and release testing. I began freelance work with Maeen "
+        "in 2023, worked in product at Nana, and then led marketing at MIP while rebuilding its website. Since April 2026, I "
+        "have worked at Mrasim, where QARAR is one of the projects I contribute to."
     )
     y = draw_paragraph(pdf, summary, LEFT, y, CONTENT_W, SUMMARY)
     y -= 12
@@ -141,7 +140,7 @@ def build_resume():
         ("Engineering", "React, Next.js, JavaScript, Flutter, Laravel, Supabase, REST APIs"),
         ("Product work", "Requirements, user journeys, stakeholder feedback, UAT, QA, release checks"),
         ("Marketing", "Marketing management, SEO, web performance, content and campaign coordination"),
-        ("Languages & tools", "Arabic and English, Git, Figma, AI-assisted research and implementation"),
+        ("Languages & tools", "Arabic and English, Git, Figma, browser and simulator testing"),
     ]
     label_width = 96
     for label, value in skill_rows:
@@ -160,7 +159,7 @@ def build_resume():
         "",
         "Apr 2026 - Present",
         [
-            "QARAR is one of the projects I work on at Mrasim. My responsibilities include product clarification, Flutter and Laravel coordination, Arabic UX, authentication flows, QA, and release preparation.",
+            "QARAR is one of the projects I work on at Mrasim. My responsibilities include clarifying requirements, coordinating Flutter and Laravel changes, improving Arabic UX, testing authentication flows, and preparing releases.",
             "Write user flows and acceptance criteria, coordinate app and API changes, and test the end-to-end experience.",
         ],
     )
@@ -221,7 +220,7 @@ def build_resume():
     metrics = [
         ("77 to 100", "Lighthouse score on MIP"),
         ("4.8s to 0.8s", "LCP on the MIP rebuild"),
-        ("60+", "People supported by Maeen dashboard"),
+        ("60+", "Maeen dashboard built to support 60+ users"),
     ]
     metric_gap = 9
     metric_width = (CONTENT_W - (metric_gap * 2)) / 3

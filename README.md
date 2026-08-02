@@ -1,100 +1,87 @@
-# vinext-starter
+# Sameer Awaji — Portfolio
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+Sameer Awaji’s personal portfolio, built with Next.js, React, TypeScript, and
+vinext. The site presents an engineering-first profile supported by product,
+marketing, and project-delivery experience.
 
-## Prerequisites
+## Portfolio structure
 
-- Node.js `>=22.13.0`
+The homepage is intentionally ordered around the information a recruiter or
+hiring manager needs first:
 
-## Quick Start
+1. engineering-focused introduction;
+2. selected work: QARAR, MIP, then Maeen;
+3. professional experience and freelance work;
+4. working approach and capabilities;
+5. background and contact information.
+
+The downloadable resume lives at `public/Sameer_Awaji_Resume.pdf`, and
+`public/og.png` is the social-preview image used by the page metadata.
+
+## Career and project boundaries
+
+Keep these distinctions intact whenever the portfolio is updated:
+
+- Mrasim is current employment beginning in April 2026. QARAR is a project
+  Sameer works on as part of that role. Do not invent a formal Mrasim job title.
+- MIP followed Nana. Sameer’s primary MIP role was Marketing Manager, with web
+  development as an additional responsibility.
+- Nana was a Product Manager internship.
+- Maeen is freelance work that began in 2023. Do not present it as employment.
+
+## Content and evidence conventions
+
+Portfolio copy should sound direct and human. Lead with what Sameer did, explain
+why it mattered, and avoid slogans, inflated adjectives, or generic claims about
+ownership and impact.
+
+Each featured case study uses the same four labels:
+
+- **The problem** — the concrete situation or user need;
+- **My part** — Sameer’s contribution without claiming the entire team’s work;
+- **Evidence** — a measured result, verified behavior, or deliverable;
+- **Scope** — the limitation or context needed to interpret that evidence.
+
+Treat implementation, local verification, deployment, and business impact as
+different claims. Plans and prototypes are not shipped products. Team outcomes
+should not be written as solo achievements unless the evidence supports that
+wording.
+
+Metrics must preserve their original scope:
+
+- The Lighthouse improvement from 77 to 100 and LCP improvement from 4.8s to
+  0.8s refer to the MIP website rebuild.
+- The Maeen dashboard was **built to support 60+ users**. This is a design and
+  delivery scope, not an active-user count, adoption metric, or claim that 60+
+  people were personally supported.
+
+Do not add a paragraph about AI tools. Tools may change; the portfolio should
+focus on Sameer’s engineering decisions, responsibilities, and evidence.
+
+## Main files
+
+- `app/page.tsx` — portfolio content and page structure
+- `app/globals.css` — responsive layout and visual system
+- `app/layout.tsx` — page metadata and social-sharing configuration
+- `scripts/build_resume.py` — source used to generate the PDF resume
+- `tests/rendered-html.test.mjs` — rendered-content and evidence-contract tests
+
+## Commands
+
+Node.js 22.13 or newer is required.
 
 ```bash
 npm install
 npm run dev
 npm run build
+npm test
+npm run lint
 ```
 
-This starter does not use `wrangler.jsonc`.
+- `npm run dev` starts the local development server.
+- `npm run build` creates the vinext production build.
+- `npm test` builds the site and checks the rendered portfolio contract.
+- `npm run lint` runs the repository’s ESLint configuration.
 
-## Included Shape
-
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-Signed-in visitors receive both `oai-authenticated-user-id` and `oai-authenticated-user-email`. Private Sites require every visitor to sign in; public Sites may also have anonymous visitors, for whom neither header is present.
-
-The user ID is stable for the same user on the same Site and different across Sites. Email and name are intended for display or contact purposes.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const userId = requestHeaders.get("oai-authenticated-user-id");
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
-```
-
-## Optional Dispatch-Owned ChatGPT Sign-In
-
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
-
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
-
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
-
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Useful Commands
-
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+Before publishing a content change, run `npm test` and confirm that the resume
+and social-preview image still match the public wording.

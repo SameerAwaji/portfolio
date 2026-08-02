@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Sameer Awaji — Software Engineer",
     description:
-      "Portfolio of Sameer Awaji: software engineering, product work, marketing management, and Arabic-first web and mobile projects.",
+      "Sameer Awaji is a software engineer working across web, mobile, APIs, Arabic UX, and release testing, with experience in product management and marketing.",
     authors: [{ name: "Sameer Awaji" }],
     keywords: [
       "Sameer Awaji",
@@ -42,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Sameer Awaji — Software Engineer",
       description:
-        "Software engineering, product work, marketing management, and Arabic-first web and mobile projects.",
+        "Web and mobile software, APIs, Arabic UX, and release testing, supported by product and marketing experience.",
       type: "website",
       url: origin,
       images: [
@@ -58,7 +58,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: "Sameer Awaji — Software Engineer",
       description:
-        "Software engineering, product work, marketing management, and Arabic-first web and mobile projects.",
+        "Web and mobile software, APIs, Arabic UX, and release testing, supported by product and marketing experience.",
       images: [`${origin}/og.png`],
     },
   };
