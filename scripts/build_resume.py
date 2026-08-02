@@ -77,7 +77,8 @@ def section_title(pdf, title: str, y: float):
 def experience_entry(pdf, y: float, role: str, company: str, period: str, bullets: list[str]):
     pdf.setFillColor(INK)
     pdf.setFont("Helvetica-Bold", 9.8)
-    pdf.drawString(LEFT, y, f"{role} - {company}")
+    heading = f"{role} - {company}" if company else role
+    pdf.drawString(LEFT, y, heading)
     pdf.setFillColor(TEAL)
     pdf.setFont("Helvetica-Bold", 8.2)
     pdf.drawRightString(RIGHT, y + 0.4, period)
@@ -94,7 +95,7 @@ def build_resume():
     pdf = canvas.Canvas(str(OUTPUT), pagesize=letter)
     pdf.setTitle("Sameer Awaji - Resume")
     pdf.setAuthor("Sameer Awaji")
-    pdf.setSubject("Software engineering, product, marketing, and delivery experience")
+    pdf.setSubject("Software engineering, product, marketing, and web development experience")
 
     pdf.setFillColor(PAPER)
     pdf.rect(0, 0, PAGE_W, PAGE_H, stroke=0, fill=1)
@@ -113,7 +114,7 @@ def build_resume():
     pdf.drawString(name_x, y - 8, "Sameer Awaji")
     pdf.setFillColor(TEAL)
     pdf.setFont("Helvetica-Bold", 9.6)
-    pdf.drawString(name_x, y - 24, "SOFTWARE ENGINEERING | PRODUCT | MARKETING | DELIVERY")
+    pdf.drawString(name_x, y - 24, "SOFTWARE ENGINEER | PRODUCT & WEB DEVELOPMENT | MARKETING")
 
     pdf.setFillColor(SOFT)
     pdf.setFont("Helvetica", 8.3)
@@ -127,10 +128,10 @@ def build_resume():
 
     y = section_title(pdf, "Profile", y)
     summary = (
-        "Product-minded software engineer with experience across freelance product development, product management, "
-        "marketing leadership, and hands-on web and mobile delivery. After a Product Manager internship at Nana, "
-        "I joined MIP primarily as Marketing Manager while also owning web-development outcomes. Since April 2026, "
-        "I have worked at Mrasim on products including QARAR. Maeen has been an independent freelance project since 2023."
+        "Software engineer with experience in freelance development, product management, marketing, and web and mobile products. "
+        "I began freelance work with Maeen in 2023, completed a Product Manager internship at Nana in early 2025, then joined "
+        "MIP mainly as Marketing Manager while also developing its website. Since April 2026, I have worked at Mrasim, where "
+        "QARAR is one of the projects I contribute to."
     )
     y = draw_paragraph(pdf, summary, LEFT, y, CONTENT_W, SUMMARY)
     y -= 12
@@ -138,7 +139,7 @@ def build_resume():
     y = section_title(pdf, "Core capabilities", y)
     skill_rows = [
         ("Engineering", "React, Next.js, JavaScript, Flutter, Laravel, Supabase, REST APIs"),
-        ("Product & delivery", "Requirements, user journeys, stakeholder iteration, UAT, QA, release verification"),
+        ("Product work", "Requirements, user journeys, stakeholder feedback, UAT, QA, release checks"),
         ("Marketing", "Marketing management, SEO, web performance, content and campaign coordination"),
         ("Languages & tools", "Arabic and English, Git, Figma, AI-assisted research and implementation"),
     ]
@@ -155,12 +156,12 @@ def build_resume():
     y = experience_entry(
         pdf,
         y,
-        "Product & Software Delivery",
         "Mrasim",
+        "",
         "Apr 2026 - Present",
         [
-            "Contribute to Mrasim product work including QARAR across product clarification, Flutter/Laravel coordination, Arabic-first UX, authentication journeys, QA, and release preparation.",
-            "Translate ambiguous requirements into scoped user paths, implementation decisions, and real-path verification evidence.",
+            "QARAR is one of the projects I work on at Mrasim. My responsibilities include product clarification, Flutter and Laravel coordination, Arabic UX, authentication flows, QA, and release preparation.",
+            "Write user flows and acceptance criteria, coordinate app and API changes, and test the end-to-end experience.",
         ],
     )
     y = experience_entry(
@@ -168,10 +169,10 @@ def build_resume():
         y,
         "Marketing Manager",
         "MIP Marketing Agency",
-        "2025 - 2026",
+        "2025 - Mar 2026",
         [
-            "Worked primarily in marketing management after Nana while also handling hands-on web development and aligning the agency website with its marketing goals.",
-            "Rebuilt the site in Next.js, improving Lighthouse performance from 77 to 100 and Largest Contentful Paint from 4.8s to 0.8s.",
+            "My main role was Marketing Manager. I also handled hands-on web development and connected the website work to the agency's marketing goals.",
+            "Rebuilt the site in Next.js, improving its Lighthouse score from 77 to 100 and Largest Contentful Paint from 4.8s to 0.8s.",
         ],
     )
     y = experience_entry(
@@ -181,18 +182,19 @@ def build_resume():
         "Nana",
         "Feb 2025 - Apr 2025",
         [
-            "Contributed to customer-engagement concepts, cross-functional product documentation, competitive analysis, and user acceptance testing.",
+            "My first formal product role, covering engagement ideas, product documentation, competitor research, cross-functional work, and user acceptance testing.",
         ],
     )
+    y = section_title(pdf, "Freelance work", y)
     y = experience_entry(
         pdf,
         y,
-        "Freelance Product & Web Development",
+        "Freelance Developer",
         "Maeen",
-        "Since 2023",
+        "2023 - Present",
         [
-            "Built and iterated on the React/Supabase public product, database-backed forms, and stakeholder-facing workflows as an independent freelance project.",
-            "Delivered an internal progress dashboard supporting 60+ users while managing requirements and feedback directly with stakeholders.",
+            "Develop and maintain Maeen's React and Supabase website, database-backed forms, and internal workflows as an independent freelancer.",
+            "Work directly with stakeholders on requirements and feedback; delivered an internal dashboard built to support 60+ users.",
         ],
     )
 
@@ -217,9 +219,9 @@ def build_resume():
     y -= 15
     y = section_title(pdf, "Selected outcomes", y)
     metrics = [
-        ("77 to 100", "Lighthouse performance"),
-        ("4.8s to 0.8s", "Largest Contentful Paint"),
-        ("60+", "Users supported by internal software"),
+        ("77 to 100", "Lighthouse score on MIP"),
+        ("4.8s to 0.8s", "LCP on the MIP rebuild"),
+        ("60+", "People supported by Maeen dashboard"),
     ]
     metric_gap = 9
     metric_width = (CONTENT_W - (metric_gap * 2)) / 3
@@ -243,7 +245,7 @@ def build_resume():
     pdf.line(LEFT, 25, RIGHT, 25)
     pdf.setFillColor(SOFT)
     pdf.setFont("Helvetica", 7.2)
-    pdf.drawString(LEFT, 13, "Selected outcomes are scoped to the work described; project contributions do not imply sole authorship.")
+    pdf.drawString(LEFT, 13, "Metrics relate to the projects and responsibilities described above.")
 
     pdf.showPage()
     pdf.save()

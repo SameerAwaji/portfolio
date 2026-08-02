@@ -25,9 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const origin = `${protocol}://${host}`;
 
   return {
-    title: "Sameer Awaji — Product-minded Software Engineer",
+    title: "Sameer Awaji — Software Engineer",
     description:
-      "Sameer Awaji connects product thinking, engineering, Arabic-first UX, and evidence-based delivery across web and mobile products.",
+      "Portfolio of Sameer Awaji: software engineering, product work, marketing management, and Arabic-first web and mobile projects.",
     authors: [{ name: "Sameer Awaji" }],
     keywords: [
       "Sameer Awaji",
@@ -40,9 +40,9 @@ export async function generateMetadata(): Promise<Metadata> {
       "Arabic UX",
     ],
     openGraph: {
-      title: "Sameer Awaji — From ambiguity to verified delivery",
+      title: "Sameer Awaji — Software Engineer",
       description:
-        "Product-minded software engineer connecting product judgment, implementation, and release evidence.",
+        "Software engineering, product work, marketing management, and Arabic-first web and mobile projects.",
       type: "website",
       url: origin,
       images: [
@@ -50,14 +50,15 @@ export async function generateMetadata(): Promise<Metadata> {
           url: `${origin}/og.png`,
           width: 1672,
           height: 941,
-          alt: "Sameer Awaji — Product-minded software engineer",
+          alt: "Sameer Awaji — Software engineer with product and marketing experience",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Sameer Awaji — Product-minded Software Engineer",
-      description: "From ambiguous product ideas to software people can trust.",
+      title: "Sameer Awaji — Software Engineer",
+      description:
+        "Software engineering, product work, marketing management, and Arabic-first web and mobile projects.",
       images: [`${origin}/og.png`],
     },
   };
