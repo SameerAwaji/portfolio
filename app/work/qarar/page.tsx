@@ -124,9 +124,9 @@ export default function QararCaseStudy() {
               <p className="section-kicker">Simulator proof</p>
               <h2 id="visual-proof-title">The product, not a mockup.</h2>
               <p>
-                Captured from the installed iOS app using non-sensitive guest
-                data. The visible path stops before creating an account, sending
-                an OTP, or submitting a decision.
+                Device-only captures from Simulator’s built-in Save Screen
+                control, using non-sensitive guest data. The visible path stops
+                before submitting a decision.
               </p>
             </div>
 
@@ -134,41 +134,41 @@ export default function QararCaseStudy() {
               <figure>
                 <div className="case-phone-frame">
                   <Image
-                    src="/projects/qarar-launch.png"
-                    alt="QARAR app loading its sign-in configuration"
-                    width={447}
-                    height={955}
+                    src="/projects/qarar-home-clean.png"
+                    alt="QARAR Arabic guest home screen"
+                    width={1206}
+                    height={2622}
                     priority
                     unoptimized
                   />
                 </div>
-                <figcaption><strong>Release initialization</strong><span>App startup and sign-in configuration.</span></figcaption>
+                <figcaption><strong>Guest home</strong><span>A clear starting point for a new decision.</span></figcaption>
               </figure>
               <figure>
                 <div className="case-phone-frame">
                   <Image
-                    src="/projects/qarar-guest-home.png"
-                    alt="QARAR Arabic guest home with current, history, and account navigation"
-                    width={447}
-                    height={955}
+                    src="/projects/qarar-decision-clean.png"
+                    alt="QARAR first decision stage with examples and categories"
+                    width={1206}
+                    height={2622}
                     priority
                     unoptimized
                   />
                 </div>
-                <figcaption><strong>Guest continuity</strong><span>Arabic RTL navigation with the current journey clearly owned.</span></figcaption>
+                <figcaption><strong>Guided decision entry</strong><span>Examples and categories reduce the blank-page problem.</span></figcaption>
               </figure>
               <figure>
                 <div className="case-phone-frame">
                   <Image
-                    src="/projects/qarar-privacy-gate.png"
-                    alt="QARAR privacy consent gate before a decision can be started"
-                    width={447}
-                    height={955}
+                    src="/projects/qarar-account-clean.png"
+                    alt="QARAR guest account privacy and settings controls"
+                    width={1206}
+                    height={2622}
                     priority
                     unoptimized
                   />
                 </div>
-                <figcaption><strong>Consent before action</strong><span>A privacy gate prevents decision creation until terms are reviewed.</span></figcaption>
+                <figcaption><strong>Privacy controls</strong><span>Consent, local data, and personalization remain visible to the user.</span></figcaption>
               </figure>
             </div>
           </div>

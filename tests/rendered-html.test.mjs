@@ -137,21 +137,21 @@ test("ships a technical QARAR case study with architecture, trade-offs, and code
   assert.ok((pageText.match(/Trade-off/g) ?? []).length >= 4, "Expected a trade-off for every decision");
 });
 
-test("uses real QARAR simulator captures and states their safe path", async () => {
+test("uses device-only QARAR simulator captures and states their safe path", async () => {
   const html = await (await render("/work/qarar")).text();
   const pageText = textContent(html);
 
   for (const asset of [
-    "qarar-launch.png",
-    "qarar-guest-home.png",
-    "qarar-privacy-gate.png",
+    "qarar-home-clean.png",
+    "qarar-decision-clean.png",
+    "qarar-account-clean.png",
   ]) {
     assert.match(html, new RegExp(`projects\\/${asset.replace(".", "\\.")}`, "i"));
   }
 
   assert.match(pageText, /non-sensitive guest data/i);
-  assert.match(pageText, /stops before creating an account, sending an OTP, or submitting a decision/i);
-  assert.match(pageText, /installed iOS app/i);
+  assert.match(pageText, /stops before submitting a decision/i);
+  assert.match(pageText, /Simulator’s built-in Save Screen control/i);
 });
 
 test("keeps the full experience path and education", async () => {
@@ -190,8 +190,8 @@ test("ships the resume, social card, and project proof assets", async () => {
     access(new URL("public/og-v2.png", projectRoot)),
     access(new URL("public/projects/mip-home.png", projectRoot)),
     access(new URL("public/projects/maeen-home.png", projectRoot)),
-    access(new URL("public/projects/qarar-launch.png", projectRoot)),
-    access(new URL("public/projects/qarar-guest-home.png", projectRoot)),
-    access(new URL("public/projects/qarar-privacy-gate.png", projectRoot)),
+    access(new URL("public/projects/qarar-home-clean.png", projectRoot)),
+    access(new URL("public/projects/qarar-decision-clean.png", projectRoot)),
+    access(new URL("public/projects/qarar-account-clean.png", projectRoot)),
   ]);
 });

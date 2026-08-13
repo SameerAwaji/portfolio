@@ -185,20 +185,20 @@ export default function Home() {
             <div className="phone-proof" aria-label="QARAR simulator screens">
               <figure className="phone-frame phone-frame-back">
                 <Image
-                  src="/projects/qarar-privacy-gate.png"
-                  alt="QARAR privacy consent gate before creating a decision"
-                  width={447}
-                  height={955}
+                  src="/projects/qarar-decision-clean.png"
+                  alt="QARAR Arabic decision entry flow"
+                  width={1206}
+                  height={2622}
                   priority
                   unoptimized
                 />
               </figure>
               <figure className="phone-frame phone-frame-front">
                 <Image
-                  src="/projects/qarar-guest-home.png"
+                  src="/projects/qarar-home-clean.png"
                   alt="QARAR Arabic guest home screen in the iOS simulator"
-                  width={447}
-                  height={955}
+                  width={1206}
+                  height={2622}
                   priority
                   unoptimized
                 />
