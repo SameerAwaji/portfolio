@@ -124,9 +124,10 @@ export default function QararCaseStudy() {
               <p className="section-kicker">Simulator proof</p>
               <h2 id="visual-proof-title">The product, not a mockup.</h2>
               <p>
-                Device-only captures from Simulator’s built-in Save Screen
-                control, using non-sensitive guest data. The visible path stops
-                before submitting a decision.
+                Real screens presented in device frames, not redrawn mockups.
+                Captured with Simulator’s built-in Save Screen control using
+                non-sensitive guest data. The visible path stops before
+                submitting a decision.
               </p>
             </div>
 
