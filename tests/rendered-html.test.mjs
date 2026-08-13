@@ -138,6 +138,7 @@ test("ships a technical QARAR case study with architecture, trade-offs, and code
 });
 
 test("uses device-only QARAR simulator captures and states their safe path", async () => {
+  const homeHtml = await (await render()).text();
   const html = await (await render("/work/qarar")).text();
   const pageText = textContent(html);
 
@@ -150,6 +151,18 @@ test("uses device-only QARAR simulator captures and states their safe path", asy
   ]) {
     assert.match(html, new RegExp(`projects\\/${asset.replace(".", "\\.")}`, "i"));
   }
+
+  for (const asset of [
+    "qarar-splash-clean.png",
+    "qarar-login-clean.png",
+    "qarar-home-clean.png",
+    "qarar-decision-clean.png",
+  ]) {
+    assert.match(homeHtml, new RegExp(`projects\\/${asset.replace(".", "\\.")}`, "i"));
+  }
+
+  assert.match(homeHtml, /id=["']qarar-work["']/i);
+  assert.match(homeHtml, /id=["']live-work["']/i);
 
   assert.match(pageText, /non-sensitive first-run and guest states/i);
   assert.match(pageText, /stops before submitting a decision or entering an identifier/i);

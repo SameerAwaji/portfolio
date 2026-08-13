@@ -158,7 +158,7 @@ export default function Home() {
           </div>
         </nav>
 
-        <section className="technical-preview" aria-labelledby="qarar-preview-title">
+        <section className="technical-preview" id="qarar-work" aria-labelledby="qarar-preview-title">
           <div className="shell technical-preview-grid">
             <div className="technical-preview-copy">
               <p className="section-kicker light-kicker">Featured engineering work</p>
@@ -183,20 +183,40 @@ export default function Home() {
             </div>
 
             <div className="phone-proof" aria-label="QARAR simulator screens">
-              <figure className="phone-frame phone-frame-back">
+              <figure className="phone-frame phone-frame-splash">
                 <Image
-                  src="/projects/qarar-decision-clean.png"
-                  alt="QARAR Arabic decision entry flow"
+                  src="/projects/qarar-splash-clean.png"
+                  alt="QARAR loading screen in the iOS simulator"
                   width={1206}
                   height={2622}
                   priority
                   unoptimized
                 />
               </figure>
-              <figure className="phone-frame phone-frame-front">
+              <figure className="phone-frame phone-frame-login">
+                <Image
+                  src="/projects/qarar-login-clean.png"
+                  alt="QARAR Arabic main login screen in the iOS simulator"
+                  width={1206}
+                  height={2622}
+                  priority
+                  unoptimized
+                />
+              </figure>
+              <figure className="phone-frame phone-frame-home">
                 <Image
                   src="/projects/qarar-home-clean.png"
                   alt="QARAR Arabic guest home screen in the iOS simulator"
+                  width={1206}
+                  height={2622}
+                  priority
+                  unoptimized
+                />
+              </figure>
+              <figure className="phone-frame phone-frame-decision">
+                <Image
+                  src="/projects/qarar-decision-clean.png"
+                  alt="QARAR Arabic decision entry flow"
                   width={1206}
                   height={2622}
                   priority

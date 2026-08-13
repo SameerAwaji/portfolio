@@ -491,7 +491,7 @@ button:focus-visible {
   --phone-radius: 45px;
 
   position: absolute;
-  width: min(47%, 276px);
+  width: min(38%, 214px);
   margin: 0;
   padding: var(--phone-bezel);
   overflow: visible;
@@ -540,26 +540,49 @@ button:focus-visible {
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
-.phone-frame-back {
-  top: 22px;
-  right: 1%;
-  transform: rotate(4deg);
+.phone-frame-splash {
+  top: 92px;
+  left: 0;
+  z-index: 1;
+  transform: rotate(-8deg);
 }
 
-.phone-frame-front {
-  bottom: 20px;
-  left: 1%;
+.phone-frame-login {
+  top: 20px;
+  left: 18%;
+  z-index: 4;
+  transform: rotate(-2.5deg);
+}
+
+.phone-frame-home {
+  top: 44px;
+  right: 18%;
+  z-index: 3;
+  transform: rotate(2.5deg);
+}
+
+.phone-frame-decision {
+  top: 96px;
+  right: 0;
   z-index: 2;
-  transform: rotate(-3.2deg);
+  transform: rotate(8deg);
 }
 
 @media (hover: hover) {
-  .phone-proof:hover .phone-frame-back {
-    transform: translate(5px, -6px) rotate(3deg);
+  .phone-proof:hover .phone-frame-splash {
+    transform: translate(-5px, -5px) rotate(-9deg);
   }
 
-  .phone-proof:hover .phone-frame-front {
-    transform: translate(-5px, 4px) rotate(-2.4deg);
+  .phone-proof:hover .phone-frame-login {
+    transform: translate(-3px, -6px) rotate(-3deg);
+  }
+
+  .phone-proof:hover .phone-frame-home {
+    transform: translate(3px, -6px) rotate(3deg);
+  }
+
+  .phone-proof:hover .phone-frame-decision {
+    transform: translate(5px, -5px) rotate(9deg);
   }
 }
 
@@ -1675,7 +1698,7 @@ button:focus-visible {
   }
 
   .phone-frame {
-    width: min(57%, 250px);
+    width: min(43%, 190px);
   }
 
   .section,
