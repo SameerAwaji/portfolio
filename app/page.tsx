@@ -22,36 +22,6 @@ const experience = [
   },
 ];
 
-const capabilities = [
-  ["Mobile", "Flutter · Dart · Riverpod · GoRouter · iOS simulator testing"],
-  ["Backend", "Laravel · MySQL · Supabase · REST APIs · Auth · Queues"],
-  ["Web", "React · Next.js · TypeScript · Performance · Technical SEO"],
-  ["Delivery", "Requirements · UAT · Git · CI · OpenAPI · Release checks"],
-];
-
-const prototypes = [
-  {
-    title: "Automatic Marketing",
-    status: "Local prototype",
-    text: "An Arabic-first campaign system with API-backed workflows, queues, reporting, and deterministic creative composition.",
-  },
-  {
-    title: "Maeen Games",
-    status: "In development",
-    text: "A mobile-first student games experience focused on discovery, accessibility, replay, and offline use.",
-  },
-  {
-    title: "While It Runs",
-    status: "Local learning tool",
-    text: "A Mac app that turns a topic into a short briefing with cited sources and a useful video.",
-  },
-  {
-    title: "Rescuel",
-    status: "Product concept",
-    text: "A profitability dashboard concept for agencies, organized around the first useful decision a user needs to make.",
-  },
-];
-
 export default function Home() {
   return (
     <>
@@ -93,13 +63,14 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">
               <span className="signal" aria-hidden="true" />
-              Product-minded software engineer · Arabic & English
+              Software engineer · Jeddah, Saudi Arabia
             </p>
-            <h1>I turn product problems into reliable web and mobile software.</h1>
+            <h1>Software engineer working across Flutter, Laravel, and Next.js.</h1>
             <p className="hero-intro">
-              I’m an early-career software engineer with experience in product
-              and marketing. At Mrasim, I work across Flutter and Laravel on
-              QARAR; since 2023, I’ve built web and internal tools for Maeen.
+              At Mrasim, I work on authentication, request recovery, and
+              realtime updates for QARAR. I also build public websites and
+              internal workflow tools for Maeen, with earlier experience in
+              product management and marketing.
             </p>
             <div className="hero-actions">
               <Link className="button button-primary" href="/work/qarar">
@@ -131,8 +102,8 @@ export default function Home() {
                 <dd>Ongoing freelance web and workflow development.</dd>
               </div>
               <div className="snapshot-row">
-                <dt>Strength</dt>
-                <dd>Connecting user needs, technical decisions, and release proof.</dd>
+                <dt>Recent work</dt>
+                <dd>Authentication, retry policy, Arabic SSE, and web performance.</dd>
               </div>
             </dl>
           </aside>
@@ -164,18 +135,19 @@ export default function Home() {
               <p className="section-kicker light-kicker">Featured engineering work</p>
               <span className="status-chip status-chip-light">Private Mrasim team product</span>
               <h2 id="qarar-preview-title">
-                Stabilizing identity, retries, and realtime updates in QARAR.
+                How I handled session and realtime reliability in QARAR.
               </h2>
               <p>
-                I worked across the Arabic-first Flutter app and Laravel API
-                where token rotation, account switching, interrupted requests,
-                and SSE reconnects could collide under poor connectivity.
+                I changed the Flutter client and Laravel API paths used for
+                token refresh, account switching, retry decisions, and SSE
+                reconnects. The case study names the modules and tests behind
+                each part.
               </p>
               <ul className="technical-points">
-                <li>Serialized, identity-bound session refresh</li>
-                <li>Safe retries for idempotent work only</li>
-                <li>UTF-8 SSE decoding with cursor recovery</li>
-                <li>Dashboard-owned OpenAPI release contract</li>
+                <li>One refresh shared by concurrent 401 responses</li>
+                <li>Old-account requests stop after an account switch</li>
+                <li>Arabic SSE decoded across split network chunks</li>
+                <li>28 focused Flutter tests passed on 13 Aug 2026</li>
               </ul>
               <Link className="text-link text-link-light" href="/work/qarar">
                 Read the technical case study →
@@ -231,11 +203,11 @@ export default function Home() {
           <div className="section-heading">
             <div>
               <p className="section-kicker">Live work</p>
-              <h2 id="live-work-title">Built, shipped, and visible.</h2>
+              <h2 id="live-work-title">Public websites I built.</h2>
             </div>
             <p>
-              Two public websites that show how I work across customer-facing
-              presentation, implementation, and long-term stakeholder needs.
+              Open either site to inspect the work directly. My role and the
+              technologies used are listed below each screenshot.
             </p>
           </div>
 
@@ -267,11 +239,11 @@ export default function Home() {
                   </a>
                 </div>
                 <p>
-                  The agency needed image-heavy work to remain visually
-                  convincing, but those assets pushed LCP to 4.8 seconds. I
-                  preserved the presentation while changing delivery and
-                  technical SEO, bringing LCP to 0.8 seconds and Lighthouse
-                  performance from 77 to 100.
+                  I rebuilt the agency website in Next.js and worked on image
+                  delivery and technical SEO. My before-and-after Lighthouse
+                  runs recorded performance moving from 77 to 100 and LCP from
+                  4.8 seconds to 0.8 seconds. The original reports are not
+                  published here, so I present these as my recorded results.
                 </p>
                 <div className="result-pair" aria-label="MIP website results">
                   <div><strong>77 → 100</strong><span>Lighthouse performance</span></div>
@@ -321,40 +293,11 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section judgment-section" aria-labelledby="judgment-title">
-          <div className="shell judgment-grid">
-            <div>
-              <p className="section-kicker">Product judgment in code</p>
-              <h2 id="judgment-title">The implementation follows the user risk.</h2>
-            </div>
-            <div className="judgment-examples">
-              <article>
-                <span>QARAR · identity safety</span>
-                <h3>A retry is not always harmless.</h3>
-                <p>
-                  Read requests can recover automatically. OTP, AI, and other
-                  mutations get one bounded attempt so a weak connection does
-                  not duplicate a consequential user action.
-                </p>
-              </article>
-              <article>
-                <span>MIP · marketing performance</span>
-                <h3>Speed did not require flattening the brand.</h3>
-                <p>
-                  The visual portfolio remained central to the site while its
-                  assets, delivery, and technical SEO were rebuilt around a
-                  faster first impression.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
         <section className="section experience-section" id="experience">
           <div className="shell experience-layout">
             <div className="experience-heading">
               <p className="section-kicker">Experience</p>
-              <h2>Engineering, with product context.</h2>
+              <h2>Work and education.</h2>
               <p>
                 I graduated in Software Engineering in 2024 and moved through
                 product and marketing roles into hands-on engineering.
@@ -397,49 +340,11 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section shell tools-section" aria-labelledby="tools-title">
-          <div className="section-heading compact-heading">
-            <div>
-              <p className="section-kicker">Working stack</p>
-              <h2 id="tools-title">Tools used in the work above.</h2>
-            </div>
-          </div>
-          <div className="capability-list">
-            {capabilities.map(([title, items]) => (
-              <div className="capability-row" key={title}>
-                <strong>{title}</strong>
-                <p>{items}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="section section-dark" aria-labelledby="other-work-title">
-          <div className="shell">
-            <div className="section-heading inverse compact-heading">
-              <div>
-                <p className="section-kicker">Exploration</p>
-                <h2 id="other-work-title">Prototypes and work in progress.</h2>
-              </div>
-              <p>Smaller systems where I’m testing a specific product or implementation idea.</p>
-            </div>
-            <div className="prototype-grid">
-              {prototypes.map((project) => (
-                <article className="prototype-card" key={project.title}>
-                  <span>{project.status}</span>
-                  <h3>{project.title}</h3>
-                  <p>{project.text}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="contact-section" id="contact">
           <div className="shell contact-layout">
             <div>
               <p className="section-kicker">Contact</p>
-              <h2>Looking for an engineer who can connect product and implementation?</h2>
+              <h2>Available for software engineering roles and selected projects.</h2>
             </div>
             <div className="contact-panel">
               <p>

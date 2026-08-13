@@ -72,7 +72,7 @@ function assertInOrder(text, labels) {
   }
 }
 
-test("server-renders an honest early-career engineering position", async () => {
+test("server-renders a direct software engineering position", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -85,8 +85,8 @@ test("server-renders an honest early-career engineering position", async () => {
     .trim();
 
   assert.equal(title, "Sameer Awaji Software Engineer");
-  assert.match(hero, /product-minded software engineer/i);
-  assert.match(hero, /early-career software engineer/i);
+  assert.match(hero, /Software engineer working across Flutter, Laravel, and Next\.js/i);
+  assert.match(hero, /authentication, request recovery, and realtime updates/i);
   assert.match(hero, /View the QARAR case study/i);
   assert.match(html, /href=["']https:\/\/github\.com\/SameerAwaji["']/i);
   assert.ok(
@@ -121,20 +121,23 @@ test("makes MIP and Maeen visual live projects", async () => {
   assert.match(liveWork, /internal workflow dashboard/i);
 });
 
-test("ships a technical QARAR case study with architecture, trade-offs, and code", async () => {
+test("ships a technical QARAR case study with ownership, failures, and named tests", async () => {
   const response = await render("/work/qarar");
   assert.equal(response.status, 200);
   const html = await response.text();
   const pageText = textContent(html);
 
-  assert.match(pageText, /Stabilizing a Flutter\/Laravel decision platform/i);
-  assertInOrder(pageText, ["Architecture", "Engineering decisions", "Implementation patterns", "Validation"]);
-  assert.match(pageText, /identity-bound session refresh|Bind refresh to identity/i);
-  assert.match(pageText, /Retry only work that is safe to repeat/i);
-  assert.match(pageText, /UTF-8 stream with a cursor/i);
-  assert.match(pageText, /OpenAPI contract/i);
-  assert.ok((html.match(/<pre>/gi) ?? []).length >= 2, "Expected two code excerpts");
-  assert.ok((pageText.match(/Trade-off/g) ?? []).length >= 4, "Expected a trade-off for every decision");
+  assert.match(pageText, /How I addressed session and realtime reliability problems in QARAR/i);
+  assertInOrder(pageText, ["My responsibility", "Failure → change → test", "Current local verification"]);
+  assert.match(pageText, /ApiClient/i);
+  assert.match(pageText, /TokenStorage/i);
+  assert.match(pageText, /AccessTokenRotationService/i);
+  assert.match(pageText, /Observed risk/i);
+  assert.match(pageText, /What I changed/i);
+  assert.match(pageText, /api_client_auth_test\.dart/i);
+  assert.match(pageText, /api_client_sse_test\.dart/i);
+  assert.match(pageText, /openapi_contract_test\.dart/i);
+  assert.doesNotMatch(html, /<pre>/i);
 });
 
 test("uses device-only QARAR simulator captures and states their safe path", async () => {
@@ -164,9 +167,34 @@ test("uses device-only QARAR simulator captures and states their safe path", asy
   assert.match(homeHtml, /id=["']qarar-work["']/i);
   assert.match(homeHtml, /id=["']live-work["']/i);
 
-  assert.match(pageText, /non-sensitive first-run and guest states/i);
-  assert.match(pageText, /stops before submitting a decision or entering an identifier/i);
-  assert.match(pageText, /captured directly from iOS Simulator as device-only images/i);
+  assert.match(pageText, /Screens from the installed iOS simulator build/i);
+  assert.match(pageText, /prove the visible first-run and guest flow, not the reliability mechanisms/i);
+  assert.match(pageText, /stop before an identifier, OTP, or decision is submitted/i);
+});
+
+test("states current QARAR verification and its backend boundary", async () => {
+  const html = await (await render("/work/qarar")).text();
+  const pageText = textContent(html);
+
+  assert.match(pageText, /28 \/ 28 focused Flutter tests passed/i);
+  assert.match(pageText, /13 Aug 2026/i);
+  assert.match(pageText, /Flutter 3\.41\.9/i);
+  assert.match(pageText, /required local MySQL test service was unavailable/i);
+  assert.match(pageText, /do not present those backend tests as current passing evidence/i);
+});
+
+test("removes unsupported padding and AI-style slogans", async () => {
+  const html = await (await render()).text();
+  const pageText = textContent(html);
+  const caseText = textContent(await (await render("/work/qarar")).text());
+
+  assert.doesNotMatch(pageText, /Prototypes and work in progress/i);
+  assert.doesNotMatch(pageText, /Automatic Marketing|While It Runs|Rescuel/i);
+  assert.doesNotMatch(pageText, /Built, shipped, and visible/i);
+  assert.doesNotMatch(pageText, /The implementation follows the user risk/i);
+  assert.doesNotMatch(pageText, /Looking for an engineer who can connect product and implementation/i);
+  assert.doesNotMatch(caseText, /The product, not a mockup/i);
+  assert.doesNotMatch(caseText, /impossible by construction|duplicate-safe|The path remains the proof/i);
 });
 
 test("keeps the full experience path and education", async () => {

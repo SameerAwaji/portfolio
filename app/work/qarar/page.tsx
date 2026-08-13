@@ -5,63 +5,49 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "QARAR Technical Case Study — Sameer Awaji",
   description:
-    "A technical case study on session safety, bounded retries, realtime SSE recovery, and Flutter-Laravel contract integrity in QARAR.",
+    "How Sameer Awaji changed and tested session refresh, retry behavior, Arabic SSE handling, and API compatibility in QARAR.",
 };
 
-const refreshPattern = `final failedIdentity = request.sessionIdentity;
-final currentIdentity = session.identity;
-
-if (failedIdentity != currentIdentity) {
-  return RetryDecision.superseded;
-}
-
-final result = await refreshCoordinator.runOnce(
-  bearer: request.bearer,
-);
-
-return result.rotatedFor(currentIdentity)
-    ? RetryDecision.safeWithNewBearer
-    : RetryDecision.endSession;`;
-
-const realtimePattern = `await for (final text in utf8.decoder.bind(stream)) {
-  for (final event in parser.addChunk(text)) {
-    if (event.id <= cursor.lastEventId) continue;
-
-    cursor = cursor.advance(
-      eventId: event.id,
-      timestamp: event.timestamp,
-    );
-    onEvent(event);
-  }
-}
-
-reconnect(since: cursor.timestamp, lastId: cursor.lastEventId);`;
-
-const decisions = [
+const changes = [
   {
     number: "01",
-    title: "Bind refresh to identity, not only a bearer token",
-    text: "Concurrent requests can fail while a refresh or account switch is already in progress. Refresh is serialized, and each failed request carries the identity that created it. Work from account A is never replayed under account B.",
-    tradeoff: "More session bookkeeping, in exchange for making cross-account replay impossible by construction.",
+    problem: "Two requests could receive 401 responses at the same time, while login or account switching could replace the active session during refresh.",
+    title: "Session refresh and account switching",
+    implementation: "I added a single in-flight refresh in ApiClient, tagged each request with its bearer and profile UID, and rechecked the bearer and UID after the refresh response. TokenStorage now writes the token and matching profile together and leaves a logout tombstone.",
+    verification: "api_client_auth_test.dart checks one refresh for concurrent 401s and proves an old refresh cannot overwrite a newer account. token_storage_test.dart covers atomic restore, cross-user rejection, and logout resurrection.",
   },
   {
     number: "02",
-    title: "Retry only work that is safe to repeat",
-    text: "GET and idempotent update paths can use bounded recovery. OTP, AI, and other consequential mutations receive one controlled attempt so a timeout cannot silently duplicate a user action.",
-    tradeoff: "Some failures return to the user instead of being hidden, which is preferable to creating duplicate effects.",
+    problem: "A timeout does not reveal whether the server completed an OTP or AI request. Replaying it automatically could create a second side effect.",
+    title: "Retry behavior by request type",
+    implementation: "I separated retry helpers: transient GET and PUT work can make bounded retries, while OTP, AI, and other user-triggered mutations make one original request only. After an uncertain AI result, the client can reconcile with a GET instead of repeating the POST.",
+    verification: "api_retry_test.dart checks that timed-out auth work is not replayed and that idempotent work retries transient failures. api_connectivity_and_retry_test.dart checks the wall-clock timeout and Arabic error path.",
   },
   {
     number: "03",
-    title: "Treat SSE as one UTF-8 stream with a cursor",
-    text: "Arabic characters may be split across network chunks. The client decodes the response as one UTF-8 stream, stores the last event ID and timestamp, ignores duplicates, and reconnects from its last confirmed cursor.",
-    tradeoff: "Cursor state adds complexity, but avoids full reloads on every short disconnection and detects real gaps explicitly.",
+    problem: "A network chunk can split an Arabic UTF-8 character, and a reconnect can return an event the client already received.",
+    title: "Arabic SSE parsing and reconnects",
+    implementation: "I decode the response as one UTF-8 stream before parsing SSE frames. The client sends last_id and since on reconnect. QARAR's backend contract defines event IDs as increasing database integers, so numeric duplicate checks are intentional.",
+    verification: "api_client_sse_test.dart splits the bytes inside the Arabic word قرار. sse_subscription_service_test.dart reconnects twice, receives event IDs 1 then 2, and verifies that last_id=1 is sent without reporting a gap.",
   },
   {
     number: "04",
-    title: "Make the API contract a release boundary",
-    text: "The Laravel dashboard owns the OpenAPI contract. The Flutter release pins its checksum so app and API changes are reviewed as one compatibility decision instead of two independent deployments.",
-    tradeoff: "Releases require coordination, but mismatched client and server behavior becomes visible before shipping.",
+    problem: "A passing app build does not guarantee that an installed client understands a changed backend response.",
+    title: "API compatibility checks",
+    implementation: "I documented the Laravel dashboard as the contract owner, pinned its OpenAPI artifact in Flutter, and added a supported contract-version range. Older servers without the field remain readable; newer unsupported versions show an upgrade-required state.",
+    verification: "openapi_contract_test.dart validates the pinned document and fixtures. contract_compatibility_test.dart covers missing, supported, and too-new server versions. This complements backward-compatible API changes; it does not replace them.",
   },
+];
+
+const testedFiles = [
+  "api_client_auth_test.dart",
+  "token_storage_test.dart",
+  "api_retry_test.dart",
+  "api_connectivity_and_retry_test.dart",
+  "api_client_sse_test.dart",
+  "sse_subscription_service_test.dart",
+  "contract_compatibility_test.dart",
+  "openapi_contract_test.dart",
 ];
 
 export default function QararCaseStudy() {
@@ -76,8 +62,8 @@ export default function QararCaseStudy() {
             <span>Sameer Awaji</span>
           </Link>
           <nav className="case-nav" aria-label="Case study navigation">
-            <a href="#architecture">Architecture</a>
-            <a href="#decisions">Decisions</a>
+            <a href="#responsibility">My work</a>
+            <a href="#changes">Changes</a>
             <a href="#validation">Validation</a>
           </nav>
           <Link className="header-action" href="/">Back to portfolio</Link>
@@ -94,27 +80,26 @@ export default function QararCaseStudy() {
                 QARAR · Technical case study
               </p>
               <h1>
-                Stabilizing a Flutter/Laravel decision platform under session
-                rotation and realtime updates.
+                How I addressed session and realtime reliability problems in
+                QARAR.
               </h1>
             </div>
             <div className="case-hero-side">
               <span className="status-chip">Private Mrasim team product</span>
               <p>
                 QARAR is an Arabic-first product for people seeking clearer
-                decisions and experts responding to them. I worked across its
-                Flutter client and Laravel API to make identity, interrupted
-                requests, draft continuity, and realtime state behave as one
-                reliable journey.
+                decisions and experts responding to them. This page covers the
+                client and API modules I changed, the failure cases behind the
+                work, and the local tests I ran.
               </p>
             </div>
           </div>
 
           <dl className="case-facts">
-            <div><dt>My contribution</dt><dd>Flutter + Laravel implementation and release reliability</dd></div>
-            <div><dt>Core problem</dt><dd>Identity safety across retries, switching, and reconnects</dd></div>
+            <div><dt>My contribution</dt><dd>Flutter session, retry, SSE, and contract work; Laravel token rotation and contract support</dd></div>
+            <div><dt>Failure cases</dt><dd>Concurrent 401s, account switches during refresh, uncertain mutations, and split Arabic stream data</dd></div>
             <div><dt>Product surface</dt><dd>Arabic seeker and expert journeys</dd></div>
-            <div><dt>Stack</dt><dd>Flutter · Riverpod · Dio · Laravel · Sanctum · SSE</dd></div>
+            <div><dt>Current verification</dt><dd>28 focused Flutter tests passed locally on 13 Aug 2026</dd></div>
           </dl>
         </section>
 
@@ -122,13 +107,12 @@ export default function QararCaseStudy() {
           <div className="shell">
             <div className="case-section-heading">
               <p className="section-kicker">Simulator proof</p>
-              <h2 id="visual-proof-title">The product, not a mockup.</h2>
+              <h2 id="visual-proof-title">Screens from the installed iOS simulator build.</h2>
               <p>
-                Real screens presented in device frames, not redrawn mockups.
-                Captured directly from iOS Simulator as device-only images
-                using non-sensitive first-run and guest states. The visible
-                path stops before submitting a decision or entering an
-                identifier.
+                These captures prove the visible first-run and guest flow, not
+                the reliability mechanisms described below. They were captured
+                from the installed app and stop before an identifier, OTP, or
+                decision is submitted.
               </p>
             </div>
 
@@ -144,7 +128,7 @@ export default function QararCaseStudy() {
                     unoptimized
                   />
                 </div>
-                <figcaption><strong>Release-aware startup</strong><span>Current sign-in configuration loads before the app routes the user.</span></figcaption>
+                <figcaption><strong>Startup</strong><span>The installed app loading before routing to sign-in.</span></figcaption>
               </figure>
               <figure>
                 <div className="case-phone-frame">
@@ -157,7 +141,7 @@ export default function QararCaseStudy() {
                     unoptimized
                   />
                 </div>
-                <figcaption><strong>Main sign-in</strong><span>A focused Saudi mobile entry with a clear guest path.</span></figcaption>
+                <figcaption><strong>Main sign-in</strong><span>The current Arabic entry screen and guest option.</span></figcaption>
               </figure>
               <figure>
                 <div className="case-phone-frame">
@@ -196,109 +180,57 @@ export default function QararCaseStudy() {
                     unoptimized
                   />
                 </div>
-                <figcaption><strong>Privacy controls</strong><span>Consent, local data, and personalization remain visible to the user.</span></figcaption>
+                <figcaption><strong>Account controls</strong><span>The guest account and privacy screen.</span></figcaption>
               </figure>
             </div>
           </div>
         </section>
 
-        <section className="case-section architecture-section" id="architecture">
+        <section className="case-section architecture-section" id="responsibility">
           <div className="shell">
             <div className="case-section-heading">
-              <p className="section-kicker">Architecture</p>
-              <h2>One journey across two repositories.</h2>
+              <p className="section-kicker">My responsibility</p>
+              <h2>The modules I changed.</h2>
               <p>
-                The important boundary is not “mobile versus backend.” It is
-                which layer owns identity, replay, continuity, and the release
-                contract when the network is unreliable.
+                I did not build every part of QARAR. This case study is limited
+                to the authentication, retry, realtime, and compatibility work
+                listed here.
               </p>
             </div>
 
-            <div className="architecture-map" role="img" aria-label="QARAR architecture from Flutter UI through Laravel API and realtime updates">
-              <div className="architecture-node architecture-client">
-                <span>01 · Client</span>
-                <strong>Arabic Flutter UI</strong>
-                <small>GoRouter · Riverpod · seeker and expert journeys</small>
-              </div>
-              <span className="architecture-arrow" aria-hidden="true">→</span>
-              <div className="architecture-node">
-                <span>02 · Boundary</span>
-                <strong>Repositories + session</strong>
-                <small>Dio · encrypted envelope · local draft cache</small>
-              </div>
-              <span className="architecture-arrow" aria-hidden="true">→</span>
-              <div className="architecture-node architecture-server">
-                <span>03 · Server</span>
-                <strong>Laravel /api/v1</strong>
-                <small>Sanctum · policies · services · OpenAPI contract</small>
-              </div>
-              <span className="architecture-arrow" aria-hidden="true">→</span>
-              <div className="architecture-node">
-                <span>04 · Delivery</span>
-                <strong>Queues + outbox</strong>
-                <small>Decision events · notifications · provider work</small>
-              </div>
-              <div className="realtime-return">
-                <span>Cursor-based SSE returns live state to the authenticated client</span>
-                <span aria-hidden="true">←</span>
-              </div>
+            <div className="ownership-grid">
+              <article><span>Flutter</span><strong>ApiClient</strong><p>401 handling, single-flight refresh, request bearer and UID checks.</p></article>
+              <article><span>Flutter</span><strong>TokenStorage</strong><p>Token and profile stored together, plus a durable logout tombstone.</p></article>
+              <article><span>Flutter</span><strong>ApiRetry + SSE services</strong><p>Retry rules, UTF-8 stream decoding, parser recovery, and reconnect cursors.</p></article>
+              <article><span>Laravel</span><strong>AccessTokenRotationService</strong><p>Row-locked token rotation, a 120-second replay receipt, and token-family revocation.</p></article>
+              <article><span>Both repositories</span><strong>API contract</strong><p>Dashboard-owned OpenAPI artifact, Flutter checksum pin, compatibility range, and fixtures.</p></article>
+              <article><span>Not claimed here</span><strong>External delivery</strong><p>Live SMS/email, Firebase delivery, production hosting, and live AI were not reverified for this case study.</p></article>
             </div>
           </div>
         </section>
 
-        <section className="case-section decisions-section" id="decisions">
+        <section className="case-section decisions-section" id="changes">
           <div className="shell">
             <div className="case-section-heading split-heading">
               <div>
-                <p className="section-kicker">Engineering decisions</p>
-                <h2>Fix ownership, then recover safely.</h2>
+                <p className="section-kicker">Failure → change → test</p>
+                <h2>What failed and what I changed.</h2>
               </div>
               <p>
-                Rewriting the existing Flutter/Laravel product would have added
-                risk without customer value. The work focused on the boundaries
-                where the existing stack could contradict itself.
+                Each item names an observed risk, the implementation I owned,
+                and the test file that exercises it.
               </p>
             </div>
             <div className="decision-grid">
-              {decisions.map((decision) => (
-                <article className="decision-card" key={decision.number}>
-                  <span>{decision.number}</span>
-                  <h3>{decision.title}</h3>
-                  <p>{decision.text}</p>
-                  <div><strong>Trade-off</strong><p>{decision.tradeoff}</p></div>
+              {changes.map((change) => (
+                <article className="decision-card" key={change.number}>
+                  <span>{change.number}</span>
+                  <h3>{change.title}</h3>
+                  <div className="evidence-row"><strong>Observed risk</strong><p>{change.problem}</p></div>
+                  <div className="evidence-row"><strong>What I changed</strong><p>{change.implementation}</p></div>
+                  <div className="evidence-row"><strong>Verification</strong><p>{change.verification}</p></div>
                 </article>
               ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="case-section code-section" aria-labelledby="code-title">
-          <div className="shell">
-            <div className="case-section-heading">
-              <p className="section-kicker">Implementation patterns</p>
-              <h2 id="code-title">The core rules, made explicit.</h2>
-              <p>
-                Sanitized pseudocode from the implemented patterns. Product and
-                employer-specific details are intentionally omitted.
-              </p>
-            </div>
-            <div className="code-grid">
-              <article className="code-card">
-                <div className="code-card-heading">
-                  <span>Dart-like pseudocode</span>
-                  <strong>Identity-safe refresh</strong>
-                </div>
-                <pre><code>{refreshPattern}</code></pre>
-                <p>The failed request can continue only if the same identity owns the rotated session.</p>
-              </article>
-              <article className="code-card">
-                <div className="code-card-heading">
-                  <span>Dart-like pseudocode</span>
-                  <strong>UTF-8 cursor recovery</strong>
-                </div>
-                <pre><code>{realtimePattern}</code></pre>
-                <p>Chunks become one UTF-8 stream; the cursor makes reconnects resumable and duplicate-safe.</p>
-              </article>
             </div>
           </div>
         </section>
@@ -307,20 +239,32 @@ export default function QararCaseStudy() {
           <div className="shell validation-grid">
             <div>
               <p className="section-kicker light-kicker">Validation</p>
-              <h2>Tests support the path. The path remains the proof.</h2>
+              <h2>Current local verification.</h2>
               <p>
-                The work was checked through focused and full local regression
-                suites, API contract checks, and iOS simulator journeys. For
-                this case study I exercised the installed app through launch,
-                guest home, account controls, and the decision privacy gate.
+                On 13 Aug 2026, I ran these eight Flutter test files with Flutter
+                3.41.9: 28 tests passed. I also exercised the installed iOS app
+                through startup, sign-in, guest home, account controls, and the
+                first decision screen without submitting user data.
+              </p>
+              <p className="validation-boundary">
+                The Laravel feature-test files cover token rotation, SSE replay,
+                and the contract gate, but I could not rerun them for this update
+                because the required local MySQL test service was unavailable.
+                I do not present those backend tests as current passing evidence.
               </p>
             </div>
-            <ul className="validation-list">
-              <li><span>01</span><strong>Identity</strong><p>Refresh and account-switch behavior preserve the owner of each request.</p></li>
-              <li><span>02</span><strong>Continuity</strong><p>Draft and navigation state recover without inventing duplicate work.</p></li>
-              <li><span>03</span><strong>Realtime</strong><p>Arabic SSE data survives split chunks, reconnects, and duplicate events.</p></li>
-              <li><span>04</span><strong>Release</strong><p>The app pins the Dashboard-owned OpenAPI contract before coordinated release.</p></li>
-            </ul>
+            <div>
+              <div className="test-result" aria-label="Focused Flutter test result">
+                <strong>28 / 28</strong>
+                <span>focused Flutter tests passed</span>
+                <small>13 Aug 2026 · Flutter 3.41.9 · local macOS run</small>
+              </div>
+              <ul className="validation-list">
+                {testedFiles.map((file, index) => (
+                  <li key={file}><span>{String(index + 1).padStart(2, "0")}</span><strong>{file}</strong></li>
+                ))}
+              </ul>
+            </div>
           </div>
         </section>
 
