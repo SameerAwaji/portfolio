@@ -125,13 +125,40 @@ export default function QararCaseStudy() {
               <h2 id="visual-proof-title">The product, not a mockup.</h2>
               <p>
                 Real screens presented in device frames, not redrawn mockups.
-                Captured with Simulator’s built-in Save Screen control using
-                non-sensitive guest data. The visible path stops before
-                submitting a decision.
+                Captured directly from iOS Simulator as device-only images
+                using non-sensitive first-run and guest states. The visible
+                path stops before submitting a decision or entering an
+                identifier.
               </p>
             </div>
 
             <div className="case-gallery">
+              <figure>
+                <div className="case-phone-frame">
+                  <Image
+                    src="/projects/qarar-splash-clean.png"
+                    alt="QARAR loading screen while current sign-in settings load"
+                    width={1206}
+                    height={2622}
+                    priority
+                    unoptimized
+                  />
+                </div>
+                <figcaption><strong>Release-aware startup</strong><span>Current sign-in configuration loads before the app routes the user.</span></figcaption>
+              </figure>
+              <figure>
+                <div className="case-phone-frame">
+                  <Image
+                    src="/projects/qarar-login-clean.png"
+                    alt="QARAR Arabic main login screen"
+                    width={1206}
+                    height={2622}
+                    priority
+                    unoptimized
+                  />
+                </div>
+                <figcaption><strong>Main sign-in</strong><span>A focused Saudi mobile entry with a clear guest path.</span></figcaption>
+              </figure>
               <figure>
                 <div className="case-phone-frame">
                   <Image

@@ -142,6 +142,8 @@ test("uses device-only QARAR simulator captures and states their safe path", asy
   const pageText = textContent(html);
 
   for (const asset of [
+    "qarar-splash-clean.png",
+    "qarar-login-clean.png",
     "qarar-home-clean.png",
     "qarar-decision-clean.png",
     "qarar-account-clean.png",
@@ -149,9 +151,9 @@ test("uses device-only QARAR simulator captures and states their safe path", asy
     assert.match(html, new RegExp(`projects\\/${asset.replace(".", "\\.")}`, "i"));
   }
 
-  assert.match(pageText, /non-sensitive guest data/i);
-  assert.match(pageText, /stops before submitting a decision/i);
-  assert.match(pageText, /Simulator’s built-in Save Screen control/i);
+  assert.match(pageText, /non-sensitive first-run and guest states/i);
+  assert.match(pageText, /stops before submitting a decision or entering an identifier/i);
+  assert.match(pageText, /captured directly from iOS Simulator as device-only images/i);
 });
 
 test("keeps the full experience path and education", async () => {
@@ -190,6 +192,8 @@ test("ships the resume, social card, and project proof assets", async () => {
     access(new URL("public/og-v2.png", projectRoot)),
     access(new URL("public/projects/mip-home.png", projectRoot)),
     access(new URL("public/projects/maeen-home.png", projectRoot)),
+    access(new URL("public/projects/qarar-splash-clean.png", projectRoot)),
+    access(new URL("public/projects/qarar-login-clean.png", projectRoot)),
     access(new URL("public/projects/qarar-home-clean.png", projectRoot)),
     access(new URL("public/projects/qarar-decision-clean.png", projectRoot)),
     access(new URL("public/projects/qarar-account-clean.png", projectRoot)),
