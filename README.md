@@ -9,14 +9,13 @@ by product, marketing, and project-delivery experience.
 The homepage is ordered for fast recruiter scanning:
 
 1. concise product-minded engineering position and prominent GitHub link;
-2. featured QARAR engineering case-study preview;
-3. visual, live MIP and Maeen project cards;
-4. product judgment demonstrated through implementation decisions;
-5. professional experience, working stack, prototypes, and contact.
+2. three visual project stories with a shared evidence structure and distinct
+   project-specific visual worlds;
+3. a short personal section and complete professional experience;
+4. contact links for LinkedIn, email, and GitHub.
 
-QARAR has a dedicated technical route at `app/work/qarar/page.tsx`. It covers
-architecture, identity-safe token rotation, bounded retries, UTF-8 SSE cursor
-recovery, API contract integrity, sanitized code patterns, and validation.
+The legacy QARAR route at `app/work/qarar/page.tsx` redirects to its section on
+the homepage so the public story remains in one place.
 
 ## Career and project context
 
@@ -42,8 +41,10 @@ disclaimers.
   represented as sanitized pseudocode.
 - MIP: the Lighthouse improvement from 77 to 100 and LCP improvement from 4.8s
   to 0.8s apply to the public website rebuild.
-- Maeen: describe the shipped React site, database-backed forms, and internal
-  workflow dashboard without inventing usage or adoption numbers.
+- Maeen: the latest summer program had 40+ active team users and benefited
+  1,400+ students. Sameer first joined Maeen as a student in 2018, then became
+  a teacher and developer. Do not publish estimated lifetime totals until they
+  are verified, and do not attribute the program's full impact to the website.
 - Prototypes use one clear status label such as “Local prototype” or “In
   development.”
 
@@ -53,13 +54,13 @@ portfolio into a changelog or test dashboard.
 ## Public assets
 
 - `public/Sameer_Awaji_Resume.pdf` — downloadable resume
-- `public/og-v2.png` — social-preview visual
+- `public/og-v5.png` — social-preview visual
 - `public/projects/` — live website and non-sensitive simulator captures
 
 ## Main files
 
 - `app/page.tsx` — homepage content and structure
-- `app/work/qarar/page.tsx` — QARAR technical case study
+- `app/work/qarar/page.tsx` — legacy redirect to the QARAR homepage section
 - `app/globals.css` — responsive layout and visual system
 - `app/layout.tsx` — metadata and social-sharing configuration
 - `scripts/build_resume.py` — PDF resume source
@@ -77,5 +78,5 @@ npm test
 npm run lint
 ```
 
-Before publishing, run `npm test`, `npm run lint`, and visually verify both the
-homepage and QARAR case study at desktop and mobile breakpoints.
+Before publishing, run `npm test`, `npm run lint`, and visually verify the
+homepage at desktop and mobile breakpoints.

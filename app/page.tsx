@@ -82,7 +82,7 @@ export default function Home() {
             </div>
             <aside className="now-note" data-reveal>
               <span>Right now</span>
-              <strong>Product engineering at Mrasim</strong>
+              <strong>Building software at Mrasim</strong>
               <p>Flutter, Laravel, internal tools, and Arabic user journeys.</p>
             </aside>
             <a className="scroll-cue" href="#work" aria-label="Scroll to selected work">
@@ -92,21 +92,11 @@ export default function Home() {
           </div>
         </section>
 
-        <div className="belief-strip">
-          <div className="page belief-inner" data-reveal>
-            <span aria-hidden="true">✦</span>
-            <p>
-              Better user experience matters. So does changing a real workflow
-              at a pace the team can actually absorb.
-            </p>
-          </div>
-        </div>
-
         <section className="work-section page" id="work" aria-labelledby="work-title">
           <div className="section-index" aria-hidden="true">01</div>
           <div className="section-heading" data-reveal>
             <p className="eyebrow">Selected work</p>
-            <h2 id="work-title">The organization first. The project inside it.</h2>
+            <h2 id="work-title">Work I can show.</h2>
           </div>
 
           <article className="organization mrasim-work" id="mrasim">
@@ -123,7 +113,7 @@ export default function Home() {
               </div>
               <div className="organization-title">
                 <p>Software engineering · Mrasim</p>
-                <h3>QARAR is one project inside a wider role.</h3>
+                <h3>QARAR: mobile and backend reliability.</h3>
               </div>
               <a
                 className="organization-link"
@@ -134,19 +124,6 @@ export default function Home() {
                 Mrasim ↗
               </a>
             </header>
-
-            <div className="organization-summary" data-reveal>
-              <p>
-                At Mrasim, I move across mobile and backend engineering,
-                internal tools, reliability work, and other project needs.
-                QARAR is the clearest public example I can show—not the full job.
-              </p>
-              <div>
-                <span>Public example</span>
-                <strong>QARAR</strong>
-                <small>Arabic decision-support product</small>
-              </div>
-            </div>
 
             <div className="qarar-layout" id="qarar">
               <div className="phone-stage reveal-media" data-reveal aria-label="QARAR mobile app screens">
@@ -182,21 +159,26 @@ export default function Home() {
               </div>
 
               <div className="project-notes" data-reveal>
-                <p className="project-intro">
-                  My recent QARAR work focused on the quiet parts users notice
-                  only when they fail: sessions, recovery, and live updates
-                  across Flutter and Laravel.
-                </p>
+                <div className="project-intro-group">
+                  <div className="qarar-stack" aria-label="QARAR technology and product context">
+                    <span>Flutter</span>
+                    <span>Laravel</span>
+                    <span>Arabic UX</span>
+                  </div>
+                  <p className="project-intro">
+                    A public example from my wider work at Mrasim.
+                  </p>
+                </div>
                 <dl className="note-list">
                   <div>
-                    <dt>What I noticed</dt>
+                    <dt>What I built</dt>
                     <dd>
-                      A passing screen test could still miss a broken real
-                      journey, especially when several failures happened together.
+                      Flutter and Laravel changes around sessions, recovery, and
+                      live updates.
                     </dd>
                   </div>
                   <div>
-                    <dt>What changed</dt>
+                    <dt>My contribution</dt>
                     <dd>
                       One recovery path stays in control, and risky actions are
                       not replayed when they may already have completed.
@@ -219,7 +201,7 @@ export default function Home() {
               <div className="organization-number">02 / Ongoing</div>
               <div className="organization-title">
                 <p>Development + teaching · Maeen</p>
-                <h3>Improve the student experience without breaking the team’s workflow.</h3>
+                <h3>I joined as a student. Now I teach and build for Maeen.</h3>
               </div>
               <a
                 className="organization-link"
@@ -231,37 +213,38 @@ export default function Home() {
               </a>
             </header>
 
-            <div className="maeen-copy" data-reveal>
-              <p>
-                For the 2026 summer program, I built a clearer student sign-up
-                form and a dashboard for the team. The visible experience became
-                specific to Maeen instead of feeling like a generic form.
-              </p>
-              <p>
-                Behind it, a small script still saves registrations into Google
-                Drive—the system the team already knows. I did not have time to
-                build a complete student-management replacement, and forcing one
-                would have created more risk than value during the program.
-              </p>
-            </div>
-
-            <div className="workflow-evolution" data-reveal aria-label="Maeen registration workflow evolution">
-              <div>
-                <span>Before</span>
-                <strong>Google Forms</strong>
-                <p>Fast and familiar, but not designed around Maeen’s exact journey.</p>
+            <div className="maeen-context" data-reveal>
+              <div className="maeen-journey">
+                <p className="project-label">My path with Maeen</p>
+                <div
+                  className="maeen-journey-path"
+                  aria-label="Student in 2018, then teacher, then developer"
+                >
+                  <span>
+                    <small>2018</small>
+                    <strong>Student</strong>
+                  </span>
+                  <b aria-hidden="true">→</b>
+                  <span>
+                    <small>Later</small>
+                    <strong>Teacher</strong>
+                  </span>
+                  <b aria-hidden="true">→</b>
+                  <span>
+                    <small>Today</small>
+                    <strong>Developer</strong>
+                  </span>
+                </div>
               </div>
-              <i aria-hidden="true">→</i>
-              <div>
-                <span>Summer 2026</span>
-                <strong>Custom form + dashboard</strong>
-                <p>A better experience for students and a clearer view for the team.</p>
-              </div>
-              <i aria-hidden="true">→</i>
-              <div>
-                <span>Kept for now</span>
-                <strong>Google Drive workflow</strong>
-                <p>The operation changes gradually; the user experience improves now.</p>
+              <div className="maeen-impact" aria-label="Latest Maeen program impact">
+                <div>
+                  <strong>40+</strong>
+                  <span>active team users</span>
+                </div>
+                <div>
+                  <strong>1,400+</strong>
+                  <span>students benefited in the latest summer program</span>
+                </div>
               </div>
             </div>
 
@@ -297,6 +280,26 @@ export default function Home() {
                 <figcaption>Program details</figcaption>
               </figure>
             </div>
+
+            <dl className="note-list note-list-wide" data-reveal>
+              <div>
+                <dt>What I built</dt>
+                <dd>A Maeen-specific summer-program form and a dashboard for the team.</dd>
+              </div>
+              <div>
+                <dt>My contribution</dt>
+                <dd>
+                  I replaced the generic student-facing form while keeping
+                  registrations in the Google Drive workflow the team already used.
+                </dd>
+              </div>
+              <div>
+                <dt>How I checked it</dt>
+                <dd>
+                  The screenshots are from the real 2026 summer-program pages.
+                </dd>
+              </div>
+            </dl>
           </article>
 
           <article className="organization mip-work" id="mip">
@@ -304,7 +307,7 @@ export default function Home() {
               <div className="organization-number">03 / Previous role</div>
               <div className="organization-title">
                 <p>Business development + marketing management · MIP</p>
-                <h3>Technology was one tool for developing the business.</h3>
+                <h3>A Next.js website project inside a wider business role.</h3>
               </div>
               <a
                 className="organization-link"
@@ -316,35 +319,45 @@ export default function Home() {
               </a>
             </header>
 
-            <div className="mip-role" data-reveal>
-              <span>Business development</span>
-              <span>Team support</span>
-              <span>Management</span>
-              <span>Technology transition</span>
+            <div className="mip-browser reveal-media" data-reveal>
+              <div className="mip-browser-bar" aria-hidden="true">
+                <span><i /><i /><i /></span>
+                <small>mipksa.com</small>
+              </div>
+              <a
+                className="website-shot"
+                href="https://mipksa.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open the live MIP website"
+              >
+                <Image
+                  src="/projects/mip-home.png"
+                  alt="MIP marketing agency homepage"
+                  width={1272}
+                  height={716}
+                  unoptimized
+                />
+              </a>
             </div>
 
-            <a
-              className="website-shot reveal-media"
-              data-reveal
-              href="https://mipksa.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Open the live MIP website"
-            >
-              <Image
-                src="/projects/mip-home.png"
-                alt="MIP marketing agency homepage"
-                width={1272}
-                height={716}
-                unoptimized
-              />
-            </a>
-            <p className="project-caption" data-reveal>
-              I worked on developing the business as a whole: helping the
-              marketing team, improving how work was managed, and moving the
-              agency toward better use of technology. Migrating the website from
-              WordPress to Next.js was one visible project—not the whole role.
-            </p>
+            <dl className="note-list note-list-wide" data-reveal>
+              <div>
+                <dt>What I built</dt>
+                <dd>I migrated the MIP website from WordPress to Next.js.</dd>
+              </div>
+              <div>
+                <dt>My contribution</dt>
+                <dd>
+                  The website was one part of broader work across business
+                  development, team support, management, and technology adoption.
+                </dd>
+              </div>
+              <div>
+                <dt>How I checked it</dt>
+                <dd>The screenshot is from the public website linked above.</dd>
+              </div>
+            </dl>
           </article>
         </section>
 
@@ -356,19 +369,8 @@ export default function Home() {
               <h2 id="about-title">I’m thoughtful before I’m loud.</h2>
               <p>
                 My path has moved through engineering, product, marketing, and
-                teaching. I don’t see those as separate identities. They are one
-                way of working: understand the person, understand the system,
-                then make the two meet.
-              </p>
-              <p>
-                I like better systems, but I don’t confuse a rewrite with
-                progress. I change a workflow when the user benefit justifies
-                the disruption—and I make the next improvement possible.
-              </p>
-              <p>
-                I use AI in almost everything I build. I don’t hide that, and I
-                don’t treat its answer as proof. My part is choosing the
-                direction, noticing what is wrong, and owning the final behavior.
+                teaching. I try to understand the person and the system, then
+                make the two meet—without mistaking a rewrite for progress.
               </p>
             </div>
             <aside className="personal-notes" data-reveal aria-label="Personal notes">
@@ -425,8 +427,8 @@ export default function Home() {
               </p>
               <div className="contact-links">
                 <a href="https://linkedin.com/in/sameer-awaji-6a0986211" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+                <a href="mailto:sameer2study@gmail.com">Email ↗</a>
                 <a href="https://github.com/SameerAwaji" target="_blank" rel="noreferrer">GitHub ↗</a>
-                <a href="/Sameer_Awaji_Resume.pdf" download>CV ↓</a>
               </div>
             </div>
           </div>

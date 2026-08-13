@@ -91,8 +91,8 @@ test("renders a direct and distinctive engineering position", async () => {
   assert.equal(title, "Sameer Awaji Product minded Software Engineer");
   assert.match(hero, /I build software\. I care whether it works outside the demo/i);
   assert.match(hero, /where the real problem is bigger than the first request/i);
-  assert.match(hero, /Product engineering at Mrasim/i);
-  assert.match(pageText, /changing a real workflow at a pace the team can actually absorb/i);
+  assert.match(hero, /Building software at Mrasim/i);
+  assert.match(pageText, /Work I can show/i);
   assert.match(html, /href=["']https:\/\/github\.com\/SameerAwaji["']/i);
 });
 
@@ -116,15 +116,15 @@ test("keeps the entire portfolio in one coherent page", async () => {
   assert.doesNotMatch(html, /href=["']\/work\/qarar["']/i);
 });
 
-test("positions QARAR as one public Mrasim example", async () => {
+test("presents QARAR with concise, bounded evidence", async () => {
   const html = await (await render()).text();
   const project = textContent(elementContent(html, "article", "mrasim"));
 
-  assert.match(project, /QARAR is one project inside a wider role/i);
-  assert.match(project, /internal tools, reliability work, and other project needs/i);
-  assert.match(project, /the clearest public example I can show—not the full job/i);
-  assert.match(project, /across Flutter and Laravel/i);
-  assertInOrder(project, ["What I noticed", "What changed", "How I checked it"]);
+  assert.match(project, /QARAR: mobile and backend reliability/i);
+  assert.match(project, /A public example from my wider work at Mrasim/i);
+  assert.match(project, /Flutter and Laravel changes around sessions, recovery, and live updates/i);
+  assertInOrder(project, ["Flutter", "Laravel", "Arabic UX"]);
+  assertInOrder(project, ["What I built", "My contribution", "How I checked it"]);
   assert.match(project, /complete local Flutter and Laravel suites passed/i);
   assert.match(project, /Live providers and deployed behavior remain separate checks/i);
   assert.doesNotMatch(project, /ApiClient|TokenStorage|AccessTokenRotationService|last_id/i);
@@ -140,42 +140,45 @@ test("positions QARAR as one public Mrasim example", async () => {
   }
 });
 
-test("explains the pragmatic Maeen summer-program evolution", async () => {
+test("presents the verified Maeen journey and latest program impact", async () => {
   const html = await (await render()).text();
   const pageText = textContent(html);
 
   assert.match(html, /href=["']https:\/\/maeen\.com\.sa["']/i);
-  assert.match(pageText, /For the 2026 summer program/i);
-  assert.match(pageText, /student sign-up form and a dashboard/i);
-  assert.match(pageText, /small script still saves registrations into Google Drive/i);
-  assertInOrder(pageText, ["Google Forms", "Custom form + dashboard", "Google Drive workflow"]);
-  assert.match(pageText, /forcing one would have created more risk than value/i);
+  assert.match(pageText, /I joined as a student\. Now I teach and build for Maeen/i);
+  assertInOrder(pageText, ["2018", "Student", "Teacher", "Developer"]);
+  assert.match(pageText, /40\+ active team users/i);
+  assert.match(pageText, /1,400\+ students benefited in the latest summer program/i);
+  assert.match(pageText, /Maeen-specific summer-program form and a dashboard/i);
+  assert.match(pageText, /keeping registrations in the Google Drive workflow/i);
+  assert.match(pageText, /screenshots are from the real 2026 summer-program pages/i);
+  assert.doesNotMatch(pageText, /5,?000\+|200\+ users/i);
   assert.match(html, /projects\/maeen-summer-home\.png/i);
   assert.match(html, /projects\/maeen-summer-form\.png/i);
   assert.match(html, /projects\/maeen-summer-program\.png/i);
 });
 
-test("frames MIP as business development and management, not only coding", async () => {
+test("frames the MIP website as one part of the wider role", async () => {
   const html = await (await render()).text();
   const pageText = textContent(html);
 
   assert.match(html, /href=["']https:\/\/mipksa\.com["']/i);
   assert.match(html, /projects\/mip-home\.png/i);
-  assert.match(pageText, /Business development.*Team support.*Management.*Technology transition/i);
-  assert.match(pageText, /developing the business as a whole/i);
-  assert.match(pageText, /Migrating the website from WordPress to Next\.js was one visible project—not the whole role/i);
+  assert.match(html, /class=["'][^"']*mip-browser[^"']*["']/i);
+  assert.match(pageText, /migrated the MIP website from WordPress to Next\.js/i);
+  assert.match(pageText, /broader work across business development, team support, management, and technology adoption/i);
+  assert.match(pageText, /public website linked above/i);
   assert.doesNotMatch(pageText, /77.*100|4\.8|0\.8|60\+ users/i);
 });
 
-test("sounds personal without a generic personality inventory", async () => {
+test("keeps the personal section short and specific", async () => {
   const html = await (await render()).text();
   const about = textContent(elementContent(html, "section", "about"));
 
   assert.match(about, /I’m thoughtful before I’m loud/i);
   assert.match(about, /engineering, product, marketing, and teaching/i);
-  assert.match(about, /I use AI in almost everything I build/i);
-  assert.match(about, /I don’t treat its answer as proof/i);
-  assert.match(about, /I don’t confuse a rewrite with progress/i);
+  assert.match(about, /without mistaking a rewrite for progress/i);
+  assert.doesNotMatch(about, /I use AI in almost everything I build/i);
   assert.match(about, /Build it, test it, explain it, then find what I missed/i);
   assert.match(about, /Calm over noise\. Direct over impressive/i);
   assert.match(about, /Eminem.*Billie Eilish.*Sherine.*Abdel Halim/i);
@@ -195,15 +198,16 @@ test("keeps the full experience path and education", async () => {
 });
 
 test("stays concise and avoids unsupported padding", async () => {
-  const pageText = textContent(await (await render()).text());
+  const html = await (await render()).text();
+  const pageText = textContent(html);
 
   assert.ok(
-    wordCount(pageText) < 760,
-    `Expected homepage under 760 words, received ${wordCount(pageText)}`,
+    wordCount(pageText) < 560,
+    `Expected homepage under 560 words, received ${wordCount(pageText)}`,
   );
   assert.doesNotMatch(pageText, /Automatic Marketing|While It Runs|Rescuel/i);
   assert.doesNotMatch(pageText, /repository commits|69 commits|29 commits/i);
-  assert.doesNotMatch(pageText, /sameer2study@gmail\.com/i);
+  assert.match(html, /href=["']mailto:sameer2study@gmail\.com["']/i);
   assert.doesNotMatch(pageText, /Built, shipped, and visible/i);
   assert.doesNotMatch(pageText, /Looking for an engineer who can connect product and implementation/i);
 });
