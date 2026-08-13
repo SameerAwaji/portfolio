@@ -130,6 +130,34 @@ test("presents featured work in the approved order and evidence format", async (
   }
 });
 
+test("shows the August 5–12 work snapshot with evidence and boundaries", async () => {
+  const html = await (await render()).text();
+  const recentHtml = elementContent(html, "section", "recent");
+  const recent = textContent(recentHtml);
+
+  assertInOrder(recent, [
+    "QARAR · mobile and backend reliability",
+    "Automatic Marketing · campaign system and Content Lab",
+  ]);
+  assert.match(recent, /Aug 6[–—-]12, 2026/);
+  assert.match(recent, /29 repository commits/i);
+  assert.match(recent, /1,014 Flutter tests/i);
+  assert.match(recent, /69 commits/i);
+  assert.match(recent, /1080\s*[×x]\s*1920 H\.264 export/i);
+  assert.match(recent, /local and synthetic validation only/i);
+
+  assert.equal(
+    (recentHtml.match(/class=["'][^"']*\brecent-work-proof\b[^"']*["']/gi) ?? []).length,
+    2,
+    "Expected an evidence block on both recent-work cards",
+  );
+  assert.equal(
+    (recentHtml.match(/class=["'][^"']*\brecent-work-boundary\b[^"']*["']/gi) ?? []).length,
+    2,
+    "Expected a boundary note on both recent-work cards",
+  );
+});
+
 test("keeps experience ahead of process and separates employment from freelance work", async () => {
   const html = await (await render()).text();
   const experienceIndex = openingTagIndex(html, "section", "experience");

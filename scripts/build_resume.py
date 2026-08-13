@@ -128,17 +128,17 @@ def build_resume():
 
     y = section_title(pdf, "Profile", y)
     summary = (
-        "Software engineer working across web, mobile, APIs, Arabic UX, and release testing. I began freelance work with Maeen "
-        "in 2023, worked in product at Nana, and then led marketing at MIP while rebuilding its website. Since April 2026, I "
-        "have worked at Mrasim, where QARAR is one of the projects I contribute to."
+        "Software engineer working across Flutter, Laravel, web, APIs, Arabic UX, backend workflows, and release testing. I "
+        "began freelance work with Maeen in 2023, worked in product at Nana, and then led marketing at MIP while rebuilding "
+        "its website. Since April 2026, I have worked at Mrasim, where QARAR is one of the projects I contribute to."
     )
     y = draw_paragraph(pdf, summary, LEFT, y, CONTENT_W, SUMMARY)
     y -= 12
 
     y = section_title(pdf, "Core capabilities", y)
     skill_rows = [
-        ("Engineering", "React, Next.js, JavaScript, Flutter, Laravel, Supabase, REST APIs"),
-        ("Product work", "Requirements, user journeys, stakeholder feedback, UAT, QA, release checks"),
+        ("Engineering", "React, Next.js, TypeScript, Flutter, Laravel, MySQL, Supabase, REST APIs"),
+        ("Product work", "Requirements, user journeys, stakeholder feedback, UAT, QA, CI and release checks"),
         ("Marketing", "Marketing management, SEO, web performance, content and campaign coordination"),
         ("Languages & tools", "Arabic and English, Git, Figma, browser and simulator testing"),
     ]
@@ -159,8 +159,8 @@ def build_resume():
         "",
         "Apr 2026 - Present",
         [
-            "QARAR is one of the projects I work on at Mrasim. My responsibilities include clarifying requirements, coordinating Flutter and Laravel changes, improving Arabic UX, testing authentication flows, and preparing releases.",
-            "Write user flows and acceptance criteria, coordinate app and API changes, and test the end-to-end experience.",
+            "QARAR is one of the projects I work on at Mrasim. I coordinate Flutter and Laravel contracts across Arabic seeker and expert journeys, authentication, decisions, realtime updates, and releases.",
+            "Recent work includes email OTP, safe navigation, draft recovery, identity-bound sessions, SSE reconnects, account step-up, queued decision events, and contract-aligned release checks.",
         ],
     )
     y = experience_entry(

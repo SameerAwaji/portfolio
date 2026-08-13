@@ -10,10 +10,11 @@ The homepage is intentionally ordered around the information a recruiter or
 hiring manager needs first:
 
 1. engineering-focused introduction;
-2. selected work: QARAR, MIP, then Maeen;
-3. professional experience and freelance work;
-4. working approach and capabilities;
-5. background and contact information.
+2. a dated recent-work snapshot with evidence and limitations;
+3. selected work: QARAR, MIP, then Maeen;
+4. professional experience and freelance work;
+5. working approach and capabilities;
+6. background and contact information.
 
 The downloadable resume lives at `public/Sameer_Awaji_Resume.pdf`, and
 `public/og.png` is the social-preview image used by the page metadata.
@@ -28,6 +29,9 @@ Keep these distinctions intact whenever the portfolio is updated:
   development as an additional responsibility.
 - Nana was a Product Manager internship.
 - Maeen is freelance work that began in 2023. Do not present it as employment.
+- Automatic Marketing is a personal/local implementation track, not Mrasim,
+  MIP, or Maeen work. Keep its local simulator evidence separate from live
+  provider, payment, attribution, deployment, or production claims.
 
 ## Content and evidence conventions
 
@@ -46,6 +50,17 @@ Treat implementation, local verification, deployment, and business impact as
 different claims. Plans and prototypes are not shipped products. Team outcomes
 should not be written as solo achievements unless the evidence supports that
 wording.
+
+The August 5–12, 2026 snapshot is pinned to repository and validation evidence:
+
+- QARAR had 22 Flutter commits and 7 Laravel/dashboard commits in the window.
+  The 1,014-test figure belongs to the August 11 core Flutter repair; it is not
+  proof of live SMS/email, Firebase, cPanel, storage, or AI-provider behavior.
+- Automatic Marketing had 69 commits in the window. Its current Laravel/MySQL
+  journey, provider adapters, campaign reports, and Content Lab are validated
+  locally. The 1080 x 1920 H.264 export and QR decode are local render evidence,
+  not proof of real Snapchat spend, Store attribution, Numo Studio integration,
+  hosting, or deployment.
 
 Metrics must preserve their original scope:
 

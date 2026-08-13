@@ -376,6 +376,92 @@ button:focus-visible {
   font-size: 13px;
 }
 
+.recent-work-section {
+  border-bottom: 1px solid var(--ink);
+  background: var(--green);
+  color: var(--paper);
+}
+
+.recent-heading .section-kicker,
+.recent-heading > p {
+  color: #bdcbc7;
+}
+
+.recent-work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+  border-left: 1px solid var(--line-dark);
+}
+
+.recent-work-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 32px;
+  border-right: 1px solid var(--line-dark);
+}
+
+.recent-work-period,
+.recent-work-proof span,
+.recent-work-boundary span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
+}
+
+.recent-work-period {
+  margin-bottom: 14px;
+  color: var(--amber);
+}
+
+.recent-work-card h3 {
+  max-width: 520px;
+  margin-bottom: 17px;
+  font-size: clamp(1.55rem, 2.5vw, 2.2rem);
+  font-weight: 640;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.recent-work-summary {
+  margin-bottom: 26px;
+  color: #d2dcd9;
+  font-size: 15px;
+}
+
+.recent-work-proof {
+  display: grid;
+  gap: 7px;
+  margin-top: auto;
+  padding: 17px 18px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.recent-work-proof span,
+.recent-work-boundary span {
+  color: var(--amber);
+}
+
+.recent-work-proof strong {
+  color: #f4f7f5;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.recent-work-boundary {
+  margin: 17px 0 0;
+  color: #aebfba;
+  font-size: 12px;
+}
+
+.recent-work-boundary span {
+  margin-right: 7px;
+}
+
 .section {
   padding-block: 90px;
 }
@@ -1095,6 +1181,7 @@ button:focus-visible {
 
   .snapshot-row dd,
   .section-heading > p,
+  .recent-work-summary,
   .case-details p,
   .case-boundary,
   .timeline-item div > p:last-child,
@@ -1151,6 +1238,27 @@ button:focus-visible {
 
   .proof-item strong {
     font-size: 2.35rem;
+  }
+
+  .recent-work-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recent-work-card {
+    padding: 23px 20px;
+    border-bottom: 1px solid var(--line-dark);
+  }
+
+  .recent-work-card:last-child {
+    border-bottom: 0;
+  }
+
+  .recent-work-card h3 {
+    font-size: 27px;
+  }
+
+  .recent-work-boundary {
+    font-size: 14px;
   }
 
   .section {

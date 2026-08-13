@@ -3,17 +3,25 @@ const featuredProjects = [
     title: "QARAR",
     label: "Mobile product development · Mrasim project",
     role: "Since Apr 2026",
-    status: "Mrasim project",
+    status: "Current product work",
     summary:
-      "QARAR is one of the projects I work on at Mrasim. I help turn product issues into reliable mobile flows, then test those flows before release.",
+      "QARAR is one of the projects I work on at Mrasim. I coordinate Flutter and Laravel changes so Arabic seeker and expert journeys stay reliable across authentication, decisions, realtime updates, and release checks.",
     problem:
-      "An expert could verify their phone successfully but still reach the wrong next step in the onboarding flow.",
+      "Recent changes had to add email access and safer navigation while removing session, account-switch, realtime, and draft-recovery failures without breaking the existing phone and guest journeys.",
     contribution:
-      "I traced the journey across the Flutter app and Laravel API, kept phone verification separate from expert onboarding, improved recovery states, and tested the complete flow.",
-    proof: "Verified path: phone verification → expert form",
+      "Across the Flutter app and Laravel API, I implemented email OTP, safe back navigation, draft recovery, identity-bound token rotation, UTF-8 SSE reconnects, account step-up, queue-backed decision events, and contract-aligned release checks.",
+    proof: "1,014 Flutter tests passed on the core repair · app and API main branches aligned",
     boundary:
-      "My contribution within the Mrasim team; this is not a claim of ownership of the full product or its current production status.",
-    stack: ["Flutter", "Laravel", "Authentication", "Arabic UX", "Release QA"],
+      "My contribution within the Mrasim team. The test evidence is local/source evidence; it does not prove current live SMS, email, Firebase, cPanel, storage, or AI-provider behavior.",
+    stack: [
+      "Flutter",
+      "Laravel",
+      "Auth & sessions",
+      "SSE",
+      "Queues & outbox",
+      "Arabic UX",
+      "Release QA",
+    ],
   },
   {
     title: "MIP",
@@ -52,12 +60,35 @@ const featuredProjects = [
   },
 ];
 
+const recentWork = [
+  {
+    period: "Aug 6–12, 2026",
+    title: "QARAR · mobile and backend reliability",
+    summary:
+      "Implemented coordinated Flutter and Laravel improvements across email OTP, safe navigation, draft recovery, session and token rotation, realtime SSE, account security, decision events, and production API contract alignment.",
+    proof:
+      "29 repository commits in the window · clean synchronized main branches · 1,014 Flutter tests on the core repair",
+    boundary:
+      "Verified in source and local test runs. Live delivery services and the current cPanel deployment were not re-proved in this portfolio update.",
+  },
+  {
+    period: "Aug 5–12, 2026",
+    title: "Automatic Marketing · campaign system and Content Lab",
+    summary:
+      "Moved an Arabic-first campaign prototype into Laravel and MySQL workflows with API-backed state, queues and outbox processing, active-versus-report separation, local provider simulations, and a locked-layout creative lab for Arabic copy, logos, QR codes, and bank assets.",
+    proof:
+      "69 commits in the window · passing local end-to-end run · verified 1080 × 1920 H.264 export with a decoded QR",
+    boundary:
+      "Local and synthetic validation only. No real Snapchat spend, Store attribution, Numo Studio integration, or production deployment is claimed.",
+  },
+];
+
 const employmentExperience = [
   {
     period: "Apr 2026–Present",
     title: "Mrasim",
     organization: "Current employment",
-    text: "I joined Mrasim in April 2026. QARAR is one of the projects I work on. My responsibilities include clarifying requirements, coordinating Flutter and Laravel changes, improving Arabic UX, testing real user flows, and preparing releases.",
+    text: "I joined Mrasim in April 2026. QARAR is one of the projects I work on. My responsibilities include clarifying requirements, coordinating Flutter and Laravel contracts, improving Arabic UX, strengthening authentication and realtime flows, testing user journeys, and preparing releases.",
   },
   {
     period: "2025–Mar 2026",
@@ -99,20 +130,20 @@ const capabilities = [
   },
   {
     title: "Backend",
-    items: "Laravel · Supabase · MySQL · REST APIs · Authentication",
+    items: "Laravel · Supabase · MySQL · REST APIs · Authentication · Queues",
   },
   {
     title: "Product and release",
-    items: "Requirements · Stakeholder feedback · UAT · Git · SEO · Release verification",
+    items: "Requirements · Stakeholder feedback · UAT · Git · CI · SEO · Release verification",
   },
 ];
 
 const otherWork = [
   {
-    title: "Saudi Advertising Platform",
-    status: "Specification and preview",
-    text: "An Arabic-first product specification and frontend preview covering campaign setup, budgets, approvals, provider rules, and reporting.",
-    note: "Not a live advertising platform; no real campaigns or budget spend.",
+    title: "Automatic Marketing",
+    status: "Local full-system validation",
+    text: "An Arabic-first Laravel and MySQL campaign system with API-backed workflows, queue and outbox processing, campaign controls, final reports, and a Content Lab that composes Arabic creative inside fixed layouts.",
+    note: "Validated against local simulators only; no real provider spend, Store attribution, Numo Studio connection, or production deployment.",
   },
   {
     title: "Maeen Games",
@@ -149,6 +180,7 @@ export default function Home() {
           </a>
 
           <nav className="primary-nav" aria-label="Primary navigation">
+            <a href="#recent">Recent</a>
             <a href="#work">Work</a>
             <a href="#experience">Experience</a>
             <a href="#skills">Skills</a>
@@ -171,9 +203,9 @@ export default function Home() {
             <h1>I build web and mobile software, from requirements to release.</h1>
             <p className="hero-intro">
               My work includes Flutter apps, React and Next.js websites, APIs,
-              internal tools, Arabic UX, and release testing. My background in
-              product and marketing helps me understand the user and business
-              need behind the code.
+              backend workflows, internal tools, Arabic UX, and release
+              testing. My background in product and marketing helps me
+              understand the user and business need behind the code.
             </p>
             <div className="hero-actions">
               <a
@@ -196,7 +228,7 @@ export default function Home() {
             <dl className="snapshot-list">
               <div className="snapshot-row">
                 <dt>Mrasim</dt>
-                <dd>Working on QARAR since April 2026.</dd>
+                <dd>QARAR mobile and backend reliability work since April 2026.</dd>
               </div>
               <div className="snapshot-row">
                 <dt>Maeen</dt>
@@ -204,7 +236,7 @@ export default function Home() {
               </div>
               <div className="snapshot-row">
                 <dt>Focus</dt>
-                <dd>Web, mobile, APIs, Arabic UX, and QA.</dd>
+                <dd>Flutter, Laravel, API workflows, Arabic UX, and release QA.</dd>
               </div>
             </dl>
             <div className="ledger-footer">
@@ -226,6 +258,38 @@ export default function Home() {
             <div className="proof-item">
               <strong>60+</strong>
               <span>Dashboard built to support 60+ users · Maeen</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="section recent-work-section" id="recent" aria-labelledby="recent-title">
+          <div className="shell">
+            <div className="section-heading compact-heading recent-heading">
+              <div>
+                <p className="section-kicker">Recent engineering work</p>
+                <h2 id="recent-title">What changed this week.</h2>
+              </div>
+              <p>
+                A verified snapshot of implementation work from August 5 to
+                August 12, with the evidence and limitations kept together.
+              </p>
+            </div>
+
+            <div className="recent-work-grid">
+              {recentWork.map((item) => (
+                <article className="recent-work-card" key={item.title}>
+                  <p className="recent-work-period">{item.period}</p>
+                  <h3>{item.title}</h3>
+                  <p className="recent-work-summary">{item.summary}</p>
+                  <div className="recent-work-proof">
+                    <span>Evidence</span>
+                    <strong>{item.proof}</strong>
+                  </div>
+                  <p className="recent-work-boundary">
+                    <span>Boundary</span> {item.boundary}
+                  </p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
