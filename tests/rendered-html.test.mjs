@@ -50,6 +50,10 @@ function textContent(html) {
     .trim();
 }
 
+function wordCount(text) {
+  return text.match(/[\p{L}\p{N}’.-]+/gu)?.length ?? 0;
+}
+
 function elementContent(html, tag, id) {
   const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const element = new RegExp(
@@ -86,14 +90,12 @@ test("server-renders a direct software engineering position", async () => {
 
   assert.equal(title, "Sameer Awaji Software Engineer");
   assert.match(html, /href=["'][^"']*\/icon\.png(?:\?[^"']*)?["']/i);
-  assert.match(hero, /Software engineer working across Flutter, Laravel, and Next\.js/i);
-  assert.match(hero, /authentication, request recovery, and real-time updates/i);
-  assert.match(hero, /View the QARAR case study/i);
+  assert.match(hero, /Hi, I’m Sameer\. I build mobile and web products/i);
+  assert.match(hero, /QARAR’s Flutter app and Laravel API at Mrasim/i);
+  assert.match(hero, /See my work/i);
   assert.match(html, /href=["']https:\/\/github\.com\/SameerAwaji["']/i);
-  assert.ok(
-    pageText.indexOf("GitHub") < pageText.indexOf("Contact"),
-    "Expected GitHub proof before the contact footer",
-  );
+  assert.match(pageText, /GitHub/i);
+  assert.match(pageText, /Contact/i);
 });
 
 test("removes the weekly changelog and vanity counts", async () => {
@@ -119,24 +121,24 @@ test("makes MIP and Maeen visual live projects", async () => {
   assert.match(liveWork, /image delivery, responsive behavior, metadata, and technical SEO/i);
   assert.doesNotMatch(liveWork, /77.*100|4\.8|0\.8|Lighthouse performance/i);
   assert.match(liveWork, /enquiry forms/i);
-  assert.match(liveWork, /internal workflow dashboard/i);
+  assert.match(liveWork, /internal workflow tools/i);
 });
 
-test("ships a generalized QARAR case study with ownership, risks, and evidence", async () => {
+test("ships a concise QARAR story with clear ownership and evidence", async () => {
   const response = await render("/work/qarar");
   assert.equal(response.status, 200);
   const html = await response.text();
   const pageText = textContent(html);
   const title = textContent(/<title\b[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "");
 
-  assert.equal(title, "QARAR Reliability Case Study — Sameer Awaji");
-  assert.match(pageText, /QARAR reliability work: authentication, retries, and SSE recovery/i);
-  assertInOrder(pageText, ["My responsibility", "Risk → change → verification", "Current local verification", "Installed app screens"]);
-  assert.match(pageText, /Private team product · details generalized/i);
-  assert.match(pageText, /Reliability risk/i);
-  assert.match(pageText, /What I changed/i);
-  assert.match(pageText, /internal identifiers, test filenames, endpoints, and operational timing values/i);
-  assert.match(html, /<pre>/i);
+  assert.equal(title, "QARAR Case Study — Sameer Awaji");
+  assert.match(pageText, /Making authentication and live updates more reliable/i);
+  assertInOrder(pageText, ["Why this work mattered", "What I changed", "How I checked it", "The app"]);
+  assert.match(pageText, /This is a team product/i);
+  assert.match(pageText, /I did not build the whole product/i);
+  assert.match(pageText, /One session stays in control/i);
+  assert.match(pageText, /Internal names and endpoints are omitted/i);
+  assert.doesNotMatch(html, /<pre>/i);
 });
 
 test("keeps four homepage captures and reduces the case-study gallery to three", async () => {
@@ -167,9 +169,8 @@ test("keeps four homepage captures and reduces the case-study gallery to three",
   assert.match(homeHtml, /id=["']qarar-work["']/i);
   assert.match(homeHtml, /id=["']live-work["']/i);
 
-  assert.match(pageText, /Three points in the current iOS flow/i);
-  assert.match(pageText, /These captures show the installed app’s startup, main sign-in/i);
-  assert.match(pageText, /stop before an identifier, OTP, or decision is submitted/i);
+  assert.match(pageText, /A few screens from the current iOS build/i);
+  assert.match(pageText, /Startup, sign-in, and the first decision-entry screen/i);
 });
 
 test("states current full-suite results, release status, and external boundary", async () => {
@@ -180,13 +181,21 @@ test("states current full-suite results, release status, and external boundary",
   assert.match(pageText, /13 skipped/i);
   assert.match(pageText, /696 Laravel tests passed/i);
   assert.match(pageText, /4,383 assertions/i);
-  assert.match(pageText, /flutter test --no-pub --reporter compact/i);
-  assert.match(pageText, /php artisan test --compact/i);
   assert.match(pageText, /13 Aug 2026/i);
   assert.match(pageText, /Flutter 3\.41\.9/i);
-  assert.match(pageText, /Merged to main; backend deployed; updated mobile release pending/i);
-  assert.match(pageText, /do not prove live SMS or email delivery/i);
+  assert.match(pageText, /Backend changes deployed/i);
+  assert.match(pageText, /Updated mobile release pending/i);
+  assert.match(pageText, /doesn’t confirm live SMS/i);
   assert.doesNotMatch(pageText, /MySQL test service was unavailable/i);
+});
+
+test("keeps the public writing deliberately concise", async () => {
+  const homeText = textContent(await (await render()).text());
+  const caseText = textContent(await (await render("/work/qarar")).text());
+
+  assert.ok(wordCount(homeText) < 360, `Expected homepage under 360 words, received ${wordCount(homeText)}`);
+  assert.ok(wordCount(caseText) < 560, `Expected case study under 560 words, received ${wordCount(caseText)}`);
+  assert.doesNotMatch(caseText, /Reliability risk|Current verification|Not claimed here|Risk → change → verification/i);
 });
 
 test("does not expose private implementation identifiers or unsupported MIP metrics", async () => {
@@ -223,8 +232,8 @@ test("keeps the full experience path and education", async () => {
   assert.match(experience, /Bachelor of Software Engineering/i);
   assert.match(experience, /University of Jeddah/i);
   assert.match(experience, /4\.48 \/ 5\.0/i);
-  assert.match(experience, /I have built web software since 2023/i);
-  assert.match(experience, /I build Maeen’s public website, enquiry forms, and internal workflow tools/i);
+  assert.match(experience, /Before moving into engineering full-time/i);
+  assert.match(experience, /Ongoing work on the public website, enquiry forms, and internal workflow tools/i);
 });
 
 test("contains no starter residue or generic AI-tool claim", async () => {
@@ -250,7 +259,7 @@ test("contains no starter residue or generic AI-tool claim", async () => {
 test("ships the resume, social card, and project proof assets", async () => {
   await Promise.all([
     access(new URL("public/Sameer_Awaji_Resume.pdf", projectRoot)),
-    access(new URL("public/og-v2.png", projectRoot)),
+    access(new URL("public/og-v3.png", projectRoot)),
     access(new URL("public/projects/mip-home.png", projectRoot)),
     access(new URL("public/projects/maeen-home.png", projectRoot)),
     access(new URL("public/projects/qarar-splash-clean.png", projectRoot)),

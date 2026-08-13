@@ -4,21 +4,21 @@ import Link from "next/link";
 const experience = [
   {
     period: "Apr 2026–Present",
-    role: "Software Engineer",
+    role: "Software Engineering",
     organization: "Mrasim",
-    text: "I work across Flutter and Laravel on QARAR: clarifying requirements, aligning app and API contracts, strengthening authentication and real-time flows, testing Arabic journeys, and preparing releases.",
+    text: "Flutter and Laravel work on QARAR, focused on authentication, reliability, Arabic flows, and releases.",
   },
   {
     period: "2025–Mar 2026",
     role: "Marketing Manager",
     organization: "MIP Marketing Agency",
-    text: "I led marketing work and rebuilt the agency website in Next.js, improving image delivery, responsive behavior, metadata, and technical SEO.",
+    text: "Led the marketing team and rebuilt the agency website in Next.js.",
   },
   {
     period: "Feb–Apr 2025",
     role: "Product Manager Intern",
     organization: "Nana",
-    text: "I worked on product documents, competitor research, engagement ideas, and user acceptance testing with design, engineering, and marketing teams.",
+    text: "Worked across product research, documentation, and user acceptance testing.",
   },
 ];
 
@@ -37,9 +37,9 @@ export default function Home() {
           </a>
 
           <nav className="primary-nav" aria-label="Primary navigation">
-            <Link href="/work/qarar">QARAR case study</Link>
-            <a href="#live-work">Live work</a>
+            <a href="#qarar-work">Work</a>
             <a href="#experience">Experience</a>
+            <a href="#contact">Contact</a>
           </nav>
 
           <div className="header-actions">
@@ -65,72 +65,51 @@ export default function Home() {
               <span className="signal" aria-hidden="true" />
               Software engineer · Jeddah, Saudi Arabia
             </p>
-            <h1>Software engineer working across Flutter, Laravel, and Next.js.</h1>
+            <h1>Hi, I’m Sameer. I build mobile and web products.</h1>
             <p className="hero-intro">
-              At Mrasim, I work on authentication, request recovery, and
-              real-time updates for QARAR. I also build public websites and
-              internal workflow tools for Maeen, with earlier experience in
-              product management and marketing.
+              I work on QARAR’s Flutter app and Laravel API at Mrasim, and
+              build websites and internal tools for Maeen. My recent work
+              focuses on authentication, reliability, and Arabic user flows.
             </p>
             <div className="hero-actions">
-              <Link className="button button-primary" href="/work/qarar">
-                View the QARAR case study <span aria-hidden="true">→</span>
-              </Link>
+              <a className="button button-primary" href="#qarar-work">
+                See my work <span aria-hidden="true">↓</span>
+              </a>
               <a
                 className="button button-secondary"
                 href="https://github.com/SameerAwaji"
                 target="_blank"
                 rel="noreferrer"
               >
-                Explore GitHub ↗
+                GitHub ↗
               </a>
             </div>
           </div>
-
         </section>
-
-        <nav className="project-index" aria-label="Featured projects">
-          <div className="shell project-index-grid">
-            <Link href="/work/qarar">
-              <span>01 · Technical case study</span>
-              <strong>QARAR</strong>
-              <em>Flutter + Laravel →</em>
-            </Link>
-            <a href="https://mipksa.com" target="_blank" rel="noreferrer">
-              <span>02 · Live website</span>
-              <strong>MIP</strong>
-              <em>Open site ↗</em>
-            </a>
-            <a href="https://maeen.com.sa" target="_blank" rel="noreferrer">
-              <span>03 · Live website</span>
-              <strong>Maeen</strong>
-              <em>Open site ↗</em>
-            </a>
-          </div>
-        </nav>
 
         <section className="technical-preview" id="qarar-work" aria-labelledby="qarar-preview-title">
           <div className="shell technical-preview-grid">
             <div className="technical-preview-copy">
-              <p className="section-kicker light-kicker">Featured engineering work</p>
-              <span className="status-chip status-chip-light">Private team product · details generalized</span>
+              <p className="section-kicker light-kicker">Current work · QARAR at Mrasim</p>
               <h2 id="qarar-preview-title">
-                QARAR: session refresh, retry safety, and SSE recovery.
+                Making sign-in and live updates more reliable.
               </h2>
               <p>
-                I worked on client and API behavior for token refresh, account
-                changes, retry decisions, and interrupted real-time updates.
-                The public case study explains the failure modes and current
-                verification without exposing internal identifiers.
+                QARAR is an Arabic decision-support app. I work on failure
+                paths across its Flutter client and Laravel API, especially
+                expired sessions and dropped connections.
               </p>
               <ul className="technical-points">
-                <li>Concurrent 401 responses share one token refresh</li>
-                <li>Requests from an old account stop after an account change</li>
-                <li>Arabic text remains intact when an SSE chunk splits a UTF-8 character</li>
-                <li>Full Flutter and Laravel suites passed on 13 Aug 2026</li>
+                <li>One token refresh when several requests fail together</li>
+                <li>No replay when an action may have already completed</li>
+                <li>Arabic updates that reconnect without broken text or duplicates</li>
               </ul>
+              <p className="technical-proof">
+                Checked on 13 Aug 2026: 1,070 Flutter tests and 696 Laravel
+                tests passed locally.
+              </p>
               <Link className="text-link text-link-light" href="/work/qarar">
-                Read the technical case study →
+                Read the QARAR story →
               </Link>
             </div>
 
@@ -182,13 +161,10 @@ export default function Home() {
         <section className="section shell" id="live-work" aria-labelledby="live-work-title">
           <div className="section-heading">
             <div>
-              <p className="section-kicker">Live work</p>
-              <h2 id="live-work-title">Public websites I built.</h2>
+              <p className="section-kicker">More work</p>
+              <h2 id="live-work-title">Two websites you can open.</h2>
             </div>
-            <p>
-              Open either site to inspect the work directly. My role and the
-              technologies used are listed below each screenshot.
-            </p>
+            <p>Both are live. The screenshots below link to the real sites.</p>
           </div>
 
           <div className="live-project-grid">
@@ -209,25 +185,18 @@ export default function Home() {
                 />
               </a>
               <div className="project-card-body">
+                <p className="project-overline">MIP · Website rebuild</p>
                 <div className="project-title-line">
-                  <div>
-                    <span className="status-chip">Live website</span>
-                    <h3>MIP</h3>
-                  </div>
+                  <h3>MIP</h3>
                   <a href="https://mipksa.com" target="_blank" rel="noreferrer">
-                    Open live site ↗
+                    Open site ↗
                   </a>
                 </div>
                 <p>
-                  I rebuilt the agency website in Next.js, improving image
-                  delivery, responsive behavior, metadata, and technical SEO
-                  for a media-heavy public site.
+                  I rebuilt the agency website in Next.js and improved its
+                  image delivery, responsive behavior, metadata, and technical SEO.
                 </p>
-                <ul className="deliverable-list" aria-label="MIP deliverables">
-                  <li>Next.js rebuild</li>
-                  <li>Image delivery</li>
-                  <li>Responsive and technical SEO work</li>
-                </ul>
+                <p className="project-stack">Next.js · Responsive web · Technical SEO</p>
               </div>
             </article>
 
@@ -248,25 +217,18 @@ export default function Home() {
                 />
               </a>
               <div className="project-card-body">
+                <p className="project-overline">Maeen · Ongoing freelance</p>
                 <div className="project-title-line">
-                  <div>
-                    <span className="status-chip">Live website · Ongoing freelance</span>
-                    <h3>Maeen</h3>
-                  </div>
+                  <h3>Maeen</h3>
                   <a href="https://maeen.com.sa" target="_blank" rel="noreferrer">
-                    Open live site ↗
+                    Open site ↗
                   </a>
                 </div>
                 <p>
                   I build Maeen’s public website, enquiry forms, and internal
-                  workflow tools in React and Supabase, working directly with
-                  the team.
+                  workflow tools, working directly with the team.
                 </p>
-                <ul className="deliverable-list" aria-label="Maeen deliverables">
-                  <li>Public React website</li>
-                  <li>Database-backed forms</li>
-                  <li>Internal workflow dashboard</li>
-                </ul>
+                <p className="project-stack">React · Supabase · Internal tools</p>
               </div>
             </article>
           </div>
@@ -276,11 +238,10 @@ export default function Home() {
           <div className="shell experience-layout">
             <div className="experience-heading">
               <p className="section-kicker">Experience</p>
-              <h2>Work and education.</h2>
+              <h2>Where I’ve worked.</h2>
               <p>
-                I have built web software since 2023, with additional experience
-                in product management and marketing. I earned my Software
-                Engineering degree in 2024.
+                Before moving into engineering full-time, I worked in product
+                and marketing.
               </p>
               <a className="text-link" href="/Sameer_Awaji_Resume.pdf" download>
                 Download CV (PDF) →
@@ -304,9 +265,8 @@ export default function Home() {
                   <h3>Freelance Developer</h3>
                   <p className="timeline-org">Maeen · alongside employment</p>
                   <p>
-                    I build Maeen’s public website, enquiry forms, and internal
-                    workflow tools in React and Supabase, working directly with
-                    the team.
+                    Ongoing work on the public website, enquiry forms, and
+                    internal workflow tools.
                   </p>
                 </div>
               </article>
@@ -325,9 +285,13 @@ export default function Home() {
           <div className="shell contact-layout">
             <div>
               <p className="section-kicker">Contact</p>
-              <h2>Available for software engineering roles and selected projects.</h2>
+              <h2>Want to work together?</h2>
             </div>
             <div className="contact-panel">
+              <p>
+                I’m open to software engineering roles and a small number of
+                freelance projects.
+              </p>
               <div className="contact-links">
                 <a href="https://github.com/SameerAwaji" target="_blank" rel="noreferrer">GitHub ↗</a>
                 <a href="https://linkedin.com/in/sameer-awaji-6a0986211" target="_blank" rel="noreferrer">LinkedIn ↗</a>
@@ -341,7 +305,7 @@ export default function Home() {
       <footer className="site-footer">
         <div className="shell footer-inner">
           <span>© 2026 Sameer Awaji</span>
-          <span>Software engineer · Product and marketing experience · Arabic & English</span>
+          <span>Jeddah, Saudi Arabia · Arabic &amp; English</span>
           <a href="#top">Back to top ↑</a>
         </div>
       </footer>

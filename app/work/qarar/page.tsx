@@ -3,61 +3,28 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "QARAR Reliability Case Study — Sameer Awaji",
+  title: "QARAR Case Study — Sameer Awaji",
   description:
-    "Authentication, retry safety, SSE recovery, and current test evidence from Sameer Awaji’s QARAR work.",
+    "How Sameer Awaji worked on authentication, retry safety, and Arabic live updates for QARAR.",
 };
 
 const changes = [
   {
-    number: "01",
-    problem:
-      "Concurrent requests can receive 401 responses together, while a login or account change can replace the active session during refresh.",
-    title: "Session refresh and account changes",
-    implementation:
-      "I serialized refresh, bound each request to the session that created it, and rechecked the active identity before accepting a refresh result. Session data is persisted together so a token cannot be restored with the wrong profile.",
-    verification:
-      "Automated tests reproduce concurrent 401s and an account change while refresh is in flight. They assert one refresh and confirm that the newer session remains active.",
+    title: "One session stays in control.",
+    text: "When several requests failed together, they could race to refresh or restore an account that was no longer active. I made them share one refresh and tied each request to the session that created it.",
   },
   {
-    number: "02",
-    problem:
-      "A timeout does not reveal whether the server completed an OTP or AI mutation. Replaying it automatically could create a second side effect.",
-    title: "Retry rules by request type",
-    implementation:
-      "Transient GET and PUT requests may retry within a fixed limit. Timed-out OTP, AI, and other user-triggered mutations are not automatically replayed; the client reads current state when reconciliation is safe.",
-    verification:
-      "Automated tests assert that a timed-out mutation is sent once, while safe GET and PUT requests retry only within the configured limit.",
+    title: "Retries stop when the result is uncertain.",
+    text: "Safe reads can retry within a limit. OTP, AI, and other actions that may already have completed are sent once after a timeout, then reconciled where that is possible.",
   },
   {
-    number: "03",
-    problem:
-      "A network chunk can split an Arabic UTF-8 character, and a reconnect can return an event the client has already received.",
-    title: "Arabic SSE parsing and reconnects",
-    implementation:
-      "I decode the response as one UTF-8 stream before parsing SSE frames. Reconnects resume from the last acknowledged event and discard duplicates without treating a normal cursor advance as a gap.",
-    verification:
-      "Automated tests split bytes inside Arabic text, reconnect twice, and confirm that the next event is requested without reporting a false gap.",
+    title: "Arabic streams survive reconnects.",
+    text: "I changed the client to decode each response as one UTF-8 stream, resume from the last event, and ignore duplicates after reconnecting.",
   },
   {
-    number: "04",
-    problem:
-      "A passing app build does not guarantee that an installed client understands a changed backend response.",
-    title: "API compatibility checks",
-    implementation:
-      "The Laravel repository owns the OpenAPI contract. Flutter pins its checksum and verifies supported versions in tests, while backward-compatible responses remain readable.",
-    verification:
-      "Automated tests validate the pinned schema and reject a server contract version newer than the client supports. This complements backward-compatible API changes; it does not replace them.",
+    title: "The app knows which API contract it supports.",
+    text: "Laravel owns the OpenAPI contract. Flutter pins it and checks supported versions so an incompatible backend change is caught before release.",
   },
-];
-
-const testAreas = [
-  "Session refresh and account changes",
-  "Retry limits and mutation safety",
-  "Arabic stream decoding and reconnects",
-  "API contract compatibility",
-  "Backend token rotation",
-  "SSE authorization and replay",
 ];
 
 export default function QararCaseStudy() {
@@ -72,9 +39,9 @@ export default function QararCaseStudy() {
             <span>Sameer Awaji</span>
           </Link>
           <nav className="case-nav" aria-label="Case study navigation">
-            <a href="#responsibility">My work</a>
-            <a href="#changes">Changes</a>
-            <a href="#validation">Validation</a>
+            <a href="#work">The work</a>
+            <a href="#checks">Checks</a>
+            <a href="#screens">Screens</a>
           </nav>
           <Link className="header-action" href="/">Back to portfolio</Link>
         </div>
@@ -87,145 +54,105 @@ export default function QararCaseStudy() {
             <div>
               <p className="eyebrow">
                 <span className="signal" aria-hidden="true" />
-                QARAR · Reliability case study
+                QARAR · Work at Mrasim
               </p>
-              <h1>QARAR reliability work: authentication, retries, and SSE recovery.</h1>
+              <h1>Making authentication and live updates more reliable.</h1>
             </div>
             <div className="case-hero-side">
-              <span className="status-chip">Private team product · details generalized</span>
               <p>
                 QARAR is an Arabic decision-support app with separate user and
-                expert journeys. This page covers the reliability work I owned
-                and the current local evidence behind it.
+                expert journeys. My part sits across Flutter and Laravel:
+                sessions, retries, real-time updates, and API compatibility.
               </p>
-              <p className="confidentiality-note">
-                This public version omits internal identifiers, test filenames,
-                endpoints, and operational timing values.
+              <p className="case-note">
+                This is a team product. Internal names and endpoints are omitted.
               </p>
             </div>
           </div>
-
-          <dl className="case-facts">
-            <div><dt>Status</dt><dd>Merged to main; backend deployed; updated mobile release pending</dd></div>
-            <div><dt>My contribution</dt><dd>Mobile session, retry, stream, and contract work; supporting Laravel changes</dd></div>
-            <div><dt>Reliability scope</dt><dd>Concurrent 401s, account changes, uncertain mutations, and split Arabic stream data</dd></div>
-            <div><dt>Current verification</dt><dd>Full Flutter and Laravel suites passed locally on 13 Aug 2026</dd></div>
-          </dl>
+          <p className="case-meta">
+            <span>Flutter + Laravel</span>
+            <span>Backend changes deployed</span>
+            <span>Updated mobile release pending</span>
+          </p>
         </section>
 
-        <section className="case-section architecture-section" id="responsibility">
-          <div className="shell">
-            <div className="case-section-heading">
-              <p className="section-kicker">My responsibility</p>
-              <h2>The parts I changed.</h2>
-              <p>
-                I did not build every part of QARAR. This case study is limited
-                to the authentication, retry, real-time, and compatibility work
-                listed here.
-              </p>
+        <section className="case-story" id="work">
+          <div className="shell case-story-grid">
+            <div>
+              <p className="section-kicker">Why this work mattered</p>
+              <h2>The difficult bugs appeared when things went wrong.</h2>
             </div>
-
-            <div className="ownership-grid">
-              <article><span>Mobile</span><strong>Session handling</strong><p>I changed how refresh, account changes, and session persistence interact so an old request cannot restore a replaced session.</p></article>
-              <article><span>Mobile</span><strong>Retry policy</strong><p>I separated safe retriable requests from mutations whose outcome may already have been committed.</p></article>
-              <article><span>Mobile</span><strong>Real-time streams</strong><p>I corrected UTF-8 decoding and reconnect cursor handling for Arabic SSE updates.</p></article>
-              <article><span>Backend</span><strong>Token rotation</strong><p>I aligned rotation and replay protection with the mobile client’s concurrency behavior.</p></article>
-              <article><span>Both repositories</span><strong>API compatibility</strong><p>The backend owns the OpenAPI contract; the app pins its checksum and verifies supported versions.</p></article>
-              <article><span>Not claimed here</span><strong>External delivery</strong><p>Live SMS, email, Firebase, production SSE, storage, and AI delivery were not reverified for this case study.</p></article>
+            <div className="case-story-copy">
+              <p>
+                A normal sign-in was fine. The harder cases were two requests
+                failing together, someone switching accounts during a refresh,
+                or a connection dropping halfway through an Arabic stream.
+              </p>
+              <p>
+                I worked on those failure paths in the mobile app and the
+                supporting Laravel behavior. I did not build the whole product;
+                this page is about the part I changed.
+              </p>
             </div>
           </div>
         </section>
 
-        <section className="case-section decisions-section" id="changes">
+        <section className="case-work-section">
           <div className="shell">
-            <div className="case-section-heading split-heading">
-              <div>
-                <p className="section-kicker">Risk → change → verification</p>
-                <h2>Reliability risks I addressed.</h2>
-              </div>
-              <p>
-                Each item connects a reproduced risk with the change I owned
-                and the automated behavior that exercises it.
-              </p>
+            <div className="case-simple-heading">
+              <p className="section-kicker">What I changed</p>
+              <h2>The work, in plain English.</h2>
             </div>
-            <div className="decision-grid">
+            <div className="case-work-list">
               {changes.map((change) => (
-                <article className="decision-card" key={change.number}>
-                  <span>{change.number}</span>
+                <article className="case-work-item" key={change.title}>
                   <h3>{change.title}</h3>
-                  <div className="evidence-row"><strong>Reliability risk</strong><p>{change.problem}</p></div>
-                  <div className="evidence-row"><strong>What I changed</strong><p>{change.implementation}</p></div>
-                  <div className="evidence-row"><strong>Verification</strong><p>{change.verification}</p></div>
+                  <p>{change.text}</p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="case-section validation-section" id="validation">
-          <div className="shell validation-grid">
+        <section className="case-checks" id="checks">
+          <div className="shell case-checks-grid">
             <div>
-              <p className="section-kicker light-kicker">Validation</p>
-              <h2>Current local verification.</h2>
+              <p className="section-kicker light-kicker">How I checked it</p>
+              <h2>Full local suites, not selected examples.</h2>
               <p>
-                On 13 Aug 2026, I reran the complete default local suites for
-                the Flutter app and Laravel backend. The redacted excerpt shows
-                the commands and final output; internal test names are omitted.
+                I reran both repositories on 13 Aug 2026, including the tests
+                around concurrent refresh, account changes, retries, Arabic
+                decoding, reconnects, and contract compatibility.
               </p>
+            </div>
+            <div>
               <div className="verification-results" aria-label="Current QARAR test results">
                 <div className="test-result">
                   <strong>1,070</strong>
                   <span>Flutter tests passed</span>
-                  <small>13 skipped · Flutter 3.41.9 · local macOS run</small>
+                  <small>13 skipped · Flutter 3.41.9</small>
                 </div>
                 <div className="test-result">
                   <strong>696</strong>
                   <span>Laravel tests passed</span>
-                  <small>4,383 assertions · local MySQL test database</small>
+                  <small>4,383 assertions</small>
                 </div>
               </div>
-              <p className="validation-boundary">
-                These local suites do not prove live SMS or email delivery,
-                Firebase delivery, production SSE, storage, AI behavior, or the
-                pending updated mobile release.
+              <p className="case-checks-note">
+                This is local test evidence. It doesn’t confirm live SMS,
+                email, Firebase, production streams, storage, or the pending
+                mobile release.
               </p>
-            </div>
-            <div>
-              <div className="terminal-evidence" aria-label="Redacted local terminal output">
-                <div className="terminal-heading">
-                  <span aria-hidden="true">● ● ●</span>
-                  <strong>Redacted local test output · 13 Aug 2026</strong>
-                </div>
-                <pre>{`$ flutter test --no-pub --reporter compact
-…
-+1070 ~13: 13 skipped tests.
-+1070 ~13: All other tests passed!
-
-$ php artisan test --compact
-…
-Tests: 696 passed (4383 assertions)
-Duration: 23.16s`}</pre>
-              </div>
-              <ul className="validation-list" aria-label="Verified behavior areas">
-                {testAreas.map((area, index) => (
-                  <li key={area}><span>{String(index + 1).padStart(2, "0")}</span><strong>{area}</strong></li>
-                ))}
-              </ul>
             </div>
           </div>
         </section>
 
-        <section className="case-visual-section" aria-labelledby="visual-proof-title">
+        <section className="case-visual-section" id="screens" aria-labelledby="visual-proof-title">
           <div className="shell">
-            <div className="case-section-heading">
-              <p className="section-kicker">Installed app screens</p>
-              <h2 id="visual-proof-title">Three points in the current iOS flow.</h2>
-              <p>
-                These captures show the installed app’s startup, main sign-in,
-                and first decision-entry screen. They do not demonstrate the
-                reliability mechanisms above and stop before an identifier,
-                OTP, or decision is submitted.
-              </p>
+            <div className="case-simple-heading case-gallery-heading">
+              <p className="section-kicker">The app</p>
+              <h2 id="visual-proof-title">A few screens from the current iOS build.</h2>
+              <p>Startup, sign-in, and the first decision-entry screen.</p>
             </div>
 
             <div className="case-gallery">
@@ -233,14 +160,14 @@ Duration: 23.16s`}</pre>
                 <div className="case-phone-frame">
                   <Image
                     src="/projects/qarar-splash-clean.png"
-                    alt="QARAR loading screen while current sign-in settings load"
+                    alt="QARAR loading screen in the iOS simulator"
                     width={1206}
                     height={2622}
                     priority
                     unoptimized
                   />
                 </div>
-                <figcaption><strong>Startup</strong><span>The installed app loading before routing to sign-in.</span></figcaption>
+                <figcaption><strong>Startup</strong><span>The app loading before sign-in.</span></figcaption>
               </figure>
               <figure>
                 <div className="case-phone-frame">
@@ -253,7 +180,7 @@ Duration: 23.16s`}</pre>
                     unoptimized
                   />
                 </div>
-                <figcaption><strong>Main sign-in</strong><span>The current Arabic entry screen and guest option.</span></figcaption>
+                <figcaption><strong>Sign-in</strong><span>The Arabic entry screen and guest option.</span></figcaption>
               </figure>
               <figure>
                 <div className="case-phone-frame">
@@ -266,7 +193,7 @@ Duration: 23.16s`}</pre>
                     unoptimized
                   />
                 </div>
-                <figcaption><strong>Guided decision entry</strong><span>Examples and categories reduce the blank-page problem.</span></figcaption>
+                <figcaption><strong>Decision entry</strong><span>Examples and categories for getting started.</span></figcaption>
               </figure>
             </div>
           </div>
@@ -275,13 +202,13 @@ Duration: 23.16s`}</pre>
         <section className="case-next">
           <div className="shell case-next-grid">
             <div>
-              <p className="section-kicker">Next</p>
-              <h2>See the live web work.</h2>
+              <p className="section-kicker">More work</p>
+              <h2>Two live websites.</h2>
             </div>
             <div className="case-next-links">
-              <a href="https://mipksa.com" target="_blank" rel="noreferrer"><span>MIP</span><strong>Live agency website ↗</strong></a>
-              <a href="https://maeen.com.sa" target="_blank" rel="noreferrer"><span>Maeen</span><strong>Live education website ↗</strong></a>
-              <Link href="/">Back to the full portfolio →</Link>
+              <a href="https://mipksa.com" target="_blank" rel="noreferrer"><span>MIP</span><strong>Open site ↗</strong></a>
+              <a href="https://maeen.com.sa" target="_blank" rel="noreferrer"><span>Maeen</span><strong>Open site ↗</strong></a>
+              <Link href="/">Back to the portfolio →</Link>
             </div>
           </div>
         </section>
@@ -290,7 +217,7 @@ Duration: 23.16s`}</pre>
       <footer className="site-footer">
         <div className="shell footer-inner">
           <span>© 2026 Sameer Awaji</span>
-          <span>QARAR reliability case study</span>
+          <span>QARAR · Work at Mrasim</span>
           <a href="#case-main">Back to top ↑</a>
         </div>
       </footer>
