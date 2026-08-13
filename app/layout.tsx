@@ -26,11 +26,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: {
-      default: "Sameer Awaji — Software Engineer",
+      default: "Sameer Awaji — Product-minded Software Engineer",
       template: "%s",
     },
     description:
-      "Sameer Awaji is a software engineer in Jeddah working across Flutter, Laravel, Next.js, and Arabic products.",
+      "Sameer Awaji is a product-minded software engineer in Jeddah working across mobile, web, backend systems, and Arabic products.",
     authors: [{ name: "Sameer Awaji" }],
     keywords: [
       "Sameer Awaji",
@@ -45,26 +45,26 @@ export async function generateMetadata(): Promise<Metadata> {
       "Arabic UX",
     ],
     openGraph: {
-      title: "Sameer Awaji — Software Engineer",
+      title: "Sameer Awaji — Product-minded Software Engineer",
       description:
-        "Flutter, Laravel, Next.js, Arabic products, and concrete project evidence.",
+        "I build software. I care whether it works outside the demo.",
       type: "website",
       url: origin,
       images: [
         {
-          url: `${origin}/og-v3.png`,
+          url: `${origin}/og-v4.png`,
           width: 1672,
           height: 941,
-          alt: "Sameer Awaji — software engineer",
+          alt: "Sameer Awaji — product-minded software engineer",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Sameer Awaji — Software Engineer",
+      title: "Sameer Awaji — Product-minded Software Engineer",
       description:
-        "Flutter, Laravel, Next.js, Arabic products, and concrete project evidence.",
-      images: [`${origin}/og-v3.png`],
+        "I build software. I care whether it works outside the demo.",
+      images: [`${origin}/og-v4.png`],
     },
   };
 }

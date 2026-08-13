@@ -76,7 +76,7 @@ function assertInOrder(text, labels) {
   }
 }
 
-test("server-renders a direct software engineering position", async () => {
+test("renders a direct and distinctive engineering position", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -88,140 +88,81 @@ test("server-renders a direct software engineering position", async () => {
     .replace(/[^\p{L}\p{N}]+/gu, " ")
     .trim();
 
-  assert.equal(title, "Sameer Awaji Software Engineer");
-  assert.match(html, /href=["'][^"']*\/icon\.png(?:\?[^"']*)?["']/i);
-  assert.match(hero, /Hi, I’m Sameer\. I build mobile and web products/i);
-  assert.match(hero, /QARAR’s Flutter app and Laravel API at Mrasim/i);
-  assert.match(hero, /See my work/i);
+  assert.equal(title, "Sameer Awaji Product minded Software Engineer");
+  assert.match(hero, /I build software\. I care whether it works outside the demo/i);
+  assert.match(hero, /where product decisions and engineering meet/i);
+  assert.match(hero, /QARAR at Mrasim/i);
+  assert.match(pageText, /The question I keep coming back to/i);
   assert.match(html, /href=["']https:\/\/github\.com\/SameerAwaji["']/i);
-  assert.match(pageText, /GitHub/i);
-  assert.match(pageText, /Contact/i);
 });
 
-test("removes the weekly changelog and vanity counts", async () => {
+test("keeps the entire portfolio in one coherent page", async () => {
   const html = await (await render()).text();
   const pageText = textContent(html);
 
-  assert.doesNotMatch(pageText, /What changed this week/i);
-  assert.doesNotMatch(pageText, /repository commits|69 commits|29 commits/i);
-  assert.doesNotMatch(pageText, /1,014 Flutter tests/i);
-  assert.doesNotMatch(pageText, /60\+ users/i);
-  assert.doesNotMatch(pageText, /\bBoundary\b|\bScope\b/i);
+  assertInOrder(pageText, [
+    "Selected work",
+    "01 / QARAR",
+    "02 / MIP",
+    "03 / MAEEN",
+    "A little more like me",
+    "Experience",
+    "Contact",
+  ]);
+  assert.match(html, /id=["']work["']/i);
+  assert.match(html, /id=["']about["']/i);
+  assert.match(html, /id=["']experience["']/i);
+  assert.match(html, /id=["']contact["']/i);
+  assert.doesNotMatch(html, /href=["']\/work\/qarar["']/i);
 });
 
-test("makes MIP and Maeen visual live projects", async () => {
+test("shows grounded QARAR ownership and evidence", async () => {
   const html = await (await render()).text();
-  const liveWork = textContent(elementContent(html, "section", "live-work"));
+  const project = textContent(elementContent(html, "article", "qarar"));
 
-  assertInOrder(liveWork, ["MIP", "Maeen"]);
-  assert.match(html, /href=["']https:\/\/mipksa\.com["']/i);
-  assert.match(html, /href=["']https:\/\/maeen\.com\.sa["']/i);
-  assert.match(html, /projects\/mip-home\.png/i);
-  assert.match(html, /projects\/maeen-home\.png/i);
-  assert.match(liveWork, /image delivery, responsive behavior, metadata, and technical SEO/i);
-  assert.doesNotMatch(liveWork, /77.*100|4\.8|0\.8|Lighthouse performance/i);
-  assert.match(liveWork, /enquiry forms/i);
-  assert.match(liveWork, /internal workflow tools/i);
-});
-
-test("ships a concise QARAR story with clear ownership and evidence", async () => {
-  const response = await render("/work/qarar");
-  assert.equal(response.status, 200);
-  const html = await response.text();
-  const pageText = textContent(html);
-  const title = textContent(/<title\b[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "");
-
-  assert.equal(title, "QARAR Case Study — Sameer Awaji");
-  assert.match(pageText, /Making authentication and live updates more reliable/i);
-  assertInOrder(pageText, ["Why this work mattered", "What I changed", "How I checked it", "The app"]);
-  assert.match(pageText, /This is a team product/i);
-  assert.match(pageText, /I did not build the whole product/i);
-  assert.match(pageText, /One session stays in control/i);
-  assert.match(pageText, /Internal names and endpoints are omitted/i);
-  assert.doesNotMatch(html, /<pre>/i);
-});
-
-test("keeps four homepage captures and reduces the case-study gallery to three", async () => {
-  const homeHtml = await (await render()).text();
-  const html = await (await render("/work/qarar")).text();
-  const pageText = textContent(html);
+  assert.match(project, /Flutter client and Laravel API/i);
+  assertInOrder(project, ["What I noticed", "What changed", "How I checked it"]);
+  assert.match(project, /1,070 Flutter tests/i);
+  assert.match(project, /696 Laravel tests/i);
+  assert.match(project, /Live providers remain a separate check/i);
+  assert.doesNotMatch(project, /ApiClient|TokenStorage|AccessTokenRotationService|last_id/i);
 
   for (const asset of [
-    "qarar-splash-clean.png",
-    "qarar-login-clean.png",
-    "qarar-decision-clean.png",
-  ]) {
-    assert.match(html, new RegExp(`projects\\/${asset.replace(".", "\\.")}`, "i"));
-  }
-
-  assert.doesNotMatch(html, /projects\/qarar-home-clean\.png/i);
-  assert.doesNotMatch(html, /projects\/qarar-account-clean\.png/i);
-
-  for (const asset of [
-    "qarar-splash-clean.png",
     "qarar-login-clean.png",
     "qarar-home-clean.png",
     "qarar-decision-clean.png",
   ]) {
-    assert.match(homeHtml, new RegExp(`projects\\/${asset.replace(".", "\\.")}`, "i"));
+    assert.match(html, new RegExp(`projects\\/${asset.replace(".", "\\.")}`, "i"));
   }
-
-  assert.match(homeHtml, /id=["']qarar-work["']/i);
-  assert.match(homeHtml, /id=["']live-work["']/i);
-
-  assert.match(pageText, /A few screens from the current iOS build/i);
-  assert.match(pageText, /Startup, sign-in, and the first decision-entry screen/i);
 });
 
-test("states current full-suite results, release status, and external boundary", async () => {
-  const html = await (await render("/work/qarar")).text();
-  const pageText = textContent(html);
-
-  assert.match(pageText, /1,070 Flutter tests passed/i);
-  assert.match(pageText, /13 skipped/i);
-  assert.match(pageText, /696 Laravel tests passed/i);
-  assert.match(pageText, /4,383 assertions/i);
-  assert.match(pageText, /13 Aug 2026/i);
-  assert.match(pageText, /Flutter 3\.41\.9/i);
-  assert.match(pageText, /Backend changes deployed/i);
-  assert.match(pageText, /Updated mobile release pending/i);
-  assert.match(pageText, /doesn’t confirm live SMS/i);
-  assert.doesNotMatch(pageText, /MySQL test service was unavailable/i);
-});
-
-test("keeps the public writing deliberately concise", async () => {
-  const homeText = textContent(await (await render()).text());
-  const caseText = textContent(await (await render("/work/qarar")).text());
-
-  assert.ok(wordCount(homeText) < 360, `Expected homepage under 360 words, received ${wordCount(homeText)}`);
-  assert.ok(wordCount(caseText) < 560, `Expected case study under 560 words, received ${wordCount(caseText)}`);
-  assert.doesNotMatch(caseText, /Reliability risk|Current verification|Not claimed here|Risk → change → verification/i);
-});
-
-test("does not expose private implementation identifiers or unsupported MIP metrics", async () => {
-  const homeText = textContent(await (await render()).text());
-  const caseHtml = await (await render("/work/qarar")).text();
-  const caseText = textContent(caseHtml);
-
-  assert.doesNotMatch(homeText, /77.*100|4\.8|0\.8|sameer2study@gmail\.com/i);
-  assert.doesNotMatch(caseText, /ApiClient|TokenStorage|AccessTokenRotationService/i);
-  assert.doesNotMatch(caseText, /\.dart\b|last_id|120-second|120 second/i);
-  assert.doesNotMatch(caseText, /What failed and what I changed|Observed risk/i);
-});
-
-test("removes unsupported padding and AI-style slogans", async () => {
+test("makes the two live websites visual and concrete", async () => {
   const html = await (await render()).text();
   const pageText = textContent(html);
-  const caseText = textContent(await (await render("/work/qarar")).text());
 
-  assert.doesNotMatch(pageText, /Prototypes and work in progress/i);
-  assert.doesNotMatch(pageText, /Automatic Marketing|While It Runs|Rescuel/i);
-  assert.doesNotMatch(pageText, /Built, shipped, and visible/i);
-  assert.doesNotMatch(pageText, /The implementation follows the user risk/i);
-  assert.doesNotMatch(pageText, /Looking for an engineer who can connect product and implementation/i);
-  assert.doesNotMatch(caseText, /The product, not a mockup/i);
-  assert.doesNotMatch(caseText, /impossible by construction|duplicate-safe|The path remains the proof/i);
-  assert.doesNotMatch(caseText, /How I (handled|addressed)/i);
+  assert.match(html, /href=["']https:\/\/mipksa\.com["']/i);
+  assert.match(html, /href=["']https:\/\/maeen\.com\.sa["']/i);
+  assert.match(html, /projects\/mip-home\.png/i);
+  assert.match(html, /projects\/maeen-home\.png/i);
+  assert.match(pageText, /led marketing at MIP and rebuilt the agency website/i);
+  assert.match(pageText, /public website, enquiry forms, and internal tools/i);
+  assert.match(pageText, /teach AI activities for students aged 15–18/i);
+  assert.doesNotMatch(pageText, /77.*100|4\.8|0\.8|60\+ users/i);
+});
+
+test("sounds personal without a generic personality inventory", async () => {
+  const html = await (await render()).text();
+  const about = textContent(elementContent(html, "section", "about"));
+
+  assert.match(about, /I’m thoughtful before I’m loud/i);
+  assert.match(about, /engineering, product, marketing, and teaching/i);
+  assert.match(about, /I use AI in almost everything I build/i);
+  assert.match(about, /I don’t treat its answer as proof/i);
+  assert.match(about, /I learn by building/i);
+  assert.match(about, /Calm over noise\. Direct over impressive/i);
+  assert.match(about, /Eminem.*Billie Eilish.*Sherine.*Abdel Halim/i);
+  assert.doesNotMatch(about, /Intellection|Achiever|Responsibility|Harmony|Relator|DISC/i);
+  assert.doesNotMatch(about, /innovative|passionate|results-driven|unique blend|leverage AI/i);
 });
 
 test("keeps the full experience path and education", async () => {
@@ -232,11 +173,30 @@ test("keeps the full experience path and education", async () => {
   assert.match(experience, /Bachelor of Software Engineering/i);
   assert.match(experience, /University of Jeddah/i);
   assert.match(experience, /4\.48 \/ 5\.0/i);
-  assert.match(experience, /Before moving into engineering full-time/i);
-  assert.match(experience, /Ongoing work on the public website, enquiry forms, and internal workflow tools/i);
+  assert.match(experience, /Developer & AI Tutor/i);
 });
 
-test("contains no starter residue or generic AI-tool claim", async () => {
+test("stays concise and avoids unsupported padding", async () => {
+  const pageText = textContent(await (await render()).text());
+
+  assert.ok(
+    wordCount(pageText) < 650,
+    `Expected homepage under 650 words, received ${wordCount(pageText)}`,
+  );
+  assert.doesNotMatch(pageText, /Automatic Marketing|While It Runs|Rescuel/i);
+  assert.doesNotMatch(pageText, /repository commits|69 commits|29 commits/i);
+  assert.doesNotMatch(pageText, /sameer2study@gmail\.com/i);
+  assert.doesNotMatch(pageText, /Built, shipped, and visible/i);
+  assert.doesNotMatch(pageText, /Looking for an engineer who can connect product and implementation/i);
+});
+
+test("redirects the old QARAR case-study route into the homepage story", async () => {
+  const response = await render("/work/qarar");
+  assert.ok([301, 302, 307, 308].includes(response.status));
+  assert.match(response.headers.get("location") ?? "", /\/#qarar$/i);
+});
+
+test("contains no starter residue", async () => {
   const html = await (await render()).text();
   const pageText = textContent(html);
   const [pageSource, caseSource, layoutSource, packageJson] = await Promise.all([
@@ -246,8 +206,6 @@ test("contains no starter residue or generic AI-tool claim", async () => {
     readFile(new URL("package.json", projectRoot), "utf8"),
   ]);
 
-  assert.doesNotMatch(pageText, /\bAI tools?\b/i);
-  assert.doesNotMatch(pageText, /\bConvex\b/i);
   assert.doesNotMatch(html, /\bcodex-preview\b|\b_sites-preview\b/i);
   assert.doesNotMatch(pageText, /Your site is taking shape|Building your site/i);
   assert.doesNotMatch(pageSource, /codex-preview|SkeletonPreview|_sites-preview/i);
@@ -259,14 +217,12 @@ test("contains no starter residue or generic AI-tool claim", async () => {
 test("ships the resume, social card, and project proof assets", async () => {
   await Promise.all([
     access(new URL("public/Sameer_Awaji_Resume.pdf", projectRoot)),
-    access(new URL("public/og-v3.png", projectRoot)),
+    access(new URL("public/og-v4.png", projectRoot)),
     access(new URL("public/projects/mip-home.png", projectRoot)),
     access(new URL("public/projects/maeen-home.png", projectRoot)),
-    access(new URL("public/projects/qarar-splash-clean.png", projectRoot)),
     access(new URL("public/projects/qarar-login-clean.png", projectRoot)),
     access(new URL("public/projects/qarar-home-clean.png", projectRoot)),
     access(new URL("public/projects/qarar-decision-clean.png", projectRoot)),
-    access(new URL("public/projects/qarar-account-clean.png", projectRoot)),
     access(new URL("app/icon.png", projectRoot)),
   ]);
 });

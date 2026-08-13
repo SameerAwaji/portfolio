@@ -1,24 +1,29 @@
 import Image from "next/image";
-import Link from "next/link";
 
 const experience = [
   {
-    period: "Apr 2026–Present",
+    period: "2026—Now",
     role: "Software Engineering",
     organization: "Mrasim",
-    text: "Flutter and Laravel work on QARAR, focused on authentication, reliability, Arabic flows, and releases.",
+    note: "Flutter and Laravel work on QARAR.",
   },
   {
-    period: "2025–Mar 2026",
+    period: "2025—2026",
     role: "Marketing Manager",
     organization: "MIP Marketing Agency",
-    text: "Led the marketing team and rebuilt the agency website in Next.js.",
+    note: "Led the team and rebuilt the agency website.",
   },
   {
-    period: "Feb–Apr 2025",
+    period: "2025",
     role: "Product Manager Intern",
     organization: "Nana",
-    text: "Worked across product research, documentation, and user acceptance testing.",
+    note: "Research, product documentation, and acceptance testing.",
+  },
+  {
+    period: "2023—Now",
+    role: "Developer & AI Tutor",
+    organization: "Maeen",
+    note: "Web products, internal tools, and student activities.",
   },
 ];
 
@@ -30,53 +35,41 @@ export default function Home() {
       </a>
 
       <header className="site-header">
-        <div className="shell header-inner">
+        <div className="page header-inner">
           <a className="wordmark" href="#top" aria-label="Sameer Awaji, home">
-            <span className="wordmark-mark">SA</span>
-            <span>Sameer Awaji</span>
+            Sameer Awaji
           </a>
-
           <nav className="primary-nav" aria-label="Primary navigation">
-            <a href="#qarar-work">Work</a>
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
             <a href="#experience">Experience</a>
-            <a href="#contact">Contact</a>
           </nav>
-
-          <div className="header-actions">
-            <a
-              className="header-link"
-              href="https://github.com/SameerAwaji"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub ↗
-            </a>
-            <a className="header-action" href="/Sameer_Awaji_Resume.pdf" download>
-              Download CV
-            </a>
-          </div>
+          <a className="header-cv" href="/Sameer_Awaji_Resume.pdf" download>
+            CV <span aria-hidden="true">↓</span>
+          </a>
         </div>
       </header>
 
       <main id="main-content">
-        <section className="hero shell" id="top">
-          <div className="hero-copy">
-            <p className="eyebrow">
-              <span className="signal" aria-hidden="true" />
-              Software engineer · Jeddah, Saudi Arabia
+        <section className="hero page" id="top">
+          <div className="hero-index" aria-hidden="true">
+            00
+          </div>
+          <div className="hero-main">
+            <p className="eyebrow">Software engineer · Jeddah</p>
+            <h1>
+              I build software. I care whether it works outside the demo.
+            </h1>
+            <p className="hero-lead">
+              I’m Sameer. I work across mobile, web, and backend systems,
+              usually where product decisions and engineering meet.
             </p>
-            <h1>Hi, I’m Sameer. I build mobile and web products.</h1>
-            <p className="hero-intro">
-              I work on QARAR’s Flutter app and Laravel API at Mrasim, and
-              build websites and internal tools for Maeen. My recent work
-              focuses on authentication, reliability, and Arabic user flows.
-            </p>
-            <div className="hero-actions">
-              <a className="button button-primary" href="#qarar-work">
-                See my work <span aria-hidden="true">↓</span>
+            <div className="hero-links">
+              <a className="arrow-link" href="#work">
+                See the work <span aria-hidden="true">↘</span>
               </a>
               <a
-                className="button button-secondary"
+                className="plain-link"
                 href="https://github.com/SameerAwaji"
                 target="_blank"
                 rel="noreferrer"
@@ -85,217 +78,285 @@ export default function Home() {
               </a>
             </div>
           </div>
+          <aside className="now-note">
+            <span>Right now</span>
+            <strong>QARAR at Mrasim</strong>
+            <p>Flutter, Laravel, authentication, and Arabic user journeys.</p>
+          </aside>
         </section>
 
-        <section className="technical-preview" id="qarar-work" aria-labelledby="qarar-preview-title">
-          <div className="shell technical-preview-grid">
-            <div className="technical-preview-copy">
-              <p className="section-kicker light-kicker">Current work · QARAR at Mrasim</p>
-              <h2 id="qarar-preview-title">
-                Making sign-in and live updates more reliable.
-              </h2>
-              <p>
-                QARAR is an Arabic decision-support app. I work on failure
-                paths across its Flutter client and Laravel API, especially
-                expired sessions and dropped connections.
-              </p>
-              <ul className="technical-points">
-                <li>One token refresh when several requests fail together</li>
-                <li>No replay when an action may have already completed</li>
-                <li>Arabic updates that reconnect without broken text or duplicates</li>
-              </ul>
-              <p className="technical-proof">
-                Checked on 13 Aug 2026: 1,070 Flutter tests and 696 Laravel
-                tests passed locally.
-              </p>
-              <Link className="text-link text-link-light" href="/work/qarar">
-                Read the QARAR story →
-              </Link>
-            </div>
-
-            <div className="phone-proof" aria-label="QARAR simulator screens">
-              <figure className="phone-frame phone-frame-splash">
-                <Image
-                  src="/projects/qarar-splash-clean.png"
-                  alt="QARAR loading screen in the iOS simulator"
-                  width={1206}
-                  height={2622}
-                  priority
-                  unoptimized
-                />
-              </figure>
-              <figure className="phone-frame phone-frame-login">
-                <Image
-                  src="/projects/qarar-login-clean.png"
-                  alt="QARAR Arabic main login screen in the iOS simulator"
-                  width={1206}
-                  height={2622}
-                  priority
-                  unoptimized
-                />
-              </figure>
-              <figure className="phone-frame phone-frame-home">
-                <Image
-                  src="/projects/qarar-home-clean.png"
-                  alt="QARAR Arabic guest home screen in the iOS simulator"
-                  width={1206}
-                  height={2622}
-                  priority
-                  unoptimized
-                />
-              </figure>
-              <figure className="phone-frame phone-frame-decision">
-                <Image
-                  src="/projects/qarar-decision-clean.png"
-                  alt="QARAR Arabic decision entry flow"
-                  width={1206}
-                  height={2622}
-                  priority
-                  unoptimized
-                />
-              </figure>
-            </div>
+        <div className="belief-strip">
+          <div className="page belief-inner">
+            <span aria-hidden="true">✦</span>
+            <p>
+              The question I keep coming back to: does this work in the real
+              user journey?
+            </p>
           </div>
-        </section>
+        </div>
 
-        <section className="section shell" id="live-work" aria-labelledby="live-work-title">
+        <section className="work-section page" id="work" aria-labelledby="work-title">
+          <div className="section-index" aria-hidden="true">
+            01
+          </div>
           <div className="section-heading">
-            <div>
-              <p className="section-kicker">More work</p>
-              <h2 id="live-work-title">Two websites you can open.</h2>
-            </div>
-            <p>Both are live. The screenshots below link to the real sites.</p>
+            <p className="eyebrow">Selected work</p>
+            <h2 id="work-title">Three products. Three different kinds of problems.</h2>
           </div>
 
-          <div className="live-project-grid">
-            <article className="live-project-card">
+          <article className="project project-qarar" id="qarar">
+            <header className="project-heading">
+              <div className="project-number">01 / QARAR</div>
+              <div>
+                <p className="project-role">Software engineering · Current work</p>
+                <h3>The happy path passed. The real sign-in journey didn’t.</h3>
+              </div>
+              <span className="project-external">Flutter + Laravel</span>
+            </header>
+
+            <div className="qarar-layout">
+              <div className="phone-stage" aria-label="QARAR mobile app screens">
+                <figure className="phone phone-one">
+                  <Image
+                    src="/projects/qarar-login-clean.png"
+                    alt="QARAR Arabic sign-in screen"
+                    width={1206}
+                    height={2622}
+                    priority
+                    unoptimized
+                  />
+                </figure>
+                <figure className="phone phone-two">
+                  <Image
+                    src="/projects/qarar-home-clean.png"
+                    alt="QARAR Arabic guest home screen"
+                    width={1206}
+                    height={2622}
+                    priority
+                    unoptimized
+                  />
+                </figure>
+                <figure className="phone phone-three">
+                  <Image
+                    src="/projects/qarar-decision-clean.png"
+                    alt="QARAR Arabic decision entry screen"
+                    width={1206}
+                    height={2622}
+                    unoptimized
+                  />
+                </figure>
+              </div>
+
+              <div className="project-notes">
+                <p className="project-intro">
+                  QARAR is an Arabic decision-support app. I work across its
+                  Flutter client and Laravel API, especially on the quiet parts
+                  users notice only when they fail: sessions, recovery, and
+                  live updates.
+                </p>
+                <dl className="note-list">
+                  <div>
+                    <dt>What I noticed</dt>
+                    <dd>
+                      Several failures could compete to recover one session,
+                      while a passing screen test could miss the full journey.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>What changed</dt>
+                    <dd>
+                      One recovery path stays in control. Risky actions are not
+                      replayed when they may already have completed.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>How I checked it</dt>
+                    <dd>
+                      The complete local suites passed on 13 Aug 2026: 1,070
+                      Flutter tests and 696 Laravel tests. Live providers remain
+                      a separate check.
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </article>
+
+          <article className="project project-web">
+            <header className="project-heading">
+              <div className="project-number">02 / MIP</div>
+              <div>
+                <p className="project-role">Marketing + web development</p>
+                <h3>A marketing site that was carrying too much weight.</h3>
+              </div>
               <a
-                className="project-image-link"
+                className="project-external"
                 href="https://mipksa.com"
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Open the live MIP website"
               >
-                <Image
-                  src="/projects/mip-home.png"
-                  alt="MIP marketing agency live website homepage"
-                  width={1272}
-                  height={716}
-                  unoptimized
-                />
+                Open site ↗
               </a>
-              <div className="project-card-body">
-                <p className="project-overline">MIP · Website rebuild</p>
-                <div className="project-title-line">
-                  <h3>MIP</h3>
-                  <a href="https://mipksa.com" target="_blank" rel="noreferrer">
-                    Open site ↗
-                  </a>
-                </div>
-                <p>
-                  I rebuilt the agency website in Next.js and improved its
-                  image delivery, responsive behavior, metadata, and technical SEO.
-                </p>
-                <p className="project-stack">Next.js · Responsive web · Technical SEO</p>
-              </div>
-            </article>
+            </header>
+            <a
+              className="website-shot"
+              href="https://mipksa.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open the live MIP website"
+            >
+              <Image
+                src="/projects/mip-home.png"
+                alt="MIP marketing agency homepage"
+                width={1272}
+                height={716}
+                unoptimized
+              />
+            </a>
+            <p className="project-caption">
+              I led marketing at MIP and rebuilt the agency website in Next.js.
+              The work joined brand judgment with engineering: responsive
+              layouts, lighter image delivery, metadata, and technical SEO.
+            </p>
+          </article>
 
-            <article className="live-project-card">
+          <article className="project project-web">
+            <header className="project-heading">
+              <div className="project-number">03 / MAEEN</div>
+              <div>
+                <p className="project-role">Development + teaching</p>
+                <h3>Close to the team, close to the students.</h3>
+              </div>
               <a
-                className="project-image-link"
+                className="project-external"
                 href="https://maeen.com.sa"
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Open the live Maeen website"
               >
-                <Image
-                  src="/projects/maeen-home.png"
-                  alt="Maeen education and training live website homepage"
-                  width={1440}
-                  height={900}
-                  unoptimized
-                />
+                Open site ↗
               </a>
-              <div className="project-card-body">
-                <p className="project-overline">Maeen · Ongoing freelance</p>
-                <div className="project-title-line">
-                  <h3>Maeen</h3>
-                  <a href="https://maeen.com.sa" target="_blank" rel="noreferrer">
-                    Open site ↗
-                  </a>
-                </div>
-                <p>
-                  I build Maeen’s public website, enquiry forms, and internal
-                  workflow tools, working directly with the team.
-                </p>
-                <p className="project-stack">React · Supabase · Internal tools</p>
+            </header>
+            <a
+              className="website-shot website-shot-maeen"
+              href="https://maeen.com.sa"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open the live Maeen website"
+            >
+              <Image
+                src="/projects/maeen-home.png"
+                alt="Maeen education and training homepage"
+                width={1440}
+                height={900}
+                unoptimized
+              />
+            </a>
+            <p className="project-caption">
+              I build Maeen’s public website, enquiry forms, and internal tools.
+              I also help create and teach AI activities for students aged
+              15–18. If I can’t explain an idea clearly, I probably don’t
+              understand it yet.
+            </p>
+          </article>
+        </section>
+
+        <section className="about-section" id="about" aria-labelledby="about-title">
+          <div className="page about-layout">
+            <div className="section-index section-index-light" aria-hidden="true">
+              02
+            </div>
+            <div className="about-main">
+              <p className="eyebrow">A little more like me</p>
+              <h2 id="about-title">I’m thoughtful before I’m loud.</h2>
+              <p>
+                My path has moved through engineering, product, marketing, and
+                teaching. I don’t see those as four separate identities. They
+                are one way of working: understand the person, understand the
+                system, then make the two meet.
+              </p>
+              <p>
+                I use AI in almost everything I build. I don’t hide that, and I
+                don’t treat its answer as proof. My part is choosing the
+                direction, noticing what is wrong, and owning the final behavior.
+              </p>
+              <p>
+                I learn by building. I ask a lot of questions, care about the
+                details, and can be stubborn about calling something finished
+                before the real path has been tried.
+              </p>
+            </div>
+            <aside className="personal-notes" aria-label="Personal notes">
+              <div>
+                <span>Temperament</span>
+                <p>Calm over noise. Direct over impressive.</p>
               </div>
-            </article>
+              <div>
+                <span>Usually thinking about</span>
+                <p>How people learn, and why products feel harder than they should.</p>
+              </div>
+              <div>
+                <span>Playlist whiplash</span>
+                <p>Eminem → Billie Eilish → Sherine → Abdel Halim.</p>
+              </div>
+            </aside>
           </div>
         </section>
 
-        <section className="section experience-section" id="experience">
-          <div className="shell experience-layout">
-            <div className="experience-heading">
-              <p className="section-kicker">Experience</p>
-              <h2>Where I’ve worked.</h2>
-              <p>
-                Before moving into engineering full-time, I worked in product
-                and marketing.
-              </p>
-              <a className="text-link" href="/Sameer_Awaji_Resume.pdf" download>
-                Download CV (PDF) →
-              </a>
-            </div>
-
-            <div className="timeline">
-              {experience.map((item) => (
-                <article className="timeline-item" key={`${item.role}-${item.period}`}>
-                  <span className="timeline-period">{item.period}</span>
-                  <div>
-                    <h3>{item.role}</h3>
-                    <p className="timeline-org">{item.organization}</p>
-                    <p>{item.text}</p>
-                  </div>
-                </article>
-              ))}
-              <article className="timeline-item">
-                <span className="timeline-period">2023–Present</span>
+        <section className="experience-section page" id="experience" aria-labelledby="experience-title">
+          <div className="section-index" aria-hidden="true">
+            03
+          </div>
+          <div className="experience-heading">
+            <p className="eyebrow">Experience</p>
+            <h2 id="experience-title">The route here wasn’t a straight line.</h2>
+            <p>
+              Bachelor of Software Engineering, University of Jeddah · 2024 ·
+              GPA 4.48 / 5.0
+            </p>
+          </div>
+          <div className="experience-list">
+            {experience.map((item) => (
+              <article key={`${item.role}-${item.period}`}>
+                <span>{item.period}</span>
                 <div>
-                  <h3>Freelance Developer</h3>
-                  <p className="timeline-org">Maeen · alongside employment</p>
-                  <p>
-                    Ongoing work on the public website, enquiry forms, and
-                    internal workflow tools.
-                  </p>
+                  <h3>{item.role}</h3>
+                  <p className="experience-org">{item.organization}</p>
                 </div>
+                <p>{item.note}</p>
               </article>
-              <article className="timeline-item education-item">
-                <span className="timeline-period">2024</span>
-                <div>
-                  <h3>Bachelor of Software Engineering</h3>
-                  <p className="timeline-org">University of Jeddah · GPA 4.48 / 5.0</p>
-                </div>
-              </article>
-            </div>
+            ))}
           </div>
         </section>
 
         <section className="contact-section" id="contact">
-          <div className="shell contact-layout">
+          <div className="page contact-layout">
             <div>
-              <p className="section-kicker">Contact</p>
-              <h2>Want to work together?</h2>
+              <p className="eyebrow">Contact</p>
+              <h2>Say hello.</h2>
             </div>
-            <div className="contact-panel">
+            <div className="contact-copy">
               <p>
-                I’m open to software engineering roles and a small number of
-                freelance projects.
+                I’m open to software and product-engineering roles, and a small
+                number of freelance projects.
               </p>
               <div className="contact-links">
-                <a href="https://github.com/SameerAwaji" target="_blank" rel="noreferrer">GitHub ↗</a>
-                <a href="https://linkedin.com/in/sameer-awaji-6a0986211" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-                <a href="/Sameer_Awaji_Resume.pdf" download>Download CV</a>
+                <a
+                  href="https://linkedin.com/in/sameer-awaji-6a0986211"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  LinkedIn ↗
+                </a>
+                <a
+                  href="https://github.com/SameerAwaji"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  GitHub ↗
+                </a>
+                <a href="/Sameer_Awaji_Resume.pdf" download>
+                  CV ↓
+                </a>
               </div>
             </div>
           </div>
@@ -303,9 +364,9 @@ export default function Home() {
       </main>
 
       <footer className="site-footer">
-        <div className="shell footer-inner">
+        <div className="page footer-inner">
           <span>© 2026 Sameer Awaji</span>
-          <span>Jeddah, Saudi Arabia · Arabic &amp; English</span>
+          <span>Jeddah · Arabic &amp; English</span>
           <a href="#top">Back to top ↑</a>
         </div>
       </footer>
