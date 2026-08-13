@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Sameer Awaji — Software Engineer",
     description:
-      "Sameer Awaji is a software engineer working across Flutter, Laravel, web, APIs, Arabic UX, backend workflows, and release testing.",
+      "Sameer Awaji is a product-minded software engineer working across Flutter, Laravel, web, Arabic UX, backend workflows, and release testing.",
     authors: [{ name: "Sameer Awaji" }],
     keywords: [
       "Sameer Awaji",
@@ -44,15 +44,15 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Sameer Awaji — Software Engineer",
       description:
-        "Flutter, Laravel, web software, API workflows, Arabic UX, and release testing, supported by product and marketing experience.",
+        "Product-minded engineering across Flutter, Laravel, web, Arabic UX, and release reliability.",
       type: "website",
       url: origin,
       images: [
         {
-          url: `${origin}/og.png`,
+          url: `${origin}/og-v2.png`,
           width: 1672,
           height: 941,
-          alt: "Sameer Awaji — software engineer working across Flutter, Laravel, web, and Arabic UX",
+          alt: "Sameer Awaji — product-minded software engineer",
         },
       ],
     },
@@ -60,8 +60,8 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: "Sameer Awaji — Software Engineer",
       description:
-        "Flutter, Laravel, web software, API workflows, Arabic UX, and release testing.",
-      images: [`${origin}/og.png`],
+        "Product-minded engineering across Flutter, Laravel, web, Arabic UX, and release reliability.",
+      images: [`${origin}/og-v2.png`],
     },
   };
 }

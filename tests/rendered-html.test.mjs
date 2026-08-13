@@ -4,13 +4,13 @@ import test from "node:test";
 
 const projectRoot = new URL("../", import.meta.url);
 
-async function render() {
+async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
+  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${path}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", {
+    new Request(`http://localhost${path}`, {
       headers: { accept: "text/html" },
     }),
     {
@@ -61,25 +61,6 @@ function elementContent(html, tag, id) {
   return element[1];
 }
 
-function openingTagIndex(html, tag, id) {
-  const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return html.search(
-    new RegExp(`<${tag}\\b(?=[^>]*\\bid=["']${escapedId}["'])[^>]*>`, "i"),
-  );
-}
-
-function sectionContainingTextIndex(html, phrase) {
-  const sections = html.matchAll(/<section\b[^>]*>[\s\S]*?<\/section>/gi);
-
-  for (const section of sections) {
-    if (textContent(section[0]).includes(phrase)) {
-      return section.index;
-    }
-  }
-
-  return -1;
-}
-
 function assertInOrder(text, labels) {
   let previousIndex = -1;
 
@@ -91,126 +72,126 @@ function assertInOrder(text, labels) {
   }
 }
 
-test("server-renders Sameer Awaji's engineering-first portfolio", async () => {
+test("server-renders an honest early-career engineering position", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
+  const pageText = textContent(html);
+  const hero = textContent(elementContent(html, "section", "top"));
   const title = textContent(/<title\b[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "")
     .replace(/[^\p{L}\p{N}]+/gu, " ")
     .trim();
+
   assert.equal(title, "Sameer Awaji Software Engineer");
-
-  const hero = textContent(elementContent(html, "section", "top"));
-  const heroHeading = textContent(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i.exec(html)?.[1] ?? "");
-  assert.match(heroHeading, /\b(?:software|engineer(?:ing)?)\b/i);
-
-  const softwareIndex = hero.search(/\b(?:software|engineer(?:ing)?)\b/i);
-  const productIndex = hero.search(/\bproduct\b/i);
-  assert.ok(softwareIndex >= 0, "Expected engineering to lead the hero");
+  assert.match(hero, /product-minded software engineer/i);
+  assert.match(hero, /early-career software engineer/i);
+  assert.match(hero, /View the QARAR case study/i);
+  assert.match(html, /href=["']https:\/\/github\.com\/SameerAwaji["']/i);
   assert.ok(
-    productIndex < 0 || softwareIndex < productIndex,
-    "Expected engineering to appear before product in the hero",
+    pageText.indexOf("GitHub") < pageText.indexOf("Contact"),
+    "Expected GitHub proof before the contact footer",
   );
 });
 
-test("presents featured work in the approved order and evidence format", async () => {
+test("removes the weekly changelog and vanity counts", async () => {
   const html = await (await render()).text();
-  const selectedWork = textContent(elementContent(html, "section", "work"));
+  const pageText = textContent(html);
 
-  assertInOrder(selectedWork, ["QARAR", "MIP", "Maeen"]);
+  assert.doesNotMatch(pageText, /What changed this week/i);
+  assert.doesNotMatch(pageText, /repository commits|69 commits|29 commits/i);
+  assert.doesNotMatch(pageText, /1,014 Flutter tests/i);
+  assert.doesNotMatch(pageText, /60\+ users/i);
+  assert.doesNotMatch(pageText, /\bBoundary\b|\bScope\b/i);
+});
 
-  for (const label of ["The problem", "My part", "Evidence", "Scope"]) {
-    const occurrences = selectedWork.match(new RegExp(`\\b${label}\\b`, "gi")) ?? [];
-    assert.ok(
-      occurrences.length >= 3,
-      `Expected “${label}” for each featured project`,
-    );
+test("makes MIP and Maeen visual live projects", async () => {
+  const html = await (await render()).text();
+  const liveWork = textContent(elementContent(html, "section", "live-work"));
+
+  assertInOrder(liveWork, ["MIP", "Maeen"]);
+  assert.match(html, /href=["']https:\/\/mipksa\.com["']/i);
+  assert.match(html, /href=["']https:\/\/maeen\.com\.sa["']/i);
+  assert.match(html, /projects\/mip-home\.png/i);
+  assert.match(html, /projects\/maeen-home\.png/i);
+  assert.match(liveWork, /77 to 100/i);
+  assert.match(liveWork, /4\.8 seconds.*0\.8 seconds/i);
+  assert.match(liveWork, /database-backed enquiry forms/i);
+  assert.match(liveWork, /internal workflow dashboard/i);
+});
+
+test("ships a technical QARAR case study with architecture, trade-offs, and code", async () => {
+  const response = await render("/work/qarar");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const pageText = textContent(html);
+
+  assert.match(pageText, /Stabilizing a Flutter\/Laravel decision platform/i);
+  assertInOrder(pageText, ["Architecture", "Engineering decisions", "Implementation patterns", "Validation"]);
+  assert.match(pageText, /identity-bound session refresh|Bind refresh to identity/i);
+  assert.match(pageText, /Retry only work that is safe to repeat/i);
+  assert.match(pageText, /UTF-8 stream with a cursor/i);
+  assert.match(pageText, /OpenAPI contract/i);
+  assert.ok((html.match(/<pre>/gi) ?? []).length >= 2, "Expected two code excerpts");
+  assert.ok((pageText.match(/Trade-off/g) ?? []).length >= 4, "Expected a trade-off for every decision");
+});
+
+test("uses real QARAR simulator captures and states their safe path", async () => {
+  const html = await (await render("/work/qarar")).text();
+  const pageText = textContent(html);
+
+  for (const asset of [
+    "qarar-launch.png",
+    "qarar-guest-home.png",
+    "qarar-privacy-gate.png",
+  ]) {
+    assert.match(html, new RegExp(`projects\\/${asset.replace(".", "\\.")}`, "i"));
   }
+
+  assert.match(pageText, /non-sensitive guest data/i);
+  assert.match(pageText, /stops before creating an account, sending an OTP, or submitting a decision/i);
+  assert.match(pageText, /installed iOS app/i);
 });
 
-test("shows the August 5–12 work snapshot with evidence and boundaries", async () => {
+test("keeps the full experience path and education", async () => {
   const html = await (await render()).text();
-  const recentHtml = elementContent(html, "section", "recent");
-  const recent = textContent(recentHtml);
-
-  assertInOrder(recent, [
-    "QARAR · mobile and backend reliability",
-    "Automatic Marketing · campaign system and Content Lab",
-  ]);
-  assert.match(recent, /Aug 6[–—-]12, 2026/);
-  assert.match(recent, /29 repository commits/i);
-  assert.match(recent, /1,014 Flutter tests/i);
-  assert.match(recent, /69 commits/i);
-  assert.match(recent, /1080\s*[×x]\s*1920 H\.264 export/i);
-  assert.match(recent, /local and synthetic validation only/i);
-
-  assert.equal(
-    (recentHtml.match(/class=["'][^"']*\brecent-work-proof\b[^"']*["']/gi) ?? []).length,
-    2,
-    "Expected an evidence block on both recent-work cards",
-  );
-  assert.equal(
-    (recentHtml.match(/class=["'][^"']*\brecent-work-boundary\b[^"']*["']/gi) ?? []).length,
-    2,
-    "Expected a boundary note on both recent-work cards",
-  );
-});
-
-test("keeps experience ahead of process and separates employment from freelance work", async () => {
-  const html = await (await render()).text();
-  const experienceIndex = openingTagIndex(html, "section", "experience");
-  const approachIndex = sectionContainingTextIndex(html, "How I work");
-
-  assert.ok(experienceIndex >= 0, "Expected the experience section");
-  assert.ok(approachIndex >= 0, "Expected the How I work section");
-  assert.ok(experienceIndex < approachIndex, "Expected Experience before How I work");
-
   const experience = textContent(elementContent(html, "section", "experience"));
-  assert.match(experience, /\bMrasim\b/i);
-  assert.match(experience, /\bMIP\b/i);
-  assert.match(experience, /\bNana\b/i);
-  assert.match(experience, /\bMaeen\b/i);
-  assert.match(experience, /\bfreelance\b/i);
-  assert.match(experience, /(?:since\s+2023|2023\s*[–—-]\s*(?:present|current))/i);
+
+  assertInOrder(experience, ["Mrasim", "MIP Marketing Agency", "Nana", "Maeen"]);
+  assert.match(experience, /Bachelor of Software Engineering/i);
+  assert.match(experience, /University of Jeddah/i);
+  assert.match(experience, /4\.48 \/ 5\.0/i);
 });
 
-test("states the Maeen metric conservatively", async () => {
+test("contains no starter residue or generic AI-tool claim", async () => {
   const html = await (await render()).text();
   const pageText = textContent(html);
-
-  assert.match(
-    pageText,
-    /dashboard\s+(?:was\s+)?(?:built|designed)\s+to\s+support\s+60\+\s+users/i,
-  );
-  assert.doesNotMatch(pageText, /People supported/i);
-});
-
-test("contains no AI-tool paragraph, decorative Arabic line, or starter residue", async () => {
-  const html = await (await render()).text();
-  const pageText = textContent(html);
-  const [pageSource, layoutSource, packageJson] = await Promise.all([
+  const [pageSource, caseSource, layoutSource, packageJson] = await Promise.all([
     readFile(new URL("app/page.tsx", projectRoot), "utf8"),
+    readFile(new URL("app/work/qarar/page.tsx", projectRoot), "utf8"),
     readFile(new URL("app/layout.tsx", projectRoot), "utf8"),
     readFile(new URL("package.json", projectRoot), "utf8"),
   ]);
 
   assert.doesNotMatch(pageText, /\bAI tools?\b/i);
   assert.doesNotMatch(pageText, /\bConvex\b/i);
-  assert.doesNotMatch(html, /\barabic-line\b/i);
-  assert.doesNotMatch(html, /\bcodex-preview\b/i);
+  assert.doesNotMatch(html, /\bcodex-preview\b|\b_sites-preview\b/i);
   assert.doesNotMatch(pageText, /Your site is taking shape|Building your site/i);
-  assert.doesNotMatch(html, /react-loading-skeleton|SkeletonPreview|_sites-preview/i);
   assert.doesNotMatch(pageSource, /codex-preview|SkeletonPreview|_sites-preview/i);
+  assert.doesNotMatch(caseSource, /codex-preview|SkeletonPreview|_sites-preview/i);
   assert.doesNotMatch(layoutSource, /Starter Project|codex-preview|_sites-preview/i);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/i);
-
 });
 
-test("ships the resume and social-preview image", async () => {
+test("ships the resume, social card, and project proof assets", async () => {
   await Promise.all([
     access(new URL("public/Sameer_Awaji_Resume.pdf", projectRoot)),
-    access(new URL("public/og.png", projectRoot)),
+    access(new URL("public/og-v2.png", projectRoot)),
+    access(new URL("public/projects/mip-home.png", projectRoot)),
+    access(new URL("public/projects/maeen-home.png", projectRoot)),
+    access(new URL("public/projects/qarar-launch.png", projectRoot)),
+    access(new URL("public/projects/qarar-guest-home.png", projectRoot)),
+    access(new URL("public/projects/qarar-privacy-gate.png", projectRoot)),
   ]);
 });
