@@ -90,9 +90,9 @@ test("renders a direct and distinctive engineering position", async () => {
 
   assert.equal(title, "Sameer Awaji Product minded Software Engineer");
   assert.match(hero, /I build software\. I care whether it works outside the demo/i);
-  assert.match(hero, /where product decisions and engineering meet/i);
-  assert.match(hero, /QARAR at Mrasim/i);
-  assert.match(pageText, /The question I keep coming back to/i);
+  assert.match(hero, /where the real problem is bigger than the first request/i);
+  assert.match(hero, /Product engineering at Mrasim/i);
+  assert.match(pageText, /changing a real workflow at a pace the team can actually absorb/i);
   assert.match(html, /href=["']https:\/\/github\.com\/SameerAwaji["']/i);
 });
 
@@ -102,9 +102,9 @@ test("keeps the entire portfolio in one coherent page", async () => {
 
   assertInOrder(pageText, [
     "Selected work",
-    "01 / QARAR",
-    "02 / MIP",
-    "03 / MAEEN",
+    "Mrasim",
+    "Maeen",
+    "MIP",
     "A little more like me",
     "Experience",
     "Contact",
@@ -116,16 +116,20 @@ test("keeps the entire portfolio in one coherent page", async () => {
   assert.doesNotMatch(html, /href=["']\/work\/qarar["']/i);
 });
 
-test("shows grounded QARAR ownership and evidence", async () => {
+test("positions QARAR as one public Mrasim example", async () => {
   const html = await (await render()).text();
-  const project = textContent(elementContent(html, "article", "qarar"));
+  const project = textContent(elementContent(html, "article", "mrasim"));
 
-  assert.match(project, /Flutter client and Laravel API/i);
+  assert.match(project, /QARAR is one project inside a wider role/i);
+  assert.match(project, /internal tools, reliability work, and other project needs/i);
+  assert.match(project, /the clearest public example I can show—not the full job/i);
+  assert.match(project, /across Flutter and Laravel/i);
   assertInOrder(project, ["What I noticed", "What changed", "How I checked it"]);
-  assert.match(project, /1,070 Flutter tests/i);
-  assert.match(project, /696 Laravel tests/i);
-  assert.match(project, /Live providers remain a separate check/i);
+  assert.match(project, /complete local Flutter and Laravel suites passed/i);
+  assert.match(project, /Live providers and deployed behavior remain separate checks/i);
   assert.doesNotMatch(project, /ApiClient|TokenStorage|AccessTokenRotationService|last_id/i);
+  assert.match(html, /brands\/mrasim-logo-white\.svg/i);
+  assert.match(html, /href=["']https:\/\/mrasim\.sa["']/i);
 
   for (const asset of [
     "qarar-login-clean.png",
@@ -136,17 +140,30 @@ test("shows grounded QARAR ownership and evidence", async () => {
   }
 });
 
-test("makes the two live websites visual and concrete", async () => {
+test("explains the pragmatic Maeen summer-program evolution", async () => {
+  const html = await (await render()).text();
+  const pageText = textContent(html);
+
+  assert.match(html, /href=["']https:\/\/maeen\.com\.sa["']/i);
+  assert.match(pageText, /For the 2026 summer program/i);
+  assert.match(pageText, /student sign-up form and a dashboard/i);
+  assert.match(pageText, /small script still saves registrations into Google Drive/i);
+  assertInOrder(pageText, ["Google Forms", "Custom form + dashboard", "Google Drive workflow"]);
+  assert.match(pageText, /forcing one would have created more risk than value/i);
+  assert.match(html, /projects\/maeen-summer-home\.png/i);
+  assert.match(html, /projects\/maeen-summer-form\.png/i);
+  assert.match(html, /projects\/maeen-summer-program\.png/i);
+});
+
+test("frames MIP as business development and management, not only coding", async () => {
   const html = await (await render()).text();
   const pageText = textContent(html);
 
   assert.match(html, /href=["']https:\/\/mipksa\.com["']/i);
-  assert.match(html, /href=["']https:\/\/maeen\.com\.sa["']/i);
   assert.match(html, /projects\/mip-home\.png/i);
-  assert.match(html, /projects\/maeen-home\.png/i);
-  assert.match(pageText, /led marketing at MIP and rebuilt the agency website/i);
-  assert.match(pageText, /public website, enquiry forms, and internal tools/i);
-  assert.match(pageText, /teach AI activities for students aged 15–18/i);
+  assert.match(pageText, /Business development.*Team support.*Management.*Technology transition/i);
+  assert.match(pageText, /developing the business as a whole/i);
+  assert.match(pageText, /Migrating the website from WordPress to Next\.js was one visible project—not the whole role/i);
   assert.doesNotMatch(pageText, /77.*100|4\.8|0\.8|60\+ users/i);
 });
 
@@ -158,7 +175,8 @@ test("sounds personal without a generic personality inventory", async () => {
   assert.match(about, /engineering, product, marketing, and teaching/i);
   assert.match(about, /I use AI in almost everything I build/i);
   assert.match(about, /I don’t treat its answer as proof/i);
-  assert.match(about, /I learn by building/i);
+  assert.match(about, /I don’t confuse a rewrite with progress/i);
+  assert.match(about, /Build it, test it, explain it, then find what I missed/i);
   assert.match(about, /Calm over noise\. Direct over impressive/i);
   assert.match(about, /Eminem.*Billie Eilish.*Sherine.*Abdel Halim/i);
   assert.doesNotMatch(about, /Intellection|Achiever|Responsibility|Harmony|Relator|DISC/i);
@@ -169,7 +187,7 @@ test("keeps the full experience path and education", async () => {
   const html = await (await render()).text();
   const experience = textContent(elementContent(html, "section", "experience"));
 
-  assertInOrder(experience, ["Mrasim", "MIP Marketing Agency", "Nana", "Maeen"]);
+  assertInOrder(experience, ["Mrasim", "Maeen", "MIP Marketing Agency", "Nana"]);
   assert.match(experience, /Bachelor of Software Engineering/i);
   assert.match(experience, /University of Jeddah/i);
   assert.match(experience, /4\.48 \/ 5\.0/i);
@@ -180,8 +198,8 @@ test("stays concise and avoids unsupported padding", async () => {
   const pageText = textContent(await (await render()).text());
 
   assert.ok(
-    wordCount(pageText) < 650,
-    `Expected homepage under 650 words, received ${wordCount(pageText)}`,
+    wordCount(pageText) < 760,
+    `Expected homepage under 760 words, received ${wordCount(pageText)}`,
   );
   assert.doesNotMatch(pageText, /Automatic Marketing|While It Runs|Rescuel/i);
   assert.doesNotMatch(pageText, /repository commits|69 commits|29 commits/i);
@@ -199,8 +217,9 @@ test("redirects the old QARAR case-study route into the homepage story", async (
 test("contains no starter residue", async () => {
   const html = await (await render()).text();
   const pageText = textContent(html);
-  const [pageSource, caseSource, layoutSource, packageJson] = await Promise.all([
+  const [pageSource, motionSource, caseSource, layoutSource, packageJson] = await Promise.all([
     readFile(new URL("app/page.tsx", projectRoot), "utf8"),
+    readFile(new URL("app/scroll-motion.tsx", projectRoot), "utf8"),
     readFile(new URL("app/work/qarar/page.tsx", projectRoot), "utf8"),
     readFile(new URL("app/layout.tsx", projectRoot), "utf8"),
     readFile(new URL("package.json", projectRoot), "utf8"),
@@ -209,17 +228,22 @@ test("contains no starter residue", async () => {
   assert.doesNotMatch(html, /\bcodex-preview\b|\b_sites-preview\b/i);
   assert.doesNotMatch(pageText, /Your site is taking shape|Building your site/i);
   assert.doesNotMatch(pageSource, /codex-preview|SkeletonPreview|_sites-preview/i);
+  assert.match(motionSource, /IntersectionObserver/i);
+  assert.match(motionSource, /--scroll-progress/i);
   assert.doesNotMatch(caseSource, /codex-preview|SkeletonPreview|_sites-preview/i);
   assert.doesNotMatch(layoutSource, /Starter Project|codex-preview|_sites-preview/i);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/i);
 });
 
-test("ships the resume, social card, and project proof assets", async () => {
+test("ships the resume, brand, social card, and project proof assets", async () => {
   await Promise.all([
     access(new URL("public/Sameer_Awaji_Resume.pdf", projectRoot)),
-    access(new URL("public/og-v4.png", projectRoot)),
+    access(new URL("public/og-v5.png", projectRoot)),
+    access(new URL("public/brands/mrasim-logo-white.svg", projectRoot)),
     access(new URL("public/projects/mip-home.png", projectRoot)),
-    access(new URL("public/projects/maeen-home.png", projectRoot)),
+    access(new URL("public/projects/maeen-summer-home.png", projectRoot)),
+    access(new URL("public/projects/maeen-summer-form.png", projectRoot)),
+    access(new URL("public/projects/maeen-summer-program.png", projectRoot)),
     access(new URL("public/projects/qarar-login-clean.png", projectRoot)),
     access(new URL("public/projects/qarar-home-clean.png", projectRoot)),
     access(new URL("public/projects/qarar-decision-clean.png", projectRoot)),

@@ -52,7 +52,7 @@ export async function generateMetadata(): Promise<Metadata> {
       url: origin,
       images: [
         {
-          url: `${origin}/og-v4.png`,
+          url: `${origin}/og-v5.png`,
           width: 1672,
           height: 941,
           alt: "Sameer Awaji — product-minded software engineer",
@@ -64,7 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "Sameer Awaji — Product-minded Software Engineer",
       description:
         "I build software. I care whether it works outside the demo.",
-      images: [`${origin}/og-v4.png`],
+      images: [`${origin}/og-v5.png`],
     },
   };
 }
