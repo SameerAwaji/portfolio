@@ -85,8 +85,9 @@ test("server-renders a direct software engineering position", async () => {
     .trim();
 
   assert.equal(title, "Sameer Awaji Software Engineer");
+  assert.match(html, /href=["'][^"']*\/icon\.png(?:\?[^"']*)?["']/i);
   assert.match(hero, /Software engineer working across Flutter, Laravel, and Next\.js/i);
-  assert.match(hero, /authentication, request recovery, and realtime updates/i);
+  assert.match(hero, /authentication, request recovery, and real-time updates/i);
   assert.match(hero, /View the QARAR case study/i);
   assert.match(html, /href=["']https:\/\/github\.com\/SameerAwaji["']/i);
   assert.ok(
@@ -115,32 +116,30 @@ test("makes MIP and Maeen visual live projects", async () => {
   assert.match(html, /href=["']https:\/\/maeen\.com\.sa["']/i);
   assert.match(html, /projects\/mip-home\.png/i);
   assert.match(html, /projects\/maeen-home\.png/i);
-  assert.match(liveWork, /77 to 100/i);
-  assert.match(liveWork, /4\.8 seconds.*0\.8 seconds/i);
-  assert.match(liveWork, /database-backed enquiry forms/i);
+  assert.match(liveWork, /image delivery, responsive behavior, metadata, and technical SEO/i);
+  assert.doesNotMatch(liveWork, /77.*100|4\.8|0\.8|Lighthouse performance/i);
+  assert.match(liveWork, /enquiry forms/i);
   assert.match(liveWork, /internal workflow dashboard/i);
 });
 
-test("ships a technical QARAR case study with ownership, failures, and named tests", async () => {
+test("ships a generalized QARAR case study with ownership, risks, and evidence", async () => {
   const response = await render("/work/qarar");
   assert.equal(response.status, 200);
   const html = await response.text();
   const pageText = textContent(html);
+  const title = textContent(/<title\b[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "");
 
-  assert.match(pageText, /How I addressed session and realtime reliability problems in QARAR/i);
-  assertInOrder(pageText, ["My responsibility", "Failure → change → test", "Current local verification"]);
-  assert.match(pageText, /ApiClient/i);
-  assert.match(pageText, /TokenStorage/i);
-  assert.match(pageText, /AccessTokenRotationService/i);
-  assert.match(pageText, /Observed risk/i);
+  assert.equal(title, "QARAR Reliability Case Study — Sameer Awaji");
+  assert.match(pageText, /QARAR reliability work: authentication, retries, and SSE recovery/i);
+  assertInOrder(pageText, ["My responsibility", "Risk → change → verification", "Current local verification", "Installed app screens"]);
+  assert.match(pageText, /Private team product · details generalized/i);
+  assert.match(pageText, /Reliability risk/i);
   assert.match(pageText, /What I changed/i);
-  assert.match(pageText, /api_client_auth_test\.dart/i);
-  assert.match(pageText, /api_client_sse_test\.dart/i);
-  assert.match(pageText, /openapi_contract_test\.dart/i);
-  assert.doesNotMatch(html, /<pre>/i);
+  assert.match(pageText, /internal identifiers, test filenames, endpoints, and operational timing values/i);
+  assert.match(html, /<pre>/i);
 });
 
-test("uses device-only QARAR simulator captures and states their safe path", async () => {
+test("keeps four homepage captures and reduces the case-study gallery to three", async () => {
   const homeHtml = await (await render()).text();
   const html = await (await render("/work/qarar")).text();
   const pageText = textContent(html);
@@ -148,12 +147,13 @@ test("uses device-only QARAR simulator captures and states their safe path", asy
   for (const asset of [
     "qarar-splash-clean.png",
     "qarar-login-clean.png",
-    "qarar-home-clean.png",
     "qarar-decision-clean.png",
-    "qarar-account-clean.png",
   ]) {
     assert.match(html, new RegExp(`projects\\/${asset.replace(".", "\\.")}`, "i"));
   }
+
+  assert.doesNotMatch(html, /projects\/qarar-home-clean\.png/i);
+  assert.doesNotMatch(html, /projects\/qarar-account-clean\.png/i);
 
   for (const asset of [
     "qarar-splash-clean.png",
@@ -167,20 +167,37 @@ test("uses device-only QARAR simulator captures and states their safe path", asy
   assert.match(homeHtml, /id=["']qarar-work["']/i);
   assert.match(homeHtml, /id=["']live-work["']/i);
 
-  assert.match(pageText, /Screens from the installed iOS simulator build/i);
-  assert.match(pageText, /prove the visible first-run and guest flow, not the reliability mechanisms/i);
+  assert.match(pageText, /Three points in the current iOS flow/i);
+  assert.match(pageText, /These captures show the installed app’s startup, main sign-in/i);
   assert.match(pageText, /stop before an identifier, OTP, or decision is submitted/i);
 });
 
-test("states current QARAR verification and its backend boundary", async () => {
+test("states current full-suite results, release status, and external boundary", async () => {
   const html = await (await render("/work/qarar")).text();
   const pageText = textContent(html);
 
-  assert.match(pageText, /28 \/ 28 focused Flutter tests passed/i);
+  assert.match(pageText, /1,070 Flutter tests passed/i);
+  assert.match(pageText, /13 skipped/i);
+  assert.match(pageText, /696 Laravel tests passed/i);
+  assert.match(pageText, /4,383 assertions/i);
+  assert.match(pageText, /flutter test --no-pub --reporter compact/i);
+  assert.match(pageText, /php artisan test --compact/i);
   assert.match(pageText, /13 Aug 2026/i);
   assert.match(pageText, /Flutter 3\.41\.9/i);
-  assert.match(pageText, /required local MySQL test service was unavailable/i);
-  assert.match(pageText, /do not present those backend tests as current passing evidence/i);
+  assert.match(pageText, /Merged to main; backend deployed; updated mobile release pending/i);
+  assert.match(pageText, /do not prove live SMS or email delivery/i);
+  assert.doesNotMatch(pageText, /MySQL test service was unavailable/i);
+});
+
+test("does not expose private implementation identifiers or unsupported MIP metrics", async () => {
+  const homeText = textContent(await (await render()).text());
+  const caseHtml = await (await render("/work/qarar")).text();
+  const caseText = textContent(caseHtml);
+
+  assert.doesNotMatch(homeText, /77.*100|4\.8|0\.8|sameer2study@gmail\.com/i);
+  assert.doesNotMatch(caseText, /ApiClient|TokenStorage|AccessTokenRotationService/i);
+  assert.doesNotMatch(caseText, /\.dart\b|last_id|120-second|120 second/i);
+  assert.doesNotMatch(caseText, /What failed and what I changed|Observed risk/i);
 });
 
 test("removes unsupported padding and AI-style slogans", async () => {
@@ -195,6 +212,7 @@ test("removes unsupported padding and AI-style slogans", async () => {
   assert.doesNotMatch(pageText, /Looking for an engineer who can connect product and implementation/i);
   assert.doesNotMatch(caseText, /The product, not a mockup/i);
   assert.doesNotMatch(caseText, /impossible by construction|duplicate-safe|The path remains the proof/i);
+  assert.doesNotMatch(caseText, /How I (handled|addressed)/i);
 });
 
 test("keeps the full experience path and education", async () => {
@@ -205,6 +223,8 @@ test("keeps the full experience path and education", async () => {
   assert.match(experience, /Bachelor of Software Engineering/i);
   assert.match(experience, /University of Jeddah/i);
   assert.match(experience, /4\.48 \/ 5\.0/i);
+  assert.match(experience, /I have built web software since 2023/i);
+  assert.match(experience, /I build Maeen’s public website, enquiry forms, and internal workflow tools/i);
 });
 
 test("contains no starter residue or generic AI-tool claim", async () => {
@@ -238,5 +258,6 @@ test("ships the resume, social card, and project proof assets", async () => {
     access(new URL("public/projects/qarar-home-clean.png", projectRoot)),
     access(new URL("public/projects/qarar-decision-clean.png", projectRoot)),
     access(new URL("public/projects/qarar-account-clean.png", projectRoot)),
+    access(new URL("app/icon.png", projectRoot)),
   ]);
 });

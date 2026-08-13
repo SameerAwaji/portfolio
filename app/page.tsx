@@ -6,13 +6,13 @@ const experience = [
     period: "Apr 2026–Present",
     role: "Software Engineer",
     organization: "Mrasim",
-    text: "I work across Flutter and Laravel on QARAR: clarifying requirements, aligning app and API contracts, strengthening authentication and realtime flows, testing Arabic journeys, and preparing releases.",
+    text: "I work across Flutter and Laravel on QARAR: clarifying requirements, aligning app and API contracts, strengthening authentication and real-time flows, testing Arabic journeys, and preparing releases.",
   },
   {
     period: "2025–Mar 2026",
     role: "Marketing Manager",
     organization: "MIP Marketing Agency",
-    text: "I led marketing work and rebuilt the agency website in Next.js, improving its technical SEO, asset delivery, Lighthouse performance, and LCP.",
+    text: "I led marketing work and rebuilt the agency website in Next.js, improving image delivery, responsive behavior, metadata, and technical SEO.",
   },
   {
     period: "Feb–Apr 2025",
@@ -68,7 +68,7 @@ export default function Home() {
             <h1>Software engineer working across Flutter, Laravel, and Next.js.</h1>
             <p className="hero-intro">
               At Mrasim, I work on authentication, request recovery, and
-              realtime updates for QARAR. I also build public websites and
+              real-time updates for QARAR. I also build public websites and
               internal workflow tools for Maeen, with earlier experience in
               product management and marketing.
             </p>
@@ -87,26 +87,6 @@ export default function Home() {
             </div>
           </div>
 
-          <aside className="hero-ledger" aria-label="Current work">
-            <div className="ledger-heading">
-              <span>Current work</span>
-              <span className="ledger-status">Jeddah, Saudi Arabia</span>
-            </div>
-            <dl className="snapshot-list">
-              <div className="snapshot-row">
-                <dt>Mrasim</dt>
-                <dd>Flutter and Laravel reliability work on QARAR.</dd>
-              </div>
-              <div className="snapshot-row">
-                <dt>Maeen</dt>
-                <dd>Ongoing freelance web and workflow development.</dd>
-              </div>
-              <div className="snapshot-row">
-                <dt>Recent work</dt>
-                <dd>Authentication, retry policy, Arabic SSE, and web performance.</dd>
-              </div>
-            </dl>
-          </aside>
         </section>
 
         <nav className="project-index" aria-label="Featured projects">
@@ -133,21 +113,21 @@ export default function Home() {
           <div className="shell technical-preview-grid">
             <div className="technical-preview-copy">
               <p className="section-kicker light-kicker">Featured engineering work</p>
-              <span className="status-chip status-chip-light">Private Mrasim team product</span>
+              <span className="status-chip status-chip-light">Private team product · details generalized</span>
               <h2 id="qarar-preview-title">
-                How I handled session and realtime reliability in QARAR.
+                QARAR: session refresh, retry safety, and SSE recovery.
               </h2>
               <p>
-                I changed the Flutter client and Laravel API paths used for
-                token refresh, account switching, retry decisions, and SSE
-                reconnects. The case study names the modules and tests behind
-                each part.
+                I worked on client and API behavior for token refresh, account
+                changes, retry decisions, and interrupted real-time updates.
+                The public case study explains the failure modes and current
+                verification without exposing internal identifiers.
               </p>
               <ul className="technical-points">
-                <li>One refresh shared by concurrent 401 responses</li>
-                <li>Old-account requests stop after an account switch</li>
-                <li>Arabic SSE decoded across split network chunks</li>
-                <li>28 focused Flutter tests passed on 13 Aug 2026</li>
+                <li>Concurrent 401 responses share one token refresh</li>
+                <li>Requests from an old account stop after an account change</li>
+                <li>Arabic text remains intact when an SSE chunk splits a UTF-8 character</li>
+                <li>Full Flutter and Laravel suites passed on 13 Aug 2026</li>
               </ul>
               <Link className="text-link text-link-light" href="/work/qarar">
                 Read the technical case study →
@@ -239,16 +219,15 @@ export default function Home() {
                   </a>
                 </div>
                 <p>
-                  I rebuilt the agency website in Next.js and worked on image
-                  delivery and technical SEO. My before-and-after Lighthouse
-                  runs recorded performance moving from 77 to 100 and LCP from
-                  4.8 seconds to 0.8 seconds. The original reports are not
-                  published here, so I present these as my recorded results.
+                  I rebuilt the agency website in Next.js, improving image
+                  delivery, responsive behavior, metadata, and technical SEO
+                  for a media-heavy public site.
                 </p>
-                <div className="result-pair" aria-label="MIP website results">
-                  <div><strong>77 → 100</strong><span>Lighthouse performance</span></div>
-                  <div><strong>4.8s → 0.8s</strong><span>Largest Contentful Paint</span></div>
-                </div>
+                <ul className="deliverable-list" aria-label="MIP deliverables">
+                  <li>Next.js rebuild</li>
+                  <li>Image delivery</li>
+                  <li>Responsive and technical SEO work</li>
+                </ul>
               </div>
             </article>
 
@@ -279,9 +258,9 @@ export default function Home() {
                   </a>
                 </div>
                 <p>
-                  Since 2023, I’ve built and extended Maeen’s React and
-                  Supabase website, database-backed enquiry forms, and internal
-                  workflow tools in direct collaboration with the team.
+                  I build Maeen’s public website, enquiry forms, and internal
+                  workflow tools in React and Supabase, working directly with
+                  the team.
                 </p>
                 <ul className="deliverable-list" aria-label="Maeen deliverables">
                   <li>Public React website</li>
@@ -299,8 +278,9 @@ export default function Home() {
               <p className="section-kicker">Experience</p>
               <h2>Work and education.</h2>
               <p>
-                I graduated in Software Engineering in 2024 and moved through
-                product and marketing roles into hands-on engineering.
+                I have built web software since 2023, with additional experience
+                in product management and marketing. I earned my Software
+                Engineering degree in 2024.
               </p>
               <a className="text-link" href="/Sameer_Awaji_Resume.pdf" download>
                 Download CV (PDF) →
@@ -324,8 +304,9 @@ export default function Home() {
                   <h3>Freelance Developer</h3>
                   <p className="timeline-org">Maeen · alongside employment</p>
                   <p>
-                    Public web development, database-backed forms, and internal
-                    workflow tools shaped through direct stakeholder feedback.
+                    I build Maeen’s public website, enquiry forms, and internal
+                    workflow tools in React and Supabase, working directly with
+                    the team.
                   </p>
                 </div>
               </article>
@@ -347,13 +328,6 @@ export default function Home() {
               <h2>Available for software engineering roles and selected projects.</h2>
             </div>
             <div className="contact-panel">
-              <p>
-                I’m open to software engineering and product-engineering roles,
-                as well as selected freelance projects.
-              </p>
-              <a className="contact-email" href="mailto:sameer2study@gmail.com">
-                sameer2study@gmail.com
-              </a>
               <div className="contact-links">
                 <a href="https://github.com/SameerAwaji" target="_blank" rel="noreferrer">GitHub ↗</a>
                 <a href="https://linkedin.com/in/sameer-awaji-6a0986211" target="_blank" rel="noreferrer">LinkedIn ↗</a>
