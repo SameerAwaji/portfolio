@@ -8,11 +8,11 @@ by product, marketing, and project-delivery experience.
 
 The homepage is ordered for fast recruiter scanning:
 
-1. concise product-minded engineering position and prominent GitHub link;
+1. concise engineering position with a role-focused contact action;
 2. three visual project stories with a shared evidence structure and distinct
    project-specific visual worlds;
-3. a short personal section and complete professional experience;
-4. contact links for LinkedIn, email, and GitHub.
+3. formal employment followed by clearly separated concurrent freelance work;
+4. a short personal section and contact links for LinkedIn, email, and GitHub.
 
 The legacy QARAR route at `app/work/qarar/page.tsx` redirects to its section on
 the homepage so the public story remains in one place.
@@ -53,7 +53,8 @@ portfolio into a changelog or test dashboard.
 
 ## Public assets
 
-- `public/Sameer_Awaji_Resume.pdf` — downloadable resume
+- `public/Sameer_Awaji_Resume.pdf` — downloadable one-page resume, kept aligned
+  with the latest verified portfolio figures
 - `public/og-v5.png` — social-preview visual
 - `public/projects/` — live website and non-sensitive simulator captures
 

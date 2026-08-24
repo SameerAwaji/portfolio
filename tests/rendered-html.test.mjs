@@ -88,12 +88,15 @@ test("renders a direct and distinctive engineering position", async () => {
     .replace(/[^\p{L}\p{N}]+/gu, " ")
     .trim();
 
-  assert.equal(title, "Sameer Awaji Product minded Software Engineer");
+  assert.equal(title, "Sameer Awaji Software Engineer");
   assert.match(hero, /I build software\. I care whether it works outside the demo/i);
   assert.match(hero, /where the real problem is bigger than the first request/i);
+  assert.match(hero, /Flutter, Laravel, React, and Next\.js/i);
   assert.match(hero, /Building software at Mrasim/i);
+  assert.match(hero, /Discuss an engineering role/i);
   assert.match(pageText, /Work I can show/i);
   assert.match(html, /href=["']https:\/\/github\.com\/SameerAwaji["']/i);
+  assert.match(html, /href=["']mailto:sameer2study@gmail\.com\?subject=Engineering%20role["']/i);
 });
 
 test("keeps the entire portfolio in one coherent page", async () => {
@@ -105,8 +108,8 @@ test("keeps the entire portfolio in one coherent page", async () => {
     "Mrasim",
     "Maeen",
     "MIP",
-    "A little more like me",
     "Experience",
+    "A little more like me",
     "Contact",
   ]);
   assert.match(html, /id=["']work["']/i);
@@ -190,11 +193,18 @@ test("keeps the full experience path and education", async () => {
   const html = await (await render()).text();
   const experience = textContent(elementContent(html, "section", "experience"));
 
-  assertInOrder(experience, ["Mrasim", "Maeen", "MIP Marketing Agency", "Nana"]);
+  assertInOrder(experience, [
+    "Employment",
+    "Mrasim",
+    "MIP Marketing Agency",
+    "Nana",
+    "Concurrent freelance work",
+    "Maeen",
+  ]);
   assert.match(experience, /Bachelor of Software Engineering/i);
   assert.match(experience, /University of Jeddah/i);
   assert.match(experience, /4\.48 \/ 5\.0/i);
-  assert.match(experience, /Developer & AI Tutor/i);
+  assert.match(experience, /Freelance Developer & AI Tutor/i);
 });
 
 test("stays concise and avoids unsupported padding", async () => {
@@ -237,6 +247,17 @@ test("contains no starter residue", async () => {
   assert.doesNotMatch(caseSource, /codex-preview|SkeletonPreview|_sites-preview/i);
   assert.doesNotMatch(layoutSource, /Starter Project|codex-preview|_sites-preview/i);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/i);
+});
+
+test("keeps the resume source aligned with the latest Maeen figures", async () => {
+  const resumeSource = await readFile(
+    new URL("scripts/build_resume.py", projectRoot),
+    "utf8",
+  );
+
+  assert.match(resumeSource, /40\+ active team users/i);
+  assert.match(resumeSource, /1,400\+ students/i);
+  assert.doesNotMatch(resumeSource, /60\+ users/i);
 });
 
 test("ships the resume, brand, social card, and project proof assets", async () => {

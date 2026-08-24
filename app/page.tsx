@@ -1,7 +1,7 @@
 import Image from "next/image";
 import ScrollMotion from "./scroll-motion";
 
-const experience = [
+const employment = [
   {
     period: "2026—Now",
     role: "Software Engineering",
@@ -9,13 +9,7 @@ const experience = [
     note: "Product engineering across mobile, backend, internal tools, and project work.",
   },
   {
-    period: "2023—Now",
-    role: "Developer & AI Tutor",
-    organization: "Maeen",
-    note: "Student journeys, internal operations, websites, and learning activities.",
-  },
-  {
-    period: "2025—2026",
+    period: "2025—Mar 2026",
     role: "Marketing & Business Development",
     organization: "MIP Marketing Agency",
     note: "Team support, management, business development, and technology adoption.",
@@ -25,6 +19,15 @@ const experience = [
     role: "Product Manager Intern",
     organization: "Nana",
     note: "Research, product documentation, and acceptance testing.",
+  },
+];
+
+const freelance = [
+  {
+    period: "2023—Now",
+    role: "Freelance Developer & AI Tutor",
+    organization: "Maeen",
+    note: "Student journeys, internal operations, websites, and learning activities.",
   },
 ];
 
@@ -43,8 +46,9 @@ export default function Home() {
           </a>
           <nav className="primary-nav" aria-label="Primary navigation">
             <a href="#work">Work</a>
-            <a href="#about">About</a>
             <a href="#experience">Experience</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
           </nav>
           <a className="header-cv" href="/Sameer_Awaji_Resume.pdf" download>
             CV <span aria-hidden="true">↓</span>
@@ -59,17 +63,21 @@ export default function Home() {
               00
             </div>
             <div className="hero-main" data-reveal>
-              <p className="eyebrow">Software engineer · Jeddah</p>
+              <p className="eyebrow">Software engineer · Arabic &amp; English · Jeddah</p>
               <h1>I build software. I care whether it works outside the demo.</h1>
               <p className="hero-lead">
-                I’m Sameer. I work across mobile, web, backend systems, and
-                product decisions—usually where the real problem is bigger than
-                the first request.
+                I’m Sameer. I work across Flutter, Laravel, React, and Next.js—from
+                Arabic user journeys to APIs and release checks—usually where the
+                real problem is bigger than the first request.
               </p>
               <div className="hero-links">
-                <a className="arrow-link" href="#work">
-                  See the work <span aria-hidden="true">↘</span>
+                <a
+                  className="arrow-link"
+                  href="mailto:sameer2study@gmail.com?subject=Engineering%20role"
+                >
+                  Discuss an engineering role <span aria-hidden="true">↗</span>
                 </a>
+                <a className="plain-link" href="#work">See the work ↘</a>
                 <a
                   className="plain-link"
                   href="https://github.com/SameerAwaji"
@@ -361,9 +369,53 @@ export default function Home() {
           </article>
         </section>
 
+        <section className="experience-section page" id="experience" aria-labelledby="experience-title">
+          <div className="section-index" aria-hidden="true">02</div>
+          <div className="experience-heading" data-reveal>
+            <p className="eyebrow">Experience</p>
+            <h2 id="experience-title">The route here wasn’t a straight line.</h2>
+            <p>
+              Bachelor of Software Engineering, University of Jeddah · 2024 ·
+              GPA 4.48 / 5.0
+            </p>
+          </div>
+          <div className="experience-groups">
+            <div className="experience-group">
+              <p className="experience-group-label">Employment</p>
+              <div className="experience-list">
+                {employment.map((item) => (
+                  <article key={`${item.role}-${item.period}`} data-reveal>
+                    <span>{item.period}</span>
+                    <div>
+                      <h3>{item.role}</h3>
+                      <p className="experience-org">{item.organization}</p>
+                    </div>
+                    <p>{item.note}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+            <div className="experience-group">
+              <p className="experience-group-label">Concurrent freelance work</p>
+              <div className="experience-list">
+                {freelance.map((item) => (
+                  <article key={`${item.role}-${item.period}`} data-reveal>
+                    <span>{item.period}</span>
+                    <div>
+                      <h3>{item.role}</h3>
+                      <p className="experience-org">{item.organization}</p>
+                    </div>
+                    <p>{item.note}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="about-section" id="about" aria-labelledby="about-title">
           <div className="page about-layout">
-            <div className="section-index section-index-light" aria-hidden="true">02</div>
+            <div className="section-index section-index-light" aria-hidden="true">03</div>
             <div className="about-main" data-reveal>
               <p className="eyebrow">A little more like me</p>
               <h2 id="about-title">I’m thoughtful before I’m loud.</h2>
@@ -387,30 +439,6 @@ export default function Home() {
                 <p>Eminem → Billie Eilish → Sherine → Abdel Halim.</p>
               </div>
             </aside>
-          </div>
-        </section>
-
-        <section className="experience-section page" id="experience" aria-labelledby="experience-title">
-          <div className="section-index" aria-hidden="true">03</div>
-          <div className="experience-heading" data-reveal>
-            <p className="eyebrow">Experience</p>
-            <h2 id="experience-title">The route here wasn’t a straight line.</h2>
-            <p>
-              Bachelor of Software Engineering, University of Jeddah · 2024 ·
-              GPA 4.48 / 5.0
-            </p>
-          </div>
-          <div className="experience-list">
-            {experience.map((item) => (
-              <article key={`${item.role}-${item.period}`} data-reveal>
-                <span>{item.period}</span>
-                <div>
-                  <h3>{item.role}</h3>
-                  <p className="experience-org">{item.organization}</p>
-                </div>
-                <p>{item.note}</p>
-              </article>
-            ))}
           </div>
         </section>
 

@@ -1087,6 +1087,21 @@ a:focus-visible {
   font-size: 14px;
 }
 
+.experience-groups {
+  display: grid;
+  gap: 46px;
+}
+
+.experience-group-label {
+  margin-bottom: 12px;
+  color: var(--olive-mid);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .experience-list {
   border-top: 1px solid var(--ink);
 }
@@ -1600,6 +1615,10 @@ a:focus-visible {
 
   .experience-heading {
     margin-bottom: 46px;
+  }
+
+  .experience-groups {
+    gap: 36px;
   }
 
   .experience-list article {

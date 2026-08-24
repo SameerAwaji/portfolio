@@ -54,6 +54,7 @@ BODY = paragraph_style("Body")
 SUMMARY = paragraph_style("Summary", size=9.1, leading=12.4, color=INK)
 BULLET = paragraph_style("Bullet", size=8.35, leading=10.7)
 SKILL = paragraph_style("Skill", size=8.2, leading=10.5)
+METRIC_LABEL = paragraph_style("Metric label", size=7.25, leading=8.7)
 
 
 def draw_paragraph(pdf, text: str, x: float, y_top: float, width: float, style=BODY):
@@ -193,7 +194,7 @@ def build_resume():
         "2023 - Present",
         [
             "Develop and maintain Maeen's React and Supabase website, database-backed forms, and internal workflows as an independent freelancer.",
-            "Work directly with stakeholders on requirements and feedback; delivered an internal dashboard built to support 60+ users.",
+            "For the latest summer program, delivered a custom sign-up form and team dashboard used by 40+ active team users; the wider program benefited 1,400+ students.",
         ],
     )
 
@@ -220,7 +221,7 @@ def build_resume():
     metrics = [
         ("77 to 100", "Lighthouse score on MIP"),
         ("4.8s to 0.8s", "LCP on the MIP rebuild"),
-        ("60+", "Maeen dashboard built to support 60+ users"),
+        ("40+ / 1,400+", "Team users / students in the latest Maeen program"),
     ]
     metric_gap = 9
     metric_width = (CONTENT_W - (metric_gap * 2)) / 3
@@ -233,11 +234,9 @@ def build_resume():
         pdf.setFillColor(AMBER)
         pdf.rect(x, y - 3, metric_width, 3, stroke=0, fill=1)
         pdf.setFillColor(INK)
-        pdf.setFont("Helvetica-Bold", 16)
+        pdf.setFont("Helvetica-Bold", 15)
         pdf.drawString(x + 11, y - 25, metric)
-        pdf.setFillColor(SOFT)
-        pdf.setFont("Helvetica", 7.6)
-        pdf.drawString(x + 11, y - 42, label)
+        draw_paragraph(pdf, label, x + 11, y - 33, metric_width - 22, METRIC_LABEL)
 
     pdf.setStrokeColor(AMBER)
     pdf.setLineWidth(2)
