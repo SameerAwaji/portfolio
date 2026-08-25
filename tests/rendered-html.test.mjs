@@ -76,7 +76,7 @@ function assertInOrder(text, labels) {
   }
 }
 
-test("renders a direct and distinctive engineering position", async () => {
+test("renders a short engineering introduction", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -89,12 +89,12 @@ test("renders a direct and distinctive engineering position", async () => {
     .trim();
 
   assert.equal(title, "Sameer Awaji Software Engineer");
-  assert.match(hero, /I build software\. I care whether it works outside the demo/i);
-  assert.match(hero, /where the real problem is bigger than the first request/i);
-  assert.match(hero, /Flutter, Laravel, React, and Next\.js/i);
-  assert.match(hero, /Building software at Mrasim/i);
-  assert.match(hero, /Discuss an engineering role/i);
-  assert.match(pageText, /Work I can show/i);
+  assert.match(hero, /I build mobile apps, web products, and backend systems/i);
+  assert.match(hero, /Flutter, Laravel, React, Next\.js, and Vue/i);
+  assert.match(hero, /Software engineer at Mrasim/i);
+  assert.match(hero, /Email me/i);
+  assert.match(pageText, /Selected projects/i);
+  assert.doesNotMatch(hero, /real problem is bigger|outside the demo/i);
   assert.match(html, /href=["']https:\/\/github\.com\/SameerAwaji["']/i);
   assert.match(html, /href=["']mailto:sameer2study@gmail\.com\?subject=Engineering%20role["']/i);
 });
@@ -104,13 +104,13 @@ test("keeps the entire portfolio in one coherent page", async () => {
   const pageText = textContent(html);
 
   assertInOrder(pageText, [
-    "Selected work",
+    "Selected projects",
     "Mrasim",
     "Maeen",
     "MIP",
     "Numo Ads",
     "Experience",
-    "A little more like me",
+    "About",
     "Contact",
   ]);
   assert.match(html, /id=["']work["']/i);
@@ -120,17 +120,15 @@ test("keeps the entire portfolio in one coherent page", async () => {
   assert.doesNotMatch(html, /href=["']\/work\/qarar["']/i);
 });
 
-test("presents QARAR with concise, bounded evidence", async () => {
+test("presents QARAR without case-study narration", async () => {
   const html = await (await render()).text();
   const project = textContent(elementContent(html, "article", "mrasim"));
 
-  assert.match(project, /QARAR: mobile and backend reliability/i);
-  assert.match(project, /A public example from my wider work at Mrasim/i);
-  assert.match(project, /Flutter and Laravel changes around sessions, recovery, and live updates/i);
+  assert.match(project, /QARAR/i);
+  assert.match(project, /Flutter and Laravel work on sessions, account recovery, and live updates/i);
   assertInOrder(project, ["Flutter", "Laravel", "Arabic UX"]);
-  assertInOrder(project, ["What I built", "My contribution", "How I checked it"]);
-  assert.match(project, /complete local Flutter and Laravel suites passed/i);
-  assert.match(project, /Live providers and deployed behavior remain separate checks/i);
+  assert.match(project, /Private project · simulator screens/i);
+  assert.doesNotMatch(project, /What I built|My contribution|How I checked it/i);
   assert.doesNotMatch(project, /ApiClient|TokenStorage|AccessTokenRotationService|last_id/i);
   assert.match(html, /brands\/mrasim-logo-white\.svg/i);
   assert.match(html, /href=["']https:\/\/mrasim\.sa["']/i);
@@ -149,56 +147,57 @@ test("presents the verified Maeen journey and latest program impact", async () =
   const pageText = textContent(html);
 
   assert.match(html, /href=["']https:\/\/maeen\.com\.sa["']/i);
-  assert.match(pageText, /I joined as a student\. Now I teach and build for Maeen/i);
+  assert.match(pageText, /Student, teacher, then developer/i);
   assertInOrder(pageText, ["2018", "Student", "Teacher", "Developer"]);
   assert.match(pageText, /40\+ active team users/i);
   assert.match(pageText, /1,400\+ students benefited in the latest summer program/i);
-  assert.match(pageText, /Maeen-specific summer-program form and a dashboard/i);
-  assert.match(pageText, /keeping registrations in the Google Drive workflow/i);
-  assert.match(pageText, /screenshots are from the real 2026 summer-program pages/i);
+  assert.match(pageText, /Built the summer-program registration flow and an internal dashboard/i);
+  assert.match(pageText, /keeping the team’s Google Drive workflow/i);
+  assert.match(pageText, /Real 2026 program pages shown above/i);
   assert.doesNotMatch(pageText, /5,?000\+|200\+ users/i);
   assert.match(html, /projects\/maeen-summer-home\.png/i);
   assert.match(html, /projects\/maeen-summer-form\.png/i);
   assert.match(html, /projects\/maeen-summer-program\.png/i);
 });
 
-test("frames the MIP website as one part of the wider role", async () => {
+test("keeps the MIP project factual and brief", async () => {
   const html = await (await render()).text();
   const pageText = textContent(html);
 
   assert.match(html, /href=["']https:\/\/mipksa\.com["']/i);
   assert.match(html, /projects\/mip-home\.png/i);
   assert.match(html, /class=["'][^"']*mip-browser[^"']*["']/i);
-  assert.match(pageText, /migrated the MIP website from WordPress to Next\.js/i);
-  assert.match(pageText, /broader work across business development, team support, management, and technology adoption/i);
-  assert.match(pageText, /public website linked above/i);
+  assert.match(pageText, /migrated mipksa\.com from WordPress to Next\.js/i);
+  assert.doesNotMatch(pageText, /broader work across|public website linked above/i);
   assert.doesNotMatch(pageText, /77.*100|4\.8|0\.8|60\+ users/i);
 });
 
-test("presents Numo Ads as a private locally validated build", async () => {
+test("presents the actual Numo Ads prototype in plain language", async () => {
   const html = await (await render()).text();
   const project = textContent(elementContent(html, "article", "numo"));
 
   assert.match(project, /Numo Ads نمو ادز/i);
-  assert.match(project, /Personal product · Private build/i);
-  assertInOrder(project, ["Vue 3", "Laravel 12", "Arabic RTL"]);
-  assert.match(project, /complete path is locally validated against deterministic HTTP simulators/i);
-  assert.match(project, /protected vertical MP4 exports/i);
-  assert.match(project, /Real ad publication, spend, provider approval/i);
-  assert.match(project, /live Numo Store or Studio integrations are not claimed/i);
+  assert.match(project, /Personal project/i);
+  assert.match(project, /Local prototype/i);
+  assertInOrder(project, ["Vue 3", "Laravel 12", "MySQL"]);
+  assert.match(project, /Arabic-first prototype for Snapchat campaigns/i);
+  assert.match(project, /Campaign setup · Content Lab · Reports/i);
+  assert.match(project, /1080 × 1920 MP4 · 60 FPS/i);
+  assert.match(project, /Local simulators · no live ad spend/i);
+  assert.doesNotMatch(project, /What I built|What works today|Scope/i);
   assert.doesNotMatch(project, /production-ready|live campaigns|real provider integration/i);
 });
 
-test("keeps the personal section short and specific", async () => {
+test("keeps the personal section short and removes music", async () => {
   const html = await (await render()).text();
   const about = textContent(elementContent(html, "section", "about"));
 
-  assert.match(about, /I’m thoughtful before I’m loud/i);
-  assert.match(about, /engineering, product, marketing, and teaching/i);
-  assert.match(about, /without mistaking a rewrite for progress/i);
+  assert.match(about, /Sameer Awaji/i);
+  assert.match(about, /Software engineer in Jeddah/i);
+  assert.match(about, /product, marketing, and teaching/i);
+  assert.match(about, /Jeddah, Saudi Arabia/i);
+  assert.match(about, /Arabic and English/i);
   assert.doesNotMatch(about, /I use AI in almost everything I build/i);
-  assert.match(about, /Build it, test it, explain it, then find what I missed/i);
-  assert.match(about, /Calm over noise\. Direct over impressive/i);
   assert.doesNotMatch(about, /Playlist whiplash|Eminem|Billie Eilish|Sherine|Abdel Halim/i);
   assert.doesNotMatch(about, /Intellection|Achiever|Responsibility|Harmony|Relator|DISC/i);
   assert.doesNotMatch(about, /innovative|passionate|results-driven|unique blend|leverage AI/i);
@@ -227,9 +226,10 @@ test("stays concise and avoids unsupported padding", async () => {
   const pageText = textContent(html);
 
   assert.ok(
-    wordCount(pageText) < 700,
-    `Expected homepage under 700 words, received ${wordCount(pageText)}`,
+    wordCount(pageText) < 500,
+    `Expected homepage under 500 words, received ${wordCount(pageText)}`,
   );
+  assert.doesNotMatch(pageText, /What I built|My contribution|How I checked it|What works today/i);
   assert.doesNotMatch(pageText, /Automatic Marketing|While It Runs|Rescuel/i);
   assert.doesNotMatch(pageText, /repository commits|69 commits|29 commits/i);
   assert.match(html, /href=["']mailto:sameer2study@gmail\.com["']/i);

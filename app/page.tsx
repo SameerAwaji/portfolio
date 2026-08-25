@@ -6,13 +6,13 @@ const employment = [
     period: "2026—Now",
     role: "Software Engineering",
     organization: "Mrasim",
-    note: "Product engineering across mobile, backend, internal tools, and project work.",
+    note: "Flutter, Laravel, internal tools, and Arabic products.",
   },
   {
     period: "2025—Mar 2026",
     role: "Marketing & Business Development",
     organization: "MIP Marketing Agency",
-    note: "Team support, management, business development, and technology adoption.",
+    note: "Marketing management, business development, and website work.",
   },
   {
     period: "2025",
@@ -27,7 +27,7 @@ const freelance = [
     period: "2023—Now",
     role: "Freelance Developer & AI Tutor",
     organization: "Maeen",
-    note: "Student journeys, internal operations, websites, and learning activities.",
+    note: "Teaching, registration tools, websites, and learning activities.",
   },
 ];
 
@@ -46,7 +46,6 @@ export default function Home() {
           </a>
           <nav className="primary-nav" aria-label="Primary navigation">
             <a href="#work">Work</a>
-            <a href="#numo">Numo</a>
             <a href="#experience">Experience</a>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
@@ -64,21 +63,20 @@ export default function Home() {
               00
             </div>
             <div className="hero-main" data-reveal>
-              <p className="eyebrow">Software engineer · Arabic &amp; English · Jeddah</p>
-              <h1>I build software. I care whether it works outside the demo.</h1>
+              <p className="eyebrow">Software engineer · Jeddah · Arabic / English</p>
+              <h1>I build mobile apps, web products, and backend systems.</h1>
               <p className="hero-lead">
-                I’m Sameer. I work across Flutter, Laravel, React, and Next.js—from
-                Arabic user journeys to APIs and release checks—usually where the
-                real problem is bigger than the first request.
+                Flutter, Laravel, React, Next.js, and Vue. I build product features,
+                APIs, internal tools, and Arabic user journeys.
               </p>
               <div className="hero-links">
                 <a
                   className="arrow-link"
                   href="mailto:sameer2study@gmail.com?subject=Engineering%20role"
                 >
-                  Discuss an engineering role <span aria-hidden="true">↗</span>
+                  Email me <span aria-hidden="true">↗</span>
                 </a>
-                <a className="plain-link" href="#work">See the work ↘</a>
+                <a className="plain-link" href="#work">Projects ↘</a>
                 <a
                   className="plain-link"
                   href="https://github.com/SameerAwaji"
@@ -90,9 +88,9 @@ export default function Home() {
               </div>
             </div>
             <aside className="now-note" data-reveal>
-              <span>Right now</span>
-              <strong>Building software at Mrasim</strong>
-              <p>Flutter, Laravel, internal tools, and Arabic user journeys.</p>
+              <span>Current</span>
+              <strong>Software engineer at Mrasim</strong>
+              <p>Flutter · Laravel · internal tools</p>
             </aside>
             <a className="scroll-cue" href="#work" aria-label="Scroll to selected work">
               <span>Scroll</span>
@@ -104,13 +102,13 @@ export default function Home() {
         <section className="work-section page" id="work" aria-labelledby="work-title">
           <div className="section-index" aria-hidden="true">01</div>
           <div className="section-heading" data-reveal>
-            <p className="eyebrow">Selected work</p>
-            <h2 id="work-title">Work I can show.</h2>
+            <p className="eyebrow">Work</p>
+            <h2 id="work-title">Selected projects.</h2>
           </div>
 
           <article className="organization mrasim-work" id="mrasim">
             <header className="organization-heading" data-reveal>
-              <div className="organization-number">01 / Current role</div>
+              <div className="organization-number">01</div>
               <div className="mrasim-lockup">
                 <Image
                   src="/brands/mrasim-logo-white.svg"
@@ -121,8 +119,8 @@ export default function Home() {
                 />
               </div>
               <div className="organization-title">
-                <p>Software engineering · Mrasim</p>
-                <h3>QARAR: mobile and backend reliability.</h3>
+                <p>Mrasim · current role</p>
+                <h3>QARAR</h3>
               </div>
               <a
                 className="organization-link"
@@ -168,49 +166,26 @@ export default function Home() {
               </div>
 
               <div className="project-notes" data-reveal>
-                <div className="project-intro-group">
-                  <div className="qarar-stack" aria-label="QARAR technology and product context">
-                    <span>Flutter</span>
-                    <span>Laravel</span>
-                    <span>Arabic UX</span>
-                  </div>
-                  <p className="project-intro">
-                    A public example from my wider work at Mrasim.
-                  </p>
+                <div className="qarar-stack" aria-label="QARAR technology and product context">
+                  <span>Flutter</span>
+                  <span>Laravel</span>
+                  <span>Arabic UX</span>
                 </div>
-                <dl className="note-list">
-                  <div>
-                    <dt>What I built</dt>
-                    <dd>
-                      Flutter and Laravel changes around sessions, recovery, and
-                      live updates.
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>My contribution</dt>
-                    <dd>
-                      One recovery path stays in control, and risky actions are
-                      not replayed when they may already have completed.
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>How I checked it</dt>
-                    <dd>
-                      The complete local Flutter and Laravel suites passed. Live
-                      providers and deployed behavior remain separate checks.
-                    </dd>
-                  </div>
-                </dl>
+                <p className="project-summary">
+                  Flutter and Laravel work on sessions, account recovery, and live
+                  updates.
+                </p>
+                <p className="project-meta">Private project · simulator screens</p>
               </div>
             </div>
           </article>
 
           <article className="organization maeen-work" id="maeen">
             <header className="organization-heading" data-reveal>
-              <div className="organization-number">02 / Ongoing</div>
+              <div className="organization-number">02</div>
               <div className="organization-title">
-                <p>Development + teaching · Maeen</p>
-                <h3>I joined as a student. Now I teach and build for Maeen.</h3>
+                <p>Maeen · freelance</p>
+                <h3>Student, teacher, then developer.</h3>
               </div>
               <a
                 className="organization-link"
@@ -290,33 +265,21 @@ export default function Home() {
               </figure>
             </div>
 
-            <dl className="note-list note-list-wide" data-reveal>
-              <div>
-                <dt>What I built</dt>
-                <dd>A Maeen-specific summer-program form and a dashboard for the team.</dd>
-              </div>
-              <div>
-                <dt>My contribution</dt>
-                <dd>
-                  I replaced the generic student-facing form while keeping
-                  registrations in the Google Drive workflow the team already used.
-                </dd>
-              </div>
-              <div>
-                <dt>How I checked it</dt>
-                <dd>
-                  The screenshots are from the real 2026 summer-program pages.
-                </dd>
-              </div>
-            </dl>
+            <div className="project-copy" data-reveal>
+              <p className="project-summary">
+                Built the summer-program registration flow and an internal dashboard
+                while keeping the team’s Google Drive workflow.
+              </p>
+              <p className="project-meta">Real 2026 program pages shown above</p>
+            </div>
           </article>
 
           <article className="organization mip-work" id="mip">
             <header className="organization-heading" data-reveal>
-              <div className="organization-number">03 / Previous role</div>
+              <div className="organization-number">03</div>
               <div className="organization-title">
-                <p>Business development + marketing management · MIP</p>
-                <h3>A Next.js website project inside a wider business role.</h3>
+                <p>MIP · previous role</p>
+                <h3>Website rebuild</h3>
               </div>
               <a
                 className="organization-link"
@@ -350,118 +313,50 @@ export default function Home() {
               </a>
             </div>
 
-            <dl className="note-list note-list-wide" data-reveal>
-              <div>
-                <dt>What I built</dt>
-                <dd>I migrated the MIP website from WordPress to Next.js.</dd>
-              </div>
-              <div>
-                <dt>My contribution</dt>
-                <dd>
-                  The website was one part of broader work across business
-                  development, team support, management, and technology adoption.
-                </dd>
-              </div>
-              <div>
-                <dt>How I checked it</dt>
-                <dd>The screenshot is from the public website linked above.</dd>
-              </div>
-            </dl>
+            <div className="project-copy" data-reveal>
+              <p className="project-summary">
+                Migrated mipksa.com from WordPress to Next.js.
+              </p>
+            </div>
           </article>
 
           <article className="organization numo-work" id="numo">
             <header className="organization-heading" data-reveal>
-              <div className="organization-number">04 / Current build</div>
+              <div className="organization-number">04</div>
               <div className="organization-title">
-                <p>Personal product · Private build</p>
+                <p>Personal project</p>
                 <h3>
                   Numo Ads <span className="numo-title-ar" lang="ar" dir="rtl">نمو ادز</span>
                 </h3>
               </div>
-              <div className="organization-status">Locally validated</div>
+              <div className="organization-status">Local prototype</div>
             </header>
 
-            <div className="numo-layout">
-              <div
-                className="numo-system reveal-media"
-                data-reveal
-                aria-label="Numo Ads four-stage customer journey"
-              >
-                <div className="numo-system-head">
-                  <span>Numo Ads</span>
-                  <strong lang="ar" dir="rtl">نمو ادز</strong>
-                </div>
-                <ol className="numo-stages">
-                  <li>
-                    <small>01</small>
-                    <div>
-                      <strong lang="ar" dir="rtl">اختيار المشروع</strong>
-                      <span>Project selection</span>
-                    </div>
-                  </li>
-                  <li>
-                    <small>02</small>
-                    <div>
-                      <strong lang="ar" dir="rtl">تجهيز المحتوى</strong>
-                      <span>Content preparation</span>
-                    </div>
-                  </li>
-                  <li>
-                    <small>03</small>
-                    <div>
-                      <strong lang="ar" dir="rtl">نشر الحملة</strong>
-                      <span>Campaign publishing</span>
-                    </div>
-                  </li>
-                  <li>
-                    <small>04</small>
-                    <div>
-                      <strong lang="ar" dir="rtl">التسويق</strong>
-                      <span>Marketing and reporting</span>
-                    </div>
-                  </li>
-                </ol>
-                <p className="numo-boundary">
-                  <span>LOCAL_VALIDATED</span>
-                  Synthetic provider evidence
-                </p>
+            <div className="numo-card" data-reveal>
+              <div className="numo-brand">
+                <span>Numo Ads</span>
+                <strong lang="ar" dir="rtl">نمو ادز</strong>
               </div>
-
-              <div className="project-notes" data-reveal>
-                <div className="project-intro-group">
-                  <div className="qarar-stack numo-stack" aria-label="Numo Ads technology stack">
-                    <span>Vue 3</span>
-                    <span>Laravel 12</span>
-                    <span>Arabic RTL</span>
-                  </div>
-                  <p className="project-intro">
-                    A private Arabic-first workspace for the campaign journey
-                    from project selection through reporting.
-                  </p>
+              <div className="numo-details">
+                <div className="qarar-stack numo-stack" aria-label="Numo Ads technology stack">
+                  <span>Vue 3</span>
+                  <span>Laravel 12</span>
+                  <span>MySQL</span>
                 </div>
-                <dl className="note-list">
+                <p className="project-summary">
+                  Arabic-first prototype for Snapchat campaigns.
+                </p>
+                <dl className="numo-facts">
                   <div>
-                    <dt>What I built</dt>
-                    <dd>
-                      A Vue customer app and Laravel modular monolith for
-                      campaign, content, finance, and report workflows.
-                    </dd>
+                    <dt>Product</dt>
+                    <dd>Campaign setup · Content Lab · Reports</dd>
                   </div>
                   <div>
-                    <dt>What works today</dt>
-                    <dd>
-                      The complete path is locally validated against deterministic
-                      HTTP simulators, including protected vertical MP4 exports.
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Scope</dt>
-                    <dd>
-                      Real ad publication, spend, provider approval, and live Numo
-                      Store or Studio integrations are not claimed.
-                    </dd>
+                    <dt>Export</dt>
+                    <dd>1080 × 1920 MP4 · 60 FPS</dd>
                   </div>
                 </dl>
+                <p className="project-meta">Local simulators · no live ad spend</p>
               </div>
             </div>
           </article>
@@ -471,7 +366,7 @@ export default function Home() {
           <div className="section-index" aria-hidden="true">02</div>
           <div className="experience-heading" data-reveal>
             <p className="eyebrow">Experience</p>
-            <h2 id="experience-title">The route here wasn’t a straight line.</h2>
+            <h2 id="experience-title">Work history.</h2>
             <p>
               Bachelor of Software Engineering, University of Jeddah · 2024 ·
               GPA 4.48 / 5.0
@@ -515,22 +410,21 @@ export default function Home() {
           <div className="page about-layout">
             <div className="section-index section-index-light" aria-hidden="true">03</div>
             <div className="about-main" data-reveal>
-              <p className="eyebrow">A little more like me</p>
-              <h2 id="about-title">I’m thoughtful before I’m loud.</h2>
+              <p className="eyebrow">About</p>
+              <h2 id="about-title">Sameer Awaji.</h2>
               <p>
-                My path has moved through engineering, product, marketing, and
-                teaching. I try to understand the person and the system, then
-                make the two meet—without mistaking a rewrite for progress.
+                Software engineer in Jeddah. I’ve also worked in product,
+                marketing, and teaching.
               </p>
             </div>
             <aside className="personal-notes" data-reveal aria-label="Personal notes">
               <div>
-                <span>Temperament</span>
-                <p>Calm over noise. Direct over impressive.</p>
+                <span>Based in</span>
+                <p>Jeddah, Saudi Arabia</p>
               </div>
               <div>
-                <span>How I learn</span>
-                <p>Build it, test it, explain it, then find what I missed.</p>
+                <span>Languages</span>
+                <p>Arabic and English</p>
               </div>
             </aside>
           </div>
@@ -544,8 +438,7 @@ export default function Home() {
             </div>
             <div className="contact-copy">
               <p>
-                I’m open to software and product-engineering roles, and a small
-                number of freelance projects.
+                Open to software engineering and product-engineering roles.
               </p>
               <div className="contact-links">
                 <a href="https://linkedin.com/in/sameer-awaji-6a0986211" target="_blank" rel="noreferrer">LinkedIn ↗</a>

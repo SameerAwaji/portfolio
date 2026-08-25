@@ -1,18 +1,16 @@
 # Sameer Awaji — Portfolio
 
 Sameer Awaji’s personal portfolio, built with Next.js, React, TypeScript, and
-vinext. The site presents an honest early-career engineering profile supported
-by product, marketing, and project-delivery experience.
+vinext.
 
 ## Portfolio structure
 
-The homepage is ordered for fast recruiter scanning:
+The homepage contains:
 
-1. concise engineering position with a role-focused contact action;
-2. three organizational project stories plus the current private Numo Ads build,
-   all with explicit evidence boundaries;
-3. formal employment followed by clearly separated concurrent freelance work;
-4. a short personal section and contact links for LinkedIn, email, and GitHub.
+1. a short engineering introduction;
+2. QARAR, Maeen, MIP, and Numo Ads;
+3. employment and freelance experience;
+4. a brief about section and contact links.
 
 The legacy QARAR route at `app/work/qarar/page.tsx` redirects to its section on
 the homepage so the public story remains in one place.
@@ -27,16 +25,16 @@ Keep these distinctions intact whenever the portfolio is updated:
   public Next.js website rebuild as an additional engineering contribution.
 - Nana was a Product Manager internship.
 - Maeen is ongoing freelance work that began in 2023, not employment.
-- Numo Ads is a personal private build, separate from Mrasim, MIP, and Maeen.
-  Its complete path is locally validated against deterministic simulators; real
-  ad publication, spend, provider approval, and live Numo integrations remain
-  unproven.
+- Numo Ads is the personal `Numo-Ads-prototype` project. It is an Arabic-first
+  Vue 3 and Laravel 12 prototype for Snapchat campaign setup, Content Lab,
+  1080 × 1920 / 60 FPS export, and reports. It uses local simulators and has no
+  live ad-spend claim.
 
 ## Evidence conventions
 
-Lead with the implementation and why it mattered. Avoid repository activity
-counts, headline test totals, intended-capacity metrics, and repeated defensive
-disclaimers.
+Use short, factual copy. Do not add case-study headings such as “What I built,”
+“My contribution,” or “How I checked it.” Avoid repository activity counts,
+headline test totals, intended-capacity metrics, and repeated disclaimers.
 
 - QARAR: describe the technical decisions and exact team contribution. The
   published screenshots use non-sensitive simulator states. Proprietary code is
@@ -47,10 +45,8 @@ disclaimers.
   1,400+ students. Sameer first joined Maeen as a student in 2018, then became
   a teacher and developer. Do not publish estimated lifetime totals until they
   are verified, and do not attribute the program's full impact to the website.
-- Numo Ads: describe the Vue 3 customer app, Laravel modular monolith, Arabic
-  journey, local HTTP simulators, and Content Lab only as locally validated.
-  Do not imply live provider publishing, spend, approval, attribution, or Numo
-  Store/Studio integration.
+- Numo Ads: keep the public description to the prototype’s visible product
+  areas, stack, export format, and one short local-simulator boundary.
 - Prototypes use one clear status label such as “Local prototype” or “In
   development.”
 
