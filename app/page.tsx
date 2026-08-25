@@ -46,6 +46,7 @@ export default function Home() {
           </a>
           <nav className="primary-nav" aria-label="Primary navigation">
             <a href="#work">Work</a>
+            <a href="#numo">Numo</a>
             <a href="#experience">Experience</a>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
@@ -367,6 +368,103 @@ export default function Home() {
               </div>
             </dl>
           </article>
+
+          <article className="organization numo-work" id="numo">
+            <header className="organization-heading" data-reveal>
+              <div className="organization-number">04 / Current build</div>
+              <div className="organization-title">
+                <p>Personal product · Private build</p>
+                <h3>
+                  Numo Ads <span className="numo-title-ar" lang="ar" dir="rtl">نمو ادز</span>
+                </h3>
+              </div>
+              <div className="organization-status">Locally validated</div>
+            </header>
+
+            <div className="numo-layout">
+              <div
+                className="numo-system reveal-media"
+                data-reveal
+                aria-label="Numo Ads four-stage customer journey"
+              >
+                <div className="numo-system-head">
+                  <span>Numo Ads</span>
+                  <strong lang="ar" dir="rtl">نمو ادز</strong>
+                </div>
+                <ol className="numo-stages">
+                  <li>
+                    <small>01</small>
+                    <div>
+                      <strong lang="ar" dir="rtl">اختيار المشروع</strong>
+                      <span>Project selection</span>
+                    </div>
+                  </li>
+                  <li>
+                    <small>02</small>
+                    <div>
+                      <strong lang="ar" dir="rtl">تجهيز المحتوى</strong>
+                      <span>Content preparation</span>
+                    </div>
+                  </li>
+                  <li>
+                    <small>03</small>
+                    <div>
+                      <strong lang="ar" dir="rtl">نشر الحملة</strong>
+                      <span>Campaign publishing</span>
+                    </div>
+                  </li>
+                  <li>
+                    <small>04</small>
+                    <div>
+                      <strong lang="ar" dir="rtl">التسويق</strong>
+                      <span>Marketing and reporting</span>
+                    </div>
+                  </li>
+                </ol>
+                <p className="numo-boundary">
+                  <span>LOCAL_VALIDATED</span>
+                  Synthetic provider evidence
+                </p>
+              </div>
+
+              <div className="project-notes" data-reveal>
+                <div className="project-intro-group">
+                  <div className="qarar-stack numo-stack" aria-label="Numo Ads technology stack">
+                    <span>Vue 3</span>
+                    <span>Laravel 12</span>
+                    <span>Arabic RTL</span>
+                  </div>
+                  <p className="project-intro">
+                    A private Arabic-first workspace for the campaign journey
+                    from project selection through reporting.
+                  </p>
+                </div>
+                <dl className="note-list">
+                  <div>
+                    <dt>What I built</dt>
+                    <dd>
+                      A Vue customer app and Laravel modular monolith for
+                      campaign, content, finance, and report workflows.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>What works today</dt>
+                    <dd>
+                      The complete path is locally validated against deterministic
+                      HTTP simulators, including protected vertical MP4 exports.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Scope</dt>
+                    <dd>
+                      Real ad publication, spend, provider approval, and live Numo
+                      Store or Studio integrations are not claimed.
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </article>
         </section>
 
         <section className="experience-section page" id="experience" aria-labelledby="experience-title">
@@ -433,10 +531,6 @@ export default function Home() {
               <div>
                 <span>How I learn</span>
                 <p>Build it, test it, explain it, then find what I missed.</p>
-              </div>
-              <div>
-                <span>Playlist whiplash</span>
-                <p>Eminem → Billie Eilish → Sherine → Abdel Halim.</p>
               </div>
             </aside>
           </div>

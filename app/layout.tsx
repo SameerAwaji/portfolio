@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     "Software Engineer",
     "React",
     "Next.js",
+    "Vue 3",
     "Flutter",
     "Laravel",
     "API Reliability",

@@ -108,6 +108,7 @@ test("keeps the entire portfolio in one coherent page", async () => {
     "Mrasim",
     "Maeen",
     "MIP",
+    "Numo Ads",
     "Experience",
     "A little more like me",
     "Contact",
@@ -174,6 +175,20 @@ test("frames the MIP website as one part of the wider role", async () => {
   assert.doesNotMatch(pageText, /77.*100|4\.8|0\.8|60\+ users/i);
 });
 
+test("presents Numo Ads as a private locally validated build", async () => {
+  const html = await (await render()).text();
+  const project = textContent(elementContent(html, "article", "numo"));
+
+  assert.match(project, /Numo Ads نمو ادز/i);
+  assert.match(project, /Personal product · Private build/i);
+  assertInOrder(project, ["Vue 3", "Laravel 12", "Arabic RTL"]);
+  assert.match(project, /complete path is locally validated against deterministic HTTP simulators/i);
+  assert.match(project, /protected vertical MP4 exports/i);
+  assert.match(project, /Real ad publication, spend, provider approval/i);
+  assert.match(project, /live Numo Store or Studio integrations are not claimed/i);
+  assert.doesNotMatch(project, /production-ready|live campaigns|real provider integration/i);
+});
+
 test("keeps the personal section short and specific", async () => {
   const html = await (await render()).text();
   const about = textContent(elementContent(html, "section", "about"));
@@ -184,7 +199,7 @@ test("keeps the personal section short and specific", async () => {
   assert.doesNotMatch(about, /I use AI in almost everything I build/i);
   assert.match(about, /Build it, test it, explain it, then find what I missed/i);
   assert.match(about, /Calm over noise\. Direct over impressive/i);
-  assert.match(about, /Eminem.*Billie Eilish.*Sherine.*Abdel Halim/i);
+  assert.doesNotMatch(about, /Playlist whiplash|Eminem|Billie Eilish|Sherine|Abdel Halim/i);
   assert.doesNotMatch(about, /Intellection|Achiever|Responsibility|Harmony|Relator|DISC/i);
   assert.doesNotMatch(about, /innovative|passionate|results-driven|unique blend|leverage AI/i);
 });
@@ -212,8 +227,8 @@ test("stays concise and avoids unsupported padding", async () => {
   const pageText = textContent(html);
 
   assert.ok(
-    wordCount(pageText) < 560,
-    `Expected homepage under 560 words, received ${wordCount(pageText)}`,
+    wordCount(pageText) < 700,
+    `Expected homepage under 700 words, received ${wordCount(pageText)}`,
   );
   assert.doesNotMatch(pageText, /Automatic Marketing|While It Runs|Rescuel/i);
   assert.doesNotMatch(pageText, /repository commits|69 commits|29 commits/i);
