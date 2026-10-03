@@ -1,0 +1,41 @@
+Sameer Awaji
+Software Engineer | Web & Mobile
+Jeddah, Saudi Arabia | Looking for a remote software engineering role
+Email: sameer2study@gmail.com
+GitHub: https://github.com/SameerAwaji
+LinkedIn: https://linkedin.com/in/sameer-awaji-6a0986211
+Portfolio: https://sameer-awaji-portfolio.kill7737.chatgpt.site
+
+SUMMARY
+Software engineer building web and mobile apps with React, Next.js, Flutter, and Laravel. Experience with Arabic interfaces, APIs, and internal tools.
+
+PROFESSIONAL EXPERIENCE
+Software Engineer | Mrasim
+Apr 2026 - Present
+- Work on QARAR's Flutter app and Laravel backend, including login, account recovery, and realtime updates.
+- Keep mobile and backend APIs in sync and test the app before releases.
+- Help build Numo Ads with Vue 3, Laravel, and MySQL. The product is in development.
+
+Freelance Developer & AI Tutor | Maeen
+2023 - Present
+- Built registration forms and a staff dashboard with React and Supabase; maintain them as a freelance developer.
+- Dashboard used by 40+ active team users. The wider summer program benefited 1,400+ students.
+
+Marketing Manager | MIP Marketing Agency
+2025 - Mar 2026
+- Rebuilt mipksa.com from WordPress to Next.js while managing marketing and business development.
+- Raised Lighthouse performance from 77 to 100 and reduced Largest Contentful Paint from 4.8s to 0.8s.
+
+Product Manager Intern | Nana
+Feb 2025 - Apr 2025
+- Helped with product research, documentation, and user acceptance testing.
+
+TECHNICAL SKILLS
+Web & mobile: React, Next.js, TypeScript, Vue 3, Flutter
+Backend: Laravel, REST APIs, MySQL, Supabase
+Tools & testing: Git, CI, QA, browser and simulator testing
+Languages: Arabic and English
+
+EDUCATION
+Bachelor of Software Engineering | University of Jeddah | 2024
+GPA: 4.48 / 5.0

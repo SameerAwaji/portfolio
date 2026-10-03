@@ -1,0 +1,660 @@
+{
+  "site": {
+    "name": "Sameer Awaji",
+    "email": "sameer2study@gmail.com",
+    "github": "https://github.com/SameerAwaji",
+    "linkedin": "https://linkedin.com/in/sameer-awaji-6a0986211",
+    "location": {
+      "en": "Jeddah, Saudi Arabia",
+      "ar": "جدة، المملكة العربية السعودية"
+    },
+    "languages": {
+      "en": "Arabic and English",
+      "ar": "العربية والإنجليزية"
+    },
+    "portfolio": "https://sameer-awaji-portfolio.kill7737.chatgpt.site",
+    "opportunities": {
+      "en": "Looking for a remote software engineering role",
+      "ar": "أبحث عن فرصة هندسة برمجيات عن بُعد"
+    },
+    "timezone": {
+      "en": "UTC+3 · Saudi Arabia",
+      "ar": "السعودية · UTC+3"
+    }
+  },
+  "hero": {
+    "eyebrow": {
+      "en": "Hi, I’m",
+      "ar": "أهلاً، أنا"
+    },
+    "title": {
+      "en": "Sameer Awaji. Software engineer.",
+      "ar": "سمير عواجي. مهندس برمجيات."
+    },
+    "lead": {
+      "en": "I work on Flutter apps and Laravel backends at Mrasim. I also built Maeen’s registration site and staff dashboard.",
+      "ar": "أعمل على تطبيقات Flutter وأنظمة Laravel في مراسم. وطوّرت لمعين موقع التسجيل ولوحة عمل الفريق."
+    },
+    "current": {
+      "label": {
+        "en": "Now",
+        "ar": "حالياً"
+      },
+      "title": {
+        "en": "Software engineer at Mrasim",
+        "ar": "مهندس برمجيات في مراسم"
+      },
+      "detail": {
+        "en": "QARAR · Numo Ads · internal tools",
+        "ar": "قرار · نمو ادز · أدوات العمل الداخلية"
+      }
+    },
+    "stack": [
+      "React / Next.js",
+      "TypeScript",
+      "Flutter",
+      "Laravel"
+    ]
+  },
+  "projects": [
+    {
+      "id": "qarar",
+      "number": "01",
+      "group": "selected",
+      "title": {
+        "en": "QARAR",
+        "ar": "قرار"
+      },
+      "context": {
+        "en": "Mrasim",
+        "ar": "مراسم"
+      },
+      "status": {
+        "en": "Private",
+        "ar": "خاص"
+      },
+      "summary": {
+        "en": "I develop login, account recovery, and realtime updates across the Flutter app and Laravel backend.",
+        "ar": "أطوّر تسجيل الدخول واستعادة الحساب والتحديثات الفورية في تطبيق Flutter ونظامه الخلفي المبني بـLaravel."
+      },
+      "evidence": {
+        "en": "Private project · simulator previews.",
+        "ar": "مشروع خاص · شاشات من المحاكي."
+      },
+      "stack": [
+        {
+          "en": "Flutter",
+          "ar": "Flutter"
+        },
+        {
+          "en": "Laravel",
+          "ar": "Laravel"
+        },
+        {
+          "en": "REST APIs",
+          "ar": "REST APIs"
+        }
+      ],
+      "link": "https://mrasim.sa",
+      "role": {
+        "en": "Software Engineer · Mrasim team",
+        "ar": "مهندس برمجيات · فريق مراسم"
+      },
+      "description": {
+        "en": "Connecting people with experts.",
+        "ar": "مشورة الخبراء، عبر تطبيق عربي."
+      },
+      "engineering": {
+        "problem": {
+          "en": "Authentication and recovery must preserve the seeker or expert’s identity across the mobile app and backend.",
+          "ar": "يجب أن تحافظ مسارات الدخول واستعادة الحساب على هوية الباحث عن المشورة أو الخبير بين التطبيق والنظام الخلفي."
+        },
+        "approach": {
+          "en": "Coordinate Flutter and Laravel contracts around sessions, recovery, and realtime updates; check that changes preserve the complete user journey.",
+          "ar": "أنسّق عقود Flutter وLaravel للجلسات واستعادة الحساب والتحديثات الفورية، وأتحقق من استمرار مسار المستخدم بعد التغييرات."
+        },
+        "validation": {
+          "en": "Browser and simulator testing, QA, and release checks. Public evidence is limited to sanitized simulator screens; source code is private.",
+          "ar": "اختبارات المتصفح والمحاكي وضمان الجودة وفحوصات الإطلاق. الدليل العام شاشات محاكاة منقّحة، والشيفرة خاصة."
+        }
+      }
+    },
+    {
+      "id": "maeen",
+      "number": "02",
+      "group": "selected",
+      "title": {
+        "en": "Maeen",
+        "ar": "معين"
+      },
+      "context": {
+        "en": "Maeen · freelance",
+        "ar": "معين · عمل مستقل"
+      },
+      "status": {
+        "en": "Ongoing",
+        "ar": "مستمر"
+      },
+      "summary": {
+        "en": "I built the registration forms and staff dashboard with React and Supabase, and continue to maintain them.",
+        "ar": "طوّرت نماذج التسجيل ولوحة الفريق باستخدام React وSupabase، وأواصل صيانتها."
+      },
+      "evidence": {
+        "en": "The wider program benefited 1,400+ students.",
+        "ar": "استفاد من البرنامج الأوسع أكثر من 1,400 طالب."
+      },
+      "stack": [
+        {
+          "en": "React",
+          "ar": "React"
+        },
+        {
+          "en": "Supabase",
+          "ar": "Supabase"
+        },
+        {
+          "en": "Database-backed forms",
+          "ar": "نماذج مرتبطة بالبيانات"
+        }
+      ],
+      "link": "https://maeen.com.sa",
+      "role": {
+        "en": "Freelance Developer",
+        "ar": "مطوّر مستقل"
+      },
+      "description": {
+        "en": "Registration for families. Tools for the team.",
+        "ar": "تسجيل للأسر. وأدوات لفريق البرنامج."
+      },
+      "engineering": {
+        "problem": {
+          "en": "Families need a clear registration flow; the program team needs separate tools for daily operations.",
+          "ar": "تحتاج الأسر إلى تسجيل واضح، ويحتاج فريق البرنامج إلى أدوات منفصلة للعمل اليومي."
+        },
+        "approach": {
+          "en": "Build database-backed React registration forms with Supabase and an internal dashboard. Maintain the public and staff workflows over time.",
+          "ar": "أطوّر نماذج تسجيل باستخدام React وSupabase ولوحة عمل داخلية، وأواصل صيانة مسارات الأسر والفريق."
+        },
+        "validation": {
+          "en": "The dashboard served 40+ active team users. Screens show the public registration flow; 1,400+ students refers to the wider program.",
+          "ar": "استخدم اللوحة أكثر من 40 مستخدماً نشطاً من الفريق. الشاشات للتسجيل العام، وعدد 1,400+ طالب يخص البرنامج الأوسع."
+        }
+      }
+    },
+    {
+      "id": "mip",
+      "number": "03",
+      "group": "selected",
+      "title": {
+        "en": "MIP website",
+        "ar": "موقع MIP"
+      },
+      "context": {
+        "en": "MIP · previous role",
+        "ar": "MIP · عمل سابق"
+      },
+      "status": {
+        "en": "Live",
+        "ar": "منشور"
+      },
+      "summary": {
+        "en": "I rebuilt mipksa.com from WordPress to Next.js while working as Marketing Manager, focusing on performance and SEO.",
+        "ar": "أعدت بناء mipksa.com من WordPress إلى Next.js خلال عملي مديراً للتسويق، مع التركيز على الأداء وتهيئة محركات البحث."
+      },
+      "evidence": {
+        "en": "Performance results in my résumé.",
+        "ar": "نتائج الأداء في سيرتي الذاتية."
+      },
+      "stack": [
+        {
+          "en": "Next.js",
+          "ar": "Next.js"
+        },
+        {
+          "en": "Web performance",
+          "ar": "أداء الويب"
+        },
+        {
+          "en": "SEO",
+          "ar": "SEO"
+        }
+      ],
+      "link": "https://mipksa.com",
+      "role": {
+        "en": "Marketing Manager · website development",
+        "ar": "مدير تسويق · تطوير الموقع"
+      },
+      "description": {
+        "en": "A faster agency website.",
+        "ar": "موقع أسرع لوكالة تسويق."
+      },
+      "engineering": {
+        "problem": {
+          "en": "The agency needed a faster public website while preserving its marketing and search requirements.",
+          "ar": "احتاجت الوكالة إلى موقع عام أسرع مع الحفاظ على متطلبات التسويق ومحركات البحث."
+        },
+        "approach": {
+          "en": "Rebuilt the WordPress website in Next.js alongside marketing-management responsibilities, prioritizing performance and SEO.",
+          "ar": "أعدت بناء موقع WordPress باستخدام Next.js إلى جانب إدارة التسويق، مع إعطاء الأولوية للأداء وتهيئة محركات البحث."
+        },
+        "validation": {
+          "en": "Compared Lighthouse and Largest Contentful Paint before and after the rebuild. The attributed measurements are included in the résumé.",
+          "ar": "قارنت Lighthouse وأكبر عنصر محتوى مرئي قبل إعادة البناء وبعدها. تتضمن السيرة القياسات المنسوبة لهذا العمل."
+        }
+      }
+    },
+    {
+      "id": "numo",
+      "number": "04",
+      "group": "selected",
+      "title": {
+        "en": "Numo Ads",
+        "ar": "نمو ادز"
+      },
+      "context": {
+        "en": "Mrasim · web development",
+        "ar": "مراسم · تطوير ويب"
+      },
+      "status": {
+        "en": "In development",
+        "ar": "قيد التطوير"
+      },
+      "summary": {
+        "en": "I’m part of the Mrasim team building Numo Ads, an Arabic campaign-management tool with Vue and Laravel.",
+        "ar": "أشارك مع فريق مراسم في تطوير نمو ادز، أداة عربية لإدارة الحملات باستخدام Vue وLaravel."
+      },
+      "evidence": {
+        "en": "In development · workflow diagram.",
+        "ar": "قيد التطوير · مخطط لمسار العمل."
+      },
+      "stack": [
+        {
+          "en": "Vue 3",
+          "ar": "Vue 3"
+        },
+        {
+          "en": "Laravel",
+          "ar": "Laravel"
+        },
+        {
+          "en": "MySQL",
+          "ar": "MySQL"
+        }
+      ],
+      "link": null,
+      "role": {
+        "en": "Software Engineer · Mrasim team",
+        "ar": "مهندس برمجيات · فريق مراسم"
+      },
+      "description": {
+        "en": "One place to plan campaigns.",
+        "ar": "مكان واحد لتخطيط الحملات."
+      },
+      "engineering": {
+        "problem": {
+          "en": "Campaign planning, content preparation, and review need a coherent Arabic workflow.",
+          "ar": "يحتاج تخطيط الحملات وإعداد المحتوى ومراجعته إلى مسار عربي مترابط."
+        },
+        "approach": {
+          "en": "Contribute to the Vue and Laravel campaign-management system within Mrasim, connecting interface workflows with backend behavior.",
+          "ar": "أساهم ضمن مراسم في نظام إدارة الحملات باستخدام Vue وLaravel، وأربط مسارات الواجهة بسلوك النظام الخلفي."
+        },
+        "validation": {
+          "en": "Local development verification only. The diagram explains the workflow; it does not establish provider approval, live delivery, or campaign results.",
+          "ar": "التحقق محلي أثناء التطوير. يوضّح المخطط المسار، ولا يثبت موافقة مزوّد أو تنفيذ حملات فعلية أو نتائجها."
+        }
+      }
+    }
+  ],
+  "experience": [
+    {
+      "period": "Apr 2026—Now",
+      "periodAr": "أبريل 2026—الآن",
+      "role": {
+        "en": "Software Engineer",
+        "ar": "مهندس برمجيات"
+      },
+      "organization": "Mrasim",
+      "note": {
+        "en": "Mobile apps, web development, and backend work.",
+        "ar": "تطبيقات جوال وتطوير ويب وأنظمة خلفية."
+      }
+    },
+    {
+      "period": "2025—Mar 2026",
+      "periodAr": "2025—مارس 2026",
+      "role": {
+        "en": "Marketing Manager",
+        "ar": "مدير تسويق"
+      },
+      "organization": "MIP Marketing Agency",
+      "note": {
+        "en": "Managed marketing and rebuilt the agency website in Next.js.",
+        "ar": "أدرت التسويق وأعدت بناء موقع الوكالة باستخدام Next.js."
+      }
+    },
+    {
+      "period": "Feb—Apr 2025",
+      "periodAr": "فبراير—أبريل 2025",
+      "role": {
+        "en": "Product Manager Intern",
+        "ar": "متدرب إدارة منتج"
+      },
+      "organization": "Nana",
+      "note": {
+        "en": "Product research, documentation, and acceptance testing.",
+        "ar": "بحث المنتج وتوثيقه واختبارات القبول."
+      }
+    }
+  ],
+  "freelance": {
+    "period": "2023—Now",
+    "periodAr": "2023—الآن",
+    "role": {
+      "en": "Freelance Developer & AI Tutor",
+      "ar": "مطوّر مستقل ومدرّب ذكاء اصطناعي"
+    },
+    "organization": "Maeen",
+    "note": {
+      "en": "Registration tools, staff dashboards, and AI teaching.",
+      "ar": "أدوات تسجيل ولوحات للفريق وتدريب على الذكاء الاصطناعي."
+    }
+  },
+  "education": {
+    "degree": {
+      "en": "Bachelor of Software Engineering",
+      "ar": "بكالوريوس هندسة البرمجيات"
+    },
+    "school": {
+      "en": "University of Jeddah",
+      "ar": "جامعة جدة"
+    },
+    "year": "2024",
+    "gpa": "4.48 / 5.0"
+  },
+  "notes": [
+    {
+      "slug": "archive-is-not-delete",
+      "title": {
+        "en": "Archive is not delete",
+        "ar": "الأرشفة ليست حذفاً"
+      },
+      "dek": {
+        "en": "Keep old records without cluttering everyday work.",
+        "ar": "الاحتفاظ بالسجلات القديمة دون إرباك العمل اليومي."
+      },
+      "sections": [
+        {
+          "heading": {
+            "en": "The product decision",
+            "ar": "قرار المنتج"
+          },
+          "paragraphs": {
+            "en": [
+              "A finished program is not an empty program. Its students, attendance, tasks, files, and memberships still explain what happened. Treating “finish” as deletion makes a clean interface by destroying the evidence behind it.",
+              "The safer model is an explicit archived state with timestamps and actors. Archived records leave everyday selectors, but authorized managers can still find, inspect, and restore them."
+            ],
+            "ar": [
+              "البرنامج المنتهي ليس برنامجاً فارغاً. طلابه وحضوره ومهامه وملفاته وعضوياته تشرح ما حدث. اعتبار «الإنهاء» حذفاً يصنع واجهة مرتبة عبر إتلاف الدليل خلفها.",
+              "النموذج الآمن هو حالة أرشفة صريحة مع وقت الإجراء ومن نفذه. تختفي السجلات المؤرشفة من الاختيارات اليومية، لكن يستطيع المدير المخوّل العثور عليها وفحصها واستعادتها."
+            ]
+          }
+        },
+        {
+          "heading": {
+            "en": "What the code must preserve",
+            "ar": "ما الذي يجب أن تحافظ عليه الشيفرة"
+          },
+          "paragraphs": {
+            "en": [
+              "The database, authorization rules, queries, and interface need to agree on that state. The write should be transactional where partial completion could corrupt meaning, and tests should prove that related records survive both archive and restore.",
+              "Reversibility is not only a technical feature. It gives operators confidence to complete work without fearing that one click will erase the program’s memory."
+            ],
+            "ar": [
+              "يجب أن تتفق قاعدة البيانات وقواعد الصلاحيات والاستعلامات والواجهة على هذه الحالة. ينبغي أن تكون الكتابة ذرية عندما قد يفسد الاكتمال الجزئي المعنى، وأن تثبت الاختبارات بقاء السجلات المرتبطة بعد الأرشفة والاستعادة.",
+              "قابلية الرجوع ليست ميزة تقنية فقط؛ فهي تمنح المشغّلين الثقة لإنهاء العمل بلا خوف من أن تمحو نقرة واحدة ذاكرة البرنامج."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "what-local-tests-prove",
+      "title": {
+        "en": "What local tests do—and do not—prove",
+        "ar": "ماذا تثبت الاختبارات المحلية، وماذا لا تثبت"
+      },
+      "dek": {
+        "en": "What a passing test can tell you.",
+        "ar": "ما الذي يخبرك به نجاح الاختبار؟"
+      },
+      "sections": [
+        {
+          "heading": {
+            "en": "Name the evidence layer",
+            "ar": "سمِّ طبقة الدليل"
+          },
+          "paragraphs": {
+            "en": [
+              "Unit tests can prove a rule. Integration tests can prove framework and persistence behavior. A local simulator can prove that our adapter handles a known contract. None of those, by themselves, prove that a production provider approved a request, spent money, or delivered a real event.",
+              "The honest status is specific: focused checks passed, full local gate passed, verified with a simulator, or verified against the real dependency. Precision is more useful than the word “done.”"
+            ],
+            "ar": [
+              "اختبارات الوحدات قد تثبت قاعدة. اختبارات التكامل قد تثبت سلوك الإطار والتخزين. والمحاكي المحلي قد يثبت أن المهايئ يتعامل مع عقد معروف. لكن أياً منها لا يثبت وحده أن مزوداً إنتاجياً وافق على طلب أو أنفق مالاً أو سلّم حدثاً حقيقياً.",
+              "الحالة الصادقة محددة: نجحت الفحوصات المركزة، نجحت البوابة المحلية الكاملة، تم التحقق بمحاكي، أو تم التحقق مع الاعتماد الحقيقي. الدقة أفيد من كلمة «مكتمل»."
+            ]
+          }
+        },
+        {
+          "heading": {
+            "en": "Protect the user journey",
+            "ar": "احمِ رحلة المستخدم"
+          },
+          "paragraphs": {
+            "en": [
+              "The final question is whether the real visible path still works: the correct origin, authentication, storage, queue, and external boundary. Focused tests are excellent at finding regressions; a production-shaped smoke test is what connects those results to the experience a person actually receives.",
+              "When that last layer is unavailable, stop at the evidence you have. An explicit boundary builds more trust than an inflated claim."
+            ],
+            "ar": [
+              "السؤال الأخير هو: هل ما زال المسار الحقيقي الظاهر يعمل؟ بالأصل الصحيح، والتحقق، والتخزين، والطابور، والحد الخارجي. الاختبارات المركزة ممتازة لاكتشاف التراجعات، أما اختبار الدخان المشابه للإنتاج فهو ما يربط النتائج بالتجربة التي يتلقاها الشخص فعلاً.",
+              "عندما لا تتوفر الطبقة الأخيرة، توقّف عند الدليل المتاح. الحد الصريح يبني ثقة أكبر من ادعاء متضخم."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "arabic-first-is-not-translation",
+      "title": {
+        "en": "Arabic-first UI is not a translation task",
+        "ar": "الواجهة العربية ليست مهمة ترجمة"
+      },
+      "dek": {
+        "en": "Designing interfaces that read naturally in Arabic.",
+        "ar": "تصميم واجهات تُقرأ بسلاسة بالعربية."
+      },
+      "sections": [
+        {
+          "heading": {
+            "en": "Start with decisions, not strings",
+            "ar": "ابدأ بالقرارات لا بالنصوص"
+          },
+          "paragraphs": {
+            "en": [
+              "An Arabic product does not become Arabic-first when translated labels are placed inside a mirrored shell. Information order, navigation, form rhythm, numbers, dates, names, and error recovery all need to fit the way the audience reads and decides.",
+              "That often means designing the Arabic route first, then checking what should remain shared. A component can be reusable while its composition, emphasis, and copy differ by locale."
+            ],
+            "ar": [
+              "لا يصبح المنتج عربياً بمجرد وضع تسميات مترجمة داخل قالب معكوس. ترتيب المعلومات والتنقل وإيقاع النماذج والأرقام والتواريخ والأسماء واستعادة الأخطاء يجب أن تلائم طريقة قراءة الجمهور واتخاذه للقرار.",
+              "غالباً يعني ذلك تصميم المسار العربي أولاً، ثم تحديد ما ينبغي أن يبقى مشتركاً. يمكن أن يكون المكوّن قابلاً لإعادة الاستخدام بينما يختلف تركيبه وتركيزه ونصه حسب اللغة."
+            ]
+          }
+        },
+        {
+          "heading": {
+            "en": "Test the complete reading experience",
+            "ar": "اختبر تجربة القراءة كاملة"
+          },
+          "paragraphs": {
+            "en": [
+              "RTL must be checked at narrow widths, with long Arabic text, mixed Latin product names, keyboard focus, and real form errors. The correct `lang` and `dir` semantics matter to browsers and assistive technology, not only to visual alignment.",
+              "The goal is not perfect symmetry between languages. It is equal clarity: each route should feel deliberately written, ordered, and tested for the people who use it."
+            ],
+            "ar": [
+              "يجب فحص RTL في العروض الضيقة ومع النص العربي الطويل وأسماء المنتجات اللاتينية المختلطة وتركيز لوحة المفاتيح وأخطاء النماذج الحقيقية. دلالات `lang` و`dir` الصحيحة تهم المتصفحات والتقنيات المساعدة، لا المحاذاة البصرية فقط.",
+              "الهدف ليس تماثلاً مثالياً بين اللغتين؛ بل وضوحاً متساوياً. يجب أن يبدو كل مسار مكتوباً ومرتباً ومختبراً بقصد لمن يستخدمه."
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "resume": {
+    "profile": "Software engineer building web and mobile apps with React, Next.js, Flutter, and Laravel. Experience with Arabic interfaces, APIs, and internal tools.",
+    "capabilities": [
+      [
+        "Web & mobile",
+        "React, Next.js, TypeScript, Vue 3, Flutter"
+      ],
+      [
+        "Backend",
+        "Laravel, REST APIs, MySQL, Supabase"
+      ],
+      [
+        "Tools & testing",
+        "Git, CI, QA, browser and simulator testing"
+      ],
+      [
+        "Languages",
+        "Arabic and English"
+      ]
+    ],
+    "experience": [
+      {
+        "group": "employment",
+        "role": "Software Engineer",
+        "company": "Mrasim",
+        "period": "Apr 2026 - Present",
+        "bullets": [
+          "Work on QARAR’s Flutter app and Laravel backend, including login, account recovery, and realtime updates.",
+          "Keep mobile and backend APIs in sync and test the app before releases.",
+          "Help build Numo Ads with Vue 3, Laravel, and MySQL. The product is in development."
+        ]
+      },
+      {
+        "group": "employment",
+        "role": "Marketing Manager",
+        "company": "MIP Marketing Agency",
+        "period": "2025 - Mar 2026",
+        "bullets": [
+          "Rebuilt mipksa.com from WordPress to Next.js while managing marketing and business development.",
+          "Raised Lighthouse performance from 77 to 100 and reduced Largest Contentful Paint from 4.8s to 0.8s."
+        ]
+      },
+      {
+        "group": "employment",
+        "role": "Product Manager Intern",
+        "company": "Nana",
+        "period": "Feb 2025 - Apr 2025",
+        "bullets": [
+          "Helped with product research, documentation, and user acceptance testing."
+        ]
+      },
+      {
+        "group": "freelance",
+        "role": "Freelance Developer & AI Tutor",
+        "company": "Maeen",
+        "period": "2023 - Present",
+        "bullets": [
+          "Built registration forms and a staff dashboard with React and Supabase; maintain them as a freelance developer.",
+          "Dashboard used by 40+ active team users. The wider summer program benefited 1,400+ students."
+        ]
+      }
+    ],
+    "metrics": [
+      [
+        "77 to 100",
+        "Lighthouse score on MIP"
+      ],
+      [
+        "4.8s to 0.8s",
+        "LCP on the MIP rebuild"
+      ],
+      [
+        "40+ / 1,400+",
+        "Maeen team users / program students"
+      ]
+    ],
+    "headline": "Software Engineer | Web & Mobile"
+  },
+  "about": {
+    "en": "I’ve worked in product management, marketing, and teaching. That experience shapes how I approach software: understand the people using it, then build.",
+    "ar": "عملت في إدارة المنتجات والتسويق والتدريب. هذه الخبرة تؤثر في طريقتي لبناء البرمجيات: أفهم احتياج من سيستخدمها، ثم أبدأ التطوير."
+  },
+  "skills": [
+    {
+      "label": {
+        "en": "Web",
+        "ar": "الويب"
+      },
+      "items": [
+        {
+          "en": "React",
+          "ar": "React"
+        },
+        {
+          "en": "Next.js",
+          "ar": "Next.js"
+        },
+        {
+          "en": "TypeScript",
+          "ar": "TypeScript"
+        },
+        {
+          "en": "Vue 3",
+          "ar": "Vue 3"
+        }
+      ]
+    },
+    {
+      "label": {
+        "en": "Mobile",
+        "ar": "الجوال"
+      },
+      "items": [
+        {
+          "en": "Flutter",
+          "ar": "Flutter"
+        },
+        {
+          "en": "Arabic / RTL UX",
+          "ar": "واجهات عربية / RTL"
+        }
+      ]
+    },
+    {
+      "label": {
+        "en": "Backend & data",
+        "ar": "الخلفية والبيانات"
+      },
+      "items": [
+        {
+          "en": "Laravel",
+          "ar": "Laravel"
+        },
+        {
+          "en": "REST APIs",
+          "ar": "REST APIs"
+        },
+        {
+          "en": "MySQL",
+          "ar": "MySQL"
+        },
+        {
+          "en": "Supabase",
+          "ar": "Supabase"
+        }
+      ]
+    }
+  ]
+}

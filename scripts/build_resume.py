@@ -1,252 +1,263 @@
-from pathlib import Path
+"""Build the one-page, selectable-text résumé from shared portfolio content."""
 
+import json
+import re
+from pathlib import Path
+from tempfile import NamedTemporaryFile
+from xml.sax.saxutils import escape
+
+import reportlab
 from reportlab.lib.colors import HexColor
-from reportlab.lib.enums import TA_LEFT, TA_RIGHT
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.units import inch
-from reportlab.pdfbase.pdfmetrics import stringWidth
+from reportlab.pdfbase.pdfmetrics import registerFont, registerFontFamily, stringWidth
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "public" / "Sameer_Awaji_Resume.pdf"
-
-INK = HexColor("#171A17")
-SOFT = HexColor("#50564F")
-GREEN = HexColor("#123D37")
-TEAL = HexColor("#0B6B61")
-AMBER = HexColor("#E6A33A")
-LINE = HexColor("#D5D0C3")
-PAPER = HexColor("#FFFDF7")
-
+TEXT_OUTPUT = OUTPUT.with_suffix(".txt")
 PAGE_W, PAGE_H = letter
-LEFT = 0.56 * inch
-RIGHT = PAGE_W - 0.56 * inch
+LEFT = 42
+RIGHT = PAGE_W - LEFT
 CONTENT_W = RIGHT - LEFT
+BOTTOM = 34
+
+INK = HexColor("#17212A")
+SOFT = HexColor("#52606C")
+ACCENT = HexColor("#184C43")
+LINE = HexColor("#D8E0DE")
+
+# Embed the bundled font faces so regular and bold weights render consistently.
+FONT_DIR = Path(reportlab.__file__).parent / "fonts"
+NORMAL_FONT = "ResumeSans"
+BOLD_FONT = "ResumeSans-Bold"
+registerFont(TTFont(NORMAL_FONT, str(FONT_DIR / "Vera.ttf")))
+registerFont(TTFont(BOLD_FONT, str(FONT_DIR / "VeraBd.ttf")))
+registerFontFamily(NORMAL_FONT, normal=NORMAL_FONT, bold=BOLD_FONT)
 
 
-def paragraph_style(
-    name: str,
-    *,
-    font: str = "Helvetica",
-    size: float = 8.7,
-    leading: float = 11.5,
-    color=SOFT,
-    alignment=TA_LEFT,
-    space_after: float = 0,
-):
-    return ParagraphStyle(
-        name,
-        fontName=font,
-        fontSize=size,
-        leading=leading,
-        textColor=color,
-        alignment=alignment,
-        spaceAfter=space_after,
-        allowWidows=0,
-        allowOrphans=0,
+def plain(text):
+    """Normalize punctuation that standard PDF fonts do not reliably encode."""
+    return str(text).translate(
+        str.maketrans({"—": "-", "–": "-", "‑": "-", "’": "'", "‘": "'", "“": '"', "”": '"'})
     )
 
 
-BODY = paragraph_style("Body")
-SUMMARY = paragraph_style("Summary", size=9.1, leading=12.4, color=INK)
-BULLET = paragraph_style("Bullet", size=8.35, leading=10.7)
-SKILL = paragraph_style("Skill", size=8.2, leading=10.5)
-METRIC_LABEL = paragraph_style("Metric label", size=7.25, leading=8.7)
+def english(value):
+    return value.get("en", "") if isinstance(value, dict) else value
 
 
-def draw_paragraph(pdf, text: str, x: float, y_top: float, width: float, style=BODY):
+def markup(text):
+    return escape(plain(text))
+
+
+def bullet_markup(text):
+    # Emphasize numbers already present in the source; do not add new claims.
+    return re.sub(
+        r"\b\d[\d,]*\+|\b\d+(?:\.\d+)?s(?: to \d+(?:\.\d+)?s)?|\b\d+(?:\.\d+)? to \d+(?:\.\d+)?",
+        lambda match: f"<b>{match.group(0)}</b>",
+        markup(text),
+    )
+
+
+BODY = ParagraphStyle(
+    "Body", fontName=NORMAL_FONT, fontSize=11, leading=15,
+    textColor=INK, allowWidows=0, allowOrphans=0,
+)
+BULLET = ParagraphStyle(
+    "Bullet", parent=BODY, leftIndent=11, firstLineIndent=-11,
+)
+DETAIL = ParagraphStyle(
+    "Detail", parent=BODY, fontSize=10.3, leading=14, textColor=SOFT,
+)
+HEADLINE = ParagraphStyle(
+    "Headline", parent=BODY, fontName=BOLD_FONT, fontSize=13,
+    leading=17.5, textColor=ACCENT,
+)
+
+
+def draw_paragraph(pdf, text, y, *, style=BODY, width=CONTENT_W, x=LEFT):
     paragraph = Paragraph(text, style)
     _, height = paragraph.wrap(width, PAGE_H)
-    paragraph.drawOn(pdf, x, y_top - height)
-    return y_top - height
+    bottom = y - height
+    if bottom < BOTTOM:
+        raise ValueError(
+            f"Résumé exceeds one page at {bottom:.1f}pt; shorten the shared résumé content."
+        )
+    paragraph.drawOn(pdf, x, bottom)
+    return bottom
 
 
-def section_title(pdf, title: str, y: float):
-    pdf.setFillColor(TEAL)
-    pdf.setFont("Helvetica-Bold", 8.1)
+def section_title(pdf, title, y):
+    y -= 17
+    pdf.setFillColor(ACCENT)
+    pdf.setFont(BOLD_FONT, 11)
     pdf.drawString(LEFT, y, title.upper())
-    title_width = stringWidth(title.upper(), "Helvetica-Bold", 8.1)
     pdf.setStrokeColor(LINE)
-    pdf.setLineWidth(0.7)
-    pdf.line(LEFT + title_width + 12, y + 2.5, RIGHT, y + 2.5)
-    return y - 13
+    pdf.setLineWidth(0.6)
+    title_width = stringWidth(title.upper(), BOLD_FONT, 11)
+    pdf.line(LEFT + title_width + 13, y + 3, RIGHT, y + 3)
+    return y - 14
 
 
-def experience_entry(pdf, y: float, role: str, company: str, period: str, bullets: list[str]):
-    pdf.setFillColor(INK)
-    pdf.setFont("Helvetica-Bold", 9.8)
-    heading = f"{role} - {company}" if company else role
-    pdf.drawString(LEFT, y, heading)
-    pdf.setFillColor(TEAL)
-    pdf.setFont("Helvetica-Bold", 8.2)
-    pdf.drawRightString(RIGHT, y + 0.4, period)
-    y -= 15
+def short_url(url):
+    return url.removeprefix("https://").removeprefix("http://").rstrip("/")
 
-    for bullet in bullets:
-        y = draw_paragraph(pdf, f"<font color='#0B6B61'><b>-</b></font> {bullet}", LEFT, y, CONTENT_W, BULLET)
+
+def draw_contact_line(pdf, contacts, y):
+    size = 10
+    gap = 16
+    widths = [stringWidth(label, NORMAL_FONT, size) for label, _ in contacts]
+    if sum(widths) + gap * (len(contacts) - 1) > CONTENT_W:
+        raise ValueError("Résumé contact line exceeds page width.")
+    x = LEFT
+    for (label, url), width in zip(contacts, widths):
+        pdf.setFillColor(INK)
+        pdf.setFont(NORMAL_FONT, size)
+        pdf.drawString(x, y, label)
+        if url:
+            pdf.linkURL(url, (x, y - 2, x + width, y + 10), relative=0)
+        x += width + gap
+    return y - 16
+
+
+def ordered_experience(entries):
+    # Keep concurrent freelance work alongside engineering employment.
+    priority = {"Mrasim": 0, "Maeen": 1, "MIP Marketing Agency": 2, "Nana": 3}
+    return sorted(entries, key=lambda entry: priority.get(entry["company"], 4))
+
+
+def experience_entry(pdf, y, entry):
+    title = f"{entry['role']} | {entry['company']}"
+    period = plain(entry["period"])
+    title_width = stringWidth(plain(title), BOLD_FONT, 11.2)
+    date_width = stringWidth(period, NORMAL_FONT, 10.3)
+    if title_width + date_width + 18 <= CONTENT_W:
+        pdf.setFillColor(INK)
+        pdf.setFont(BOLD_FONT, 11.2)
+        pdf.drawString(LEFT, y - 11.2, plain(title))
+        pdf.setFillColor(SOFT)
+        pdf.setFont(NORMAL_FONT, 10.3)
+        pdf.drawRightString(RIGHT, y - 11.2, period)
+        y -= 22
+    else:
+        y = draw_paragraph(pdf, f"<b>{markup(title)}</b>", y)
+        y = draw_paragraph(pdf, markup(period), y, style=DETAIL)
         y -= 4
+    for bullet in entry["bullets"]:
+        y = draw_paragraph(pdf, f"- {bullet_markup(bullet)}", y, style=BULLET)
+        y -= 3
+    return y - 8
 
-    return y - 10
+
+def build_plain_text(site, resume, education, experience):
+    portfolio = site.get("portfolio")
+    lines = [
+        site["name"],
+        resume.get("headline", "Software Engineer | Web & Mobile"),
+        f"{english(site['location'])} | {english(site.get('opportunities', 'Open to remote software engineering roles'))}",
+        f"Email: {site['email']}",
+        f"GitHub: {site['github']}",
+        f"LinkedIn: {site['linkedin']}",
+    ]
+    if portfolio:
+        lines.append(f"Portfolio: {portfolio}")
+    lines += ["", "SUMMARY", resume["profile"], "", "PROFESSIONAL EXPERIENCE"]
+    for entry in experience:
+        lines += [f"{entry['role']} | {entry['company']}", entry["period"]]
+        lines += [f"- {bullet}" for bullet in entry["bullets"]]
+        lines.append("")
+    lines += ["TECHNICAL SKILLS"]
+    lines += [f"{label}: {value}" for label, value in resume["capabilities"]]
+    lines.append("")
+    lines += [
+        "EDUCATION",
+        f"{english(education['degree'])} | {english(education['school'])} | {education['year']}",
+        f"GPA: {education['gpa']}",
+    ]
+    return plain("\n".join(lines)) + "\n"
 
 
 def build_resume():
-    pdf = canvas.Canvas(str(OUTPUT), pagesize=letter)
-    pdf.setTitle("Sameer Awaji - Resume")
-    pdf.setAuthor("Sameer Awaji")
-    pdf.setSubject("Software engineering, product, marketing, and web development experience")
+    content = json.loads((ROOT / "content" / "portfolio.json").read_text(encoding="utf-8"))
+    site, resume, education = content["site"], content["resume"], content["education"]
+    experience = ordered_experience(resume["experience"])
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
 
-    pdf.setFillColor(PAPER)
-    pdf.rect(0, 0, PAGE_W, PAGE_H, stroke=0, fill=1)
+    with NamedTemporaryFile(suffix=".pdf", prefix="resume-", dir=OUTPUT.parent, delete=False) as temp:
+        temporary = Path(temp.name)
+    try:
+        pdf = canvas.Canvas(str(temporary), pagesize=letter, pageCompression=1)
+        pdf.setTitle(f"{site['name']} - Software Engineer Resume")
+        pdf.setAuthor(site["name"])
+        pdf.setSubject("Software engineering experience, technical skills, and education")
 
-    y = PAGE_H - 38
-
-    pdf.setFillColor(GREEN)
-    pdf.rect(LEFT, y - 35, 37, 37, stroke=0, fill=1)
-    pdf.setFillColor(PAPER)
-    pdf.setFont("Helvetica-Bold", 11)
-    pdf.drawCentredString(LEFT + 18.5, y - 21, "SA")
-
-    name_x = LEFT + 49
-    pdf.setFillColor(INK)
-    pdf.setFont("Helvetica-Bold", 22)
-    pdf.drawString(name_x, y - 8, "Sameer Awaji")
-    pdf.setFillColor(TEAL)
-    pdf.setFont("Helvetica-Bold", 9.6)
-    pdf.drawString(name_x, y - 24, "SOFTWARE ENGINEER | WEB & MOBILE | PRODUCT & MARKETING EXPERIENCE")
-
-    pdf.setFillColor(SOFT)
-    pdf.setFont("Helvetica", 8.3)
-    contact = "sameer2study@gmail.com  |  github.com/SameerAwaji  |  linkedin.com/in/sameer-awaji-6a0986211"
-    pdf.drawRightString(RIGHT, y - 36, contact)
-
-    y -= 52
-    pdf.setStrokeColor(LINE)
-    pdf.line(LEFT, y, RIGHT, y)
-    y -= 17
-
-    y = section_title(pdf, "Profile", y)
-    summary = (
-        "Software engineer working across Flutter, Laravel, web, APIs, Arabic UX, backend workflows, and release testing. I "
-        "began freelance work with Maeen in 2023, worked in product at Nana, and then led marketing at MIP while rebuilding "
-        "its website. Since April 2026, I have worked at Mrasim, where QARAR is one of the projects I contribute to."
-    )
-    y = draw_paragraph(pdf, summary, LEFT, y, CONTENT_W, SUMMARY)
-    y -= 12
-
-    y = section_title(pdf, "Core capabilities", y)
-    skill_rows = [
-        ("Engineering", "React, Next.js, TypeScript, Flutter, Laravel, MySQL, Supabase, REST APIs"),
-        ("Product work", "Requirements, user journeys, stakeholder feedback, UAT, QA, CI and release checks"),
-        ("Marketing", "Marketing management, SEO, web performance, content and campaign coordination"),
-        ("Languages & tools", "Arabic and English, Git, Figma, browser and simulator testing"),
-    ]
-    label_width = 96
-    for label, value in skill_rows:
+        y = PAGE_H - 42
         pdf.setFillColor(INK)
-        pdf.setFont("Helvetica-Bold", 8.25)
-        pdf.drawString(LEFT, y - 8.5, label)
-        y = draw_paragraph(pdf, value, LEFT + label_width, y, CONTENT_W - label_width, SKILL)
-        y -= 2
-    y -= 7
+        pdf.setFont(BOLD_FONT, 29)
+        pdf.drawString(LEFT, y - 22, plain(site["name"]))
+        y -= 38
+        y = draw_paragraph(pdf, markup(resume.get("headline", "Software Engineer | Web & Mobile")), y, style=HEADLINE)
+        y -= 4
+        location = english(site["location"])
+        opportunities = english(site.get("opportunities", "Open to remote software engineering roles"))
+        y = draw_paragraph(pdf, markup(f"{location} | {opportunities}"), y, style=DETAIL)
+        y -= 16
+        contacts = [
+            (site["email"], f"mailto:{site['email']}"),
+            (short_url(site["github"]), site["github"]),
+            ("LinkedIn", site["linkedin"]),
+        ]
+        if site.get("portfolio"):
+            contacts.append(("Portfolio", site["portfolio"]))
+        y = draw_contact_line(pdf, contacts, y)
+        pdf.setStrokeColor(ACCENT)
+        pdf.setLineWidth(1.3)
+        pdf.line(LEFT, y - 2, RIGHT, y - 2)
+        y -= 10
 
-    y = section_title(pdf, "Experience", y)
-    y = experience_entry(
-        pdf,
-        y,
-        "Mrasim",
-        "",
-        "Apr 2026 - Present",
-        [
-            "QARAR is one of the projects I work on at Mrasim. I coordinate Flutter and Laravel contracts across Arabic seeker and expert journeys, authentication, decisions, realtime updates, and releases.",
-            "Recent work includes email OTP, safe navigation, draft recovery, identity-bound sessions, SSE reconnects, account step-up, queued decision events, and contract-aligned release checks.",
-        ],
-    )
-    y = experience_entry(
-        pdf,
-        y,
-        "Marketing Manager",
-        "MIP Marketing Agency",
-        "2025 - Mar 2026",
-        [
-            "My main role was Marketing Manager. I also handled hands-on web development and connected the website work to the agency's marketing goals.",
-            "Rebuilt the site in Next.js, improving its Lighthouse score from 77 to 100 and Largest Contentful Paint from 4.8s to 0.8s.",
-        ],
-    )
-    y = experience_entry(
-        pdf,
-        y,
-        "Product Manager Intern",
-        "Nana",
-        "Feb 2025 - Apr 2025",
-        [
-            "My first formal product role, covering engagement ideas, product documentation, competitor research, cross-functional work, and user acceptance testing.",
-        ],
-    )
-    y = section_title(pdf, "Freelance work", y)
-    y = experience_entry(
-        pdf,
-        y,
-        "Freelance Developer",
-        "Maeen",
-        "2023 - Present",
-        [
-            "Develop and maintain Maeen's React and Supabase website, database-backed forms, and internal workflows as an independent freelancer.",
-            "For the latest summer program, delivered a custom sign-up form and team dashboard used by 40+ active team users; the wider program benefited 1,400+ students.",
-        ],
-    )
+        y = section_title(pdf, "Summary", y)
+        y = draw_paragraph(pdf, markup(resume["profile"]), y)
 
-    y -= 2
-    y = section_title(pdf, "Education", y)
-    pdf.setFillColor(INK)
-    pdf.setFont("Helvetica-Bold", 9.7)
-    pdf.drawString(LEFT, y, "Bachelor of Software Engineering - University of Jeddah")
-    pdf.setFillColor(TEAL)
-    pdf.setFont("Helvetica-Bold", 8.2)
-    pdf.drawRightString(RIGHT, y + 0.4, "2024")
-    y -= 14
-    y = draw_paragraph(
-        pdf,
-        "GPA 4.48 / 5.0 | Focus: web development, algorithms, and software architecture",
-        LEFT,
-        y,
-        CONTENT_W,
-        BODY,
-    )
+        y = section_title(pdf, "Professional Experience", y)
+        for entry in experience:
+            y = experience_entry(pdf, y, entry)
 
-    y -= 15
-    y = section_title(pdf, "Selected outcomes", y)
-    metrics = [
-        ("77 to 100", "Lighthouse score on MIP"),
-        ("4.8s to 0.8s", "LCP on the MIP rebuild"),
-        ("40+ / 1,400+", "Team users / students in the latest Maeen program"),
-    ]
-    metric_gap = 9
-    metric_width = (CONTENT_W - (metric_gap * 2)) / 3
-    metric_height = 58
-    for index, (metric, label) in enumerate(metrics):
-        x = LEFT + index * (metric_width + metric_gap)
-        pdf.setStrokeColor(LINE)
-        pdf.setLineWidth(0.7)
-        pdf.rect(x, y - metric_height, metric_width, metric_height, stroke=1, fill=0)
-        pdf.setFillColor(AMBER)
-        pdf.rect(x, y - 3, metric_width, 3, stroke=0, fill=1)
-        pdf.setFillColor(INK)
-        pdf.setFont("Helvetica-Bold", 15)
-        pdf.drawString(x + 11, y - 25, metric)
-        draw_paragraph(pdf, label, x + 11, y - 33, metric_width - 22, METRIC_LABEL)
+        y = section_title(pdf, "Technical Skills", y)
+        for label, value in resume["capabilities"]:
+            y = draw_paragraph(pdf, f"<b>{markup(label)}:</b> {markup(value)}", y)
+            y -= 3
 
-    pdf.setStrokeColor(AMBER)
-    pdf.setLineWidth(2)
-    pdf.line(LEFT, 25, RIGHT, 25)
-    pdf.setFillColor(SOFT)
-    pdf.setFont("Helvetica", 7.2)
-    pdf.drawString(LEFT, 13, "Metrics relate to the projects and responsibilities described above.")
+        y = section_title(pdf, "Education", y)
+        degree = f"{english(education['degree'])} | {english(education['school'])}"
+        year = plain(education["year"])
+        degree_width = stringWidth(plain(degree), BOLD_FONT, 11)
+        if degree_width + stringWidth(year, NORMAL_FONT, 10.3) + 18 <= CONTENT_W:
+            pdf.setFillColor(INK)
+            pdf.setFont(BOLD_FONT, 11)
+            pdf.drawString(LEFT, y - 11, plain(degree))
+            pdf.setFillColor(SOFT)
+            pdf.setFont(NORMAL_FONT, 10.3)
+            pdf.drawRightString(RIGHT, y - 11, year)
+            y -= 20
+        else:
+            y = draw_paragraph(pdf, f"<b>{markup(degree)}</b> | {markup(year)}", y)
+            y -= 3
+        y = draw_paragraph(pdf, markup(f"GPA: {education['gpa']}"), y, style=DETAIL)
 
-    pdf.showPage()
-    pdf.save()
+        if y < BOTTOM:
+            raise ValueError("Résumé content exceeds its one-page layout.")
+        pdf.showPage()
+        pdf.save()
+        temporary.replace(OUTPUT)
+        TEXT_OUTPUT.write_text(build_plain_text(site, resume, education, experience), encoding="utf-8")
+        print(f"Built {OUTPUT.name}: one page, 11pt body text, {y:.1f}pt bottom clearance.")
+        print(f"Built {TEXT_OUTPUT.name}: plain-text application copy.")
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

@@ -1,23 +1,24 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
 
 const projectRoot = new URL("../", import.meta.url);
 
-async function render(path = "/") {
+async function request(path = "/", init, env = {
+  ASSETS: {
+    fetch: async () => new Response("Not found", { status: 404 }),
+  },
+}) {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${path}`);
+  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${Math.random()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
     new Request(`http://localhost${path}`, {
-      headers: { accept: "text/html" },
+      headers: { accept: "text/html", ...(init?.headers ?? {}) },
+      ...init,
     }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
+    env,
     {
       waitUntil() {},
       passThroughOnException() {},
@@ -67,226 +68,303 @@ function elementContent(html, tag, id) {
 
 function assertInOrder(text, labels) {
   let previousIndex = -1;
-
   for (const label of labels) {
-    const currentIndex = text.indexOf(label, previousIndex + 1);
-    assert.ok(currentIndex >= 0, `Expected to find “${label}”`);
-    assert.ok(currentIndex > previousIndex, `Expected “${label}” in order`);
-    previousIndex = currentIndex;
+    const index = text.indexOf(label, previousIndex + 1);
+    assert.ok(index >= 0, `Expected to find “${label}”`);
+    assert.ok(index > previousIndex, `Expected “${label}” in order`);
+    previousIndex = index;
   }
 }
 
-test("renders a short engineering introduction", async () => {
-  const response = await render();
+test("renders the new engineering position and current context", async () => {
+  const response = await request();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   const pageText = textContent(html);
   const hero = textContent(elementContent(html, "section", "top"));
-  const title = textContent(/<title\b[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "")
-    .replace(/[^\p{L}\p{N}]+/gu, " ")
-    .trim();
 
-  assert.equal(title, "Sameer Awaji Software Engineer");
-  assert.match(hero, /I build mobile apps, web products, and backend systems/i);
-  assert.match(hero, /Flutter, Laravel, React, Next\.js, and Vue/i);
-  assert.match(hero, /Software engineer at Mrasim/i);
-  assert.match(hero, /Email me/i);
-  assert.match(pageText, /Selected projects/i);
-  assert.doesNotMatch(hero, /real problem is bigger|outside the demo/i);
-  assert.match(html, /href=["']https:\/\/github\.com\/SameerAwaji["']/i);
-  assert.match(html, /href=["']mailto:sameer2study@gmail\.com\?subject=Engineering%20role["']/i);
+  assert.match(html, /<html[^>]+lang=["']en["'][^>]+dir=["']ltr["']/i);
+  assert.match(html, /<title>Sameer Awaji — Software Engineer<\/title>/i);
+  assert.match(hero, /Sameer Awaji\. Software engineer\./i);
+  assert.match(hero, /Looking for a remote software engineering role/i);
+  assert.match(hero, /Flutter apps and Laravel backends at Mrasim.*Maeen’s registration site and staff dashboard/i);
+  assert.match(hero, /React \/ Next\.js.*TypeScript.*Flutter.*Laravel/i);
+  assert.match(hero, /Software Engineer/i);
+  assert.match(hero, /Download résumé/i);
+  assert.match(hero, /GitHub/i);
+  assert.match(hero, /UTC\+3/i);
+  assert.match(pageText, /Selected work\./i);
+  assert.match(html, /href=["']mailto:sameer2study@gmail\.com\?subject=Remote%20software%20engineering%20opportunity["']/i);
+  assert.match(html, /href=["']\/Sameer_Awaji_Resume\.pdf["']/i);
 });
 
-test("keeps the entire portfolio in one coherent page", async () => {
-  const html = await (await render()).text();
+test("keeps the homepage narrative and project groups in order", async () => {
+  const html = await (await request()).text();
   const pageText = textContent(html);
 
   assertInOrder(pageText, [
-    "Selected projects",
-    "Mrasim",
+    "Selected work",
+    "QARAR",
     "Maeen",
-    "MIP",
+    "MIP website",
     "Numo Ads",
     "Experience",
-    "About",
-    "Contact",
+    "Notes from the work.",
+    "A little about me.",
+    "Let’s talk.",
   ]);
-  assert.match(html, /id=["']work["']/i);
-  assert.match(html, /id=["']about["']/i);
-  assert.match(html, /id=["']experience["']/i);
-  assert.match(html, /id=["']contact["']/i);
-  assert.doesNotMatch(html, /href=["']\/work\/qarar["']/i);
-});
-
-test("presents QARAR without case-study narration", async () => {
-  const html = await (await render()).text();
-  const project = textContent(elementContent(html, "article", "mrasim"));
-
-  assert.match(project, /QARAR/i);
-  assert.match(project, /Flutter and Laravel work on sessions, account recovery, and live updates/i);
-  assertInOrder(project, ["Flutter", "Laravel", "Arabic UX"]);
-  assert.match(project, /Private project · simulator screens/i);
-  assert.doesNotMatch(project, /What I built|My contribution|How I checked it/i);
-  assert.doesNotMatch(project, /ApiClient|TokenStorage|AccessTokenRotationService|last_id/i);
-  assert.match(html, /brands\/mrasim-logo-white\.svg/i);
-  assert.match(html, /href=["']https:\/\/mrasim\.sa["']/i);
-
-  for (const asset of [
-    "qarar-login-clean.png",
-    "qarar-home-clean.png",
-    "qarar-decision-clean.png",
-  ]) {
-    assert.match(html, new RegExp(`projects\\/${asset.replace(".", "\\.")}`, "i"));
+  for (const id of ["work", "qarar", "maeen", "mip", "numo", "experience", "notes", "about", "contact"]) {
+    assert.match(html, new RegExp(`id=["']${id}["']`, "i"));
   }
 });
 
-test("presents the verified Maeen journey and latest program impact", async () => {
-  const html = await (await render()).text();
-  const pageText = textContent(html);
+test("presents QARAR specifically without exposing private material", async () => {
+  const html = await (await request()).text();
+  const project = textContent(elementContent(html, "article", "qarar"));
 
-  assert.match(html, /href=["']https:\/\/maeen\.com\.sa["']/i);
-  assert.match(pageText, /Student, teacher, then developer/i);
-  assertInOrder(pageText, ["2018", "Student", "Teacher", "Developer"]);
-  assert.match(pageText, /40\+ active team users/i);
-  assert.match(pageText, /1,400\+ students benefited in the latest summer program/i);
-  assert.match(pageText, /Built the summer-program registration flow and an internal dashboard/i);
-  assert.match(pageText, /keeping the team’s Google Drive workflow/i);
-  assert.match(pageText, /Real 2026 program pages shown above/i);
-  assert.doesNotMatch(pageText, /5,?000\+|200\+ users/i);
-  assert.match(html, /projects\/maeen-summer-home\.png/i);
+  assert.match(project, /Private/i);
+  assert.match(project, /Mrasim/i);
+  assert.match(project, /Flutter app and Laravel backend/i);
+  assert.match(project, /login, account recovery, and realtime updates/i);
+  assert.match(project, /simulator previews/i);
+  assert.match(html, /projects\/qarar-login-preview\.webp/i);
+  assert.match(html, /projects\/qarar-account-clean\.png/i);
+  assert.match(html, /projects\/qarar-decision-preview\.webp/i);
+  assert.match(project, /Swipe through screens/i);
+  const hero = elementContent(html, "section", "top");
+  assert.match(hero, /qarar-decision-preview/);
+  assert.doesNotMatch(elementContent(html, "article", "qarar"), /qarar-decision-preview|qarar-home-preview/);
+  assert.doesNotMatch(project, /ApiClient|TokenStorage|last_id|production-ready/i);
+});
+
+test("keeps Maeen attribution and MIP claims within verified boundaries", async () => {
+  const html = await (await request()).text();
+  const maeen = textContent(elementContent(html, "article", "maeen"));
+  const mip = textContent(elementContent(html, "article", "mip"));
+
+  assert.match(maeen, /Maeen · freelance/i);
+  assert.match(maeen, /40\+ active team users/i);
+  assert.match(maeen, /wider program benefited 1,400\+ students/i);
+  assert.match(html, /projects\/maeen-summer-home-preview\.webp/i);
   assert.match(html, /projects\/maeen-summer-form\.png/i);
-  assert.match(html, /projects\/maeen-summer-program\.png/i);
-});
+  assert.match(html, /projects\/maeen-summer-program-preview\.webp/i);
 
-test("keeps the MIP project factual and brief", async () => {
-  const html = await (await render()).text();
-  const pageText = textContent(html);
-
+  assert.match(mip, /rebuilt mipksa\.com from WordPress to Next\.js/i);
+  assert.match(mip, /Marketing Manager/i);
+  assert.match(mip, /Live/i);
+  assert.doesNotMatch(mip, /77.*100|4\.8|0\.8/i);
   assert.match(html, /href=["']https:\/\/mipksa\.com["']/i);
-  assert.match(html, /projects\/mip-home\.png/i);
-  assert.match(html, /class=["'][^"']*mip-browser[^"']*["']/i);
-  assert.match(pageText, /migrated mipksa\.com from WordPress to Next\.js/i);
-  assert.doesNotMatch(pageText, /broader work across|public website linked above/i);
-  assert.doesNotMatch(pageText, /77.*100|4\.8|0\.8|60\+ users/i);
 });
 
-test("presents the actual Numo Ads prototype in plain language", async () => {
-  const html = await (await render()).text();
+test("attributes Numo to employment and distinguishes its schematic from product evidence", async () => {
+  const html = await (await request()).text();
   const project = textContent(elementContent(html, "article", "numo"));
 
-  assert.match(project, /Numo Ads نمو ادز/i);
-  assert.match(project, /Personal project/i);
-  assert.match(project, /Local prototype/i);
-  assertInOrder(project, ["Vue 3", "Laravel 12", "MySQL"]);
-  assert.match(project, /Arabic-first prototype for Snapchat campaigns/i);
-  assert.match(project, /Campaign setup · Content Lab · Reports/i);
-  assert.match(project, /1080 × 1920 MP4 · 60 FPS/i);
-  assert.match(project, /Local simulators · no live ad spend/i);
-  assert.doesNotMatch(project, /What I built|What works today|Scope/i);
-  assert.doesNotMatch(project, /production-ready|live campaigns|real provider integration/i);
+  assert.match(project, /Mrasim · web development/i);
+  assert.doesNotMatch(project, /Personal project|Personal product lab/i);
+  assert.match(project, /In development/i);
+  assertInOrder(project, ["Vue 3", "Laravel", "MySQL"]);
+  assertInOrder(project, ["01", "Project selection", "02", "Campaign planning", "03", "Content", "04", "Review"]);
+  assert.match(project, /Workflow diagram/i);
+  assert.doesNotMatch(project, /live campaigns|real provider integration|production-ready/i);
 });
 
-test("keeps the personal section short and removes music", async () => {
-  const html = await (await render()).text();
-  const about = textContent(elementContent(html, "section", "about"));
-
-  assert.match(about, /Sameer Awaji/i);
-  assert.match(about, /Software engineer in Jeddah/i);
-  assert.match(about, /product, marketing, and teaching/i);
-  assert.match(about, /Jeddah, Saudi Arabia/i);
-  assert.match(about, /Arabic and English/i);
-  assert.doesNotMatch(about, /I use AI in almost everything I build/i);
-  assert.doesNotMatch(about, /Playlist whiplash|Eminem|Billie Eilish|Sherine|Abdel Halim/i);
-  assert.doesNotMatch(about, /Intellection|Achiever|Responsibility|Harmony|Relator|DISC/i);
-  assert.doesNotMatch(about, /innovative|passionate|results-driven|unique blend|leverage AI/i);
-});
-
-test("keeps the full experience path and education", async () => {
-  const html = await (await render()).text();
-  const experience = textContent(elementContent(html, "section", "experience"));
-
-  assertInOrder(experience, [
-    "Employment",
-    "Mrasim",
-    "MIP Marketing Agency",
-    "Nana",
-    "Concurrent freelance work",
-    "Maeen",
-  ]);
-  assert.match(experience, /Bachelor of Software Engineering/i);
-  assert.match(experience, /University of Jeddah/i);
-  assert.match(experience, /4\.48 \/ 5\.0/i);
-  assert.match(experience, /Freelance Developer & AI Tutor/i);
-});
-
-test("stays concise and avoids unsupported padding", async () => {
-  const html = await (await render()).text();
+test("ships a deliberately translated RTL route with language alternates", async () => {
+  const response = await request("/ar");
+  assert.equal(response.status, 200);
+  const html = await response.text();
   const pageText = textContent(html);
 
-  assert.ok(
-    wordCount(pageText) < 500,
-    `Expected homepage under 500 words, received ${wordCount(pageText)}`,
-  );
-  assert.doesNotMatch(pageText, /What I built|My contribution|How I checked it|What works today/i);
-  assert.doesNotMatch(pageText, /Automatic Marketing|While It Runs|Rescuel/i);
-  assert.doesNotMatch(pageText, /repository commits|69 commits|29 commits/i);
-  assert.match(html, /href=["']mailto:sameer2study@gmail\.com["']/i);
-  assert.doesNotMatch(pageText, /Built, shipped, and visible/i);
-  assert.doesNotMatch(pageText, /Looking for an engineer who can connect product and implementation/i);
+  assert.match(html, /<html[^>]+lang=["']ar["'][^>]+dir=["']rtl["']/i);
+  assert.match(pageText, /سمير عواجي\. مهندس برمجيات\./i);
+  assert.match(pageText, /فرصة هندسة برمجيات عن بُعد/i);
+  assert.match(pageText, /أعمال مختارة\./i);
+  assert.match(pageText, /الأرشفة ليست حذفاً/i);
+  assert.match(html, /hreflang=["']en["'][^>]+href=["'][^"']+\/["']/i);
+  assert.match(html, /hreflang=["']ar["'][^>]+href=["'][^"']+\/ar["']/i);
+  assert.doesNotMatch(pageText, /Products with real constraints/i);
 });
 
-test("redirects the old QARAR case-study route into the homepage story", async () => {
-  const response = await render("/work/qarar");
+test("renders all three bilingual engineering notes", async () => {
+  const slugs = [
+    "archive-is-not-delete",
+    "what-local-tests-prove",
+    "arabic-first-is-not-translation",
+  ];
+
+  for (const slug of slugs) {
+    const english = await request(`/notes/${slug}`);
+    const arabic = await request(`/ar/notes/${slug}`);
+    assert.equal(english.status, 200, `Expected English note ${slug}`);
+    assert.equal(arabic.status, 200, `Expected Arabic note ${slug}`);
+
+    const englishHtml = await english.text();
+    const arabicHtml = await arabic.text();
+    assert.match(englishHtml, /<html[^>]+lang=["']en["']/i);
+    assert.match(arabicHtml, /<html[^>]+lang=["']ar["']/i);
+    assert.match(englishHtml, /application\/ld\+json/i);
+    assert.match(arabicHtml, /application\/ld\+json/i);
+    assert.match(textContent(englishHtml), /3 min read/i);
+    assert.match(textContent(arabicHtml), /قراءة 3 دقائق/i);
+  }
+});
+
+test("keeps the personal section human and avoids personality-test labels", async () => {
+  const html = await (await request()).text();
+  const about = textContent(elementContent(html, "section", "about"));
+
+  assert.match(about, /A little about me/i);
+  assert.match(about, /Jeddah, Saudi Arabia/i);
+  assert.match(about, /Arabic and English/i);
+  assert.match(about, /product management, marketing, and teaching/i);
+  assert.doesNotMatch(about, /Intellection|Achiever|Responsibility|Harmony|Relator|DISC/i);
+  assert.doesNotMatch(about, /innovative|passionate|results-driven|unique blend/i);
+});
+
+test("records only allowlisted anonymous interaction events", async () => {
+  const valid = await request("/api/portfolio-events", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ event: "project_link", path: "/", locale: "en", project: "mip" }),
+  });
+  assert.equal(valid.status, 204);
+
+  const invalid = await request("/api/portfolio-events", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ event: "freeform_event", path: "/", locale: "en", email: "person@example.com" }),
+  });
+  assert.equal(invalid.status, 400);
+
+  const html = await (await request()).text();
+  assert.match(textContent(html), /No analytics cookies or form data/i);
+  assert.doesNotMatch(html, /google-analytics|googletagmanager|facebook\.com\/tr/i);
+});
+
+test("rejects non-object analytics payloads without server errors", async () => {
+  for (const payload of [null, [], "project_link", 42, true]) {
+    const response = await request("/api/portfolio-events", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    assert.equal(response.status, 400, `Expected rejection for ${JSON.stringify(payload)}`);
+  }
+});
+
+test("rejects image sources that normalize to another origin", async () => {
+  const sources = [
+    "https://example.test/image.webp",
+    "//example.test/image.webp",
+    "/\\example.test/image.webp",
+    "/\n/example.test/image.webp",
+    "/\r/example.test/image.webp",
+    "/\t/example.test/image.webp",
+  ];
+
+  for (const source of sources) {
+    const path = `/_vinext/image?${new URLSearchParams({ url: source, w: "640", q: "75" })}`;
+    for (const env of [{}, { ASSETS: { fetch: async () => assert.fail("Rejected image must not reach ASSETS") } }]) {
+      const response = await request(path, undefined, env);
+      assert.equal(response.status, 400, `Expected rejection for ${JSON.stringify(source)}`);
+      assert.equal(response.headers.get("location"), null);
+    }
+  }
+});
+
+test("preserves local image fallback with and without an asset binding", async () => {
+  const source = "/projects/maeen-summer-home-preview.webp";
+  const path = `/_vinext/image?${new URLSearchParams({ url: source, w: "640", q: "75" })}`;
+  const fetched = [];
+  const assetResponse = await request(path, undefined, {
+    ASSETS: {
+      fetch: async (assetRequest) => {
+        fetched.push(assetRequest.url);
+        return new Response("local-image", { headers: { "content-type": "image/webp" } });
+      },
+    },
+  });
+  assert.equal(assetResponse.status, 200);
+  assert.equal(assetResponse.headers.get("content-type"), "image/webp");
+  assert.equal(await assetResponse.text(), "local-image");
+  assert.deepEqual(fetched, [`http://localhost${source}`]);
+
+  const redirectResponse = await request(path, undefined, {});
+  assert.equal(redirectResponse.status, 307);
+  assert.equal(redirectResponse.headers.get("location"), `http://localhost${source}`);
+});
+
+test("keeps the homepage short and readable", async () => {
+  const html = await (await request()).text();
+  const pageText = textContent(html);
+  assert.ok(wordCount(pageText) < 500, `Expected homepage under 500 words, received ${wordCount(pageText)}`);
+  assert.doesNotMatch(pageText, /Engineering details|My contribution|Validation|identity and session continuity|verification boundary/i);
+  assert.match(html, /application\/ld\+json/i);
+  assert.match(html, /rel=["']canonical["']/i);
+  assert.match(html, /property=["']og:image["'][^>]+og\.jpg/i);
+  assert.match(html, /name=["']twitter:card["'][^>]+summary_large_image/i);
+  assert.doesNotMatch(pageText, /repository commits|test dashboard|69 commits|29 commits/i);
+});
+
+test("presents short project contributions and useful skills in both locales", async () => {
+  for (const path of ["/", "/ar"]) {
+    const html = await (await request(path)).text();
+    for (const id of ["qarar", "maeen", "mip", "numo"]) {
+      const project = elementContent(html, "article", id);
+      const contribution = /<p[^>]*class=["']project-contribution["'][^>]*>([\s\S]*?)<\/p>/i.exec(project);
+      assert.ok(contribution, `Missing contribution for ${id}`);
+      assert.ok(wordCount(textContent(contribution[1])) <= 30, `Contribution for ${id} is too long`);
+    }
+    const experience = textContent(elementContent(html, "section", "experience"));
+    for (const skill of ["TypeScript", "Vue 3", "Flutter", "REST APIs", "Supabase"]) {
+      assert.ok(experience.includes(skill), `Missing technical skill: ${skill}`);
+    }
+    assert.match(html, /id=["']skills-title["']/i);
+  }
+});
+
+test("redirects the legacy QARAR route", async () => {
+  const response = await request("/work/qarar");
   assert.ok([301, 302, 307, 308].includes(response.status));
   assert.match(response.headers.get("location") ?? "", /\/#qarar$/i);
 });
 
-test("contains no starter residue", async () => {
-  const html = await (await render()).text();
-  const pageText = textContent(html);
-  const [pageSource, motionSource, caseSource, layoutSource, packageJson] = await Promise.all([
-    readFile(new URL("app/page.tsx", projectRoot), "utf8"),
+test("ships optimized proof assets and a one-source resume generator", async () => {
+  const assets = [
+    "public/Sameer_Awaji_Resume.pdf",
+    "public/Sameer_Awaji_Resume.txt",
+    "public/og.jpg",
+    "public/brands/mrasim-logo-white.svg",
+    "public/projects/mip-home-preview.webp",
+    "public/projects/maeen-summer-home-preview.webp",
+    "public/projects/maeen-summer-form-preview.webp",
+    "public/projects/maeen-summer-program-preview.webp",
+    "public/projects/qarar-login-preview.webp",
+    "public/projects/qarar-home-preview.webp",
+    "public/projects/qarar-decision-preview.webp",
+    "app/icon.png",
+  ];
+  await Promise.all(assets.map((asset) => access(new URL(asset, projectRoot))));
+
+  const og = await stat(new URL("public/og.jpg", projectRoot));
+  assert.ok(og.size < 400_000, `Expected social card below 400 KB, received ${og.size}`);
+
+  const [resumeSource, portfolioSource, pageSource, behaviorSource, stylesSource] = await Promise.all([
+    readFile(new URL("scripts/build_resume.py", projectRoot), "utf8"),
+    readFile(new URL("content/portfolio.json", projectRoot), "utf8"),
+    readFile(new URL("components/portfolio-page.tsx", projectRoot), "utf8"),
     readFile(new URL("app/scroll-motion.tsx", projectRoot), "utf8"),
-    readFile(new URL("app/work/qarar/page.tsx", projectRoot), "utf8"),
-    readFile(new URL("app/layout.tsx", projectRoot), "utf8"),
-    readFile(new URL("package.json", projectRoot), "utf8"),
+    readFile(new URL("app/globals.css", projectRoot), "utf8"),
   ]);
-
-  assert.doesNotMatch(html, /\bcodex-preview\b|\b_sites-preview\b/i);
-  assert.doesNotMatch(pageText, /Your site is taking shape|Building your site/i);
-  assert.doesNotMatch(pageSource, /codex-preview|SkeletonPreview|_sites-preview/i);
-  assert.match(motionSource, /IntersectionObserver/i);
-  assert.match(motionSource, /--scroll-progress/i);
-  assert.doesNotMatch(caseSource, /codex-preview|SkeletonPreview|_sites-preview/i);
-  assert.doesNotMatch(layoutSource, /Starter Project|codex-preview|_sites-preview/i);
-  assert.doesNotMatch(packageJson, /react-loading-skeleton/i);
-});
-
-test("keeps the resume source aligned with the latest Maeen figures", async () => {
-  const resumeSource = await readFile(
-    new URL("scripts/build_resume.py", projectRoot),
-    "utf8",
-  );
-
-  assert.match(resumeSource, /40\+ active team users/i);
-  assert.match(resumeSource, /1,400\+ students/i);
-  assert.doesNotMatch(resumeSource, /60\+ users/i);
-});
-
-test("ships the resume, brand, social card, and project proof assets", async () => {
-  await Promise.all([
-    access(new URL("public/Sameer_Awaji_Resume.pdf", projectRoot)),
-    access(new URL("public/og-v5.png", projectRoot)),
-    access(new URL("public/brands/mrasim-logo-white.svg", projectRoot)),
-    access(new URL("public/projects/mip-home.png", projectRoot)),
-    access(new URL("public/projects/maeen-summer-home.png", projectRoot)),
-    access(new URL("public/projects/maeen-summer-form.png", projectRoot)),
-    access(new URL("public/projects/maeen-summer-program.png", projectRoot)),
-    access(new URL("public/projects/qarar-login-clean.png", projectRoot)),
-    access(new URL("public/projects/qarar-home-clean.png", projectRoot)),
-    access(new URL("public/projects/qarar-decision-clean.png", projectRoot)),
-    access(new URL("app/icon.png", projectRoot)),
-  ]);
+  assert.match(resumeSource, /content.*portfolio\.json/i);
+  assert.match(portfolioSource, /40\+ active team users/i);
+  assert.match(portfolioSource, /1,400\+ students/i);
+  assert.match(pageSource, /content\/portfolio\.json/i);
+  assert.match(pageSource, /note-card-link/i);
+  assert.match(behaviorSource, /IntersectionObserver/i);
+  assert.match(behaviorSource, /sendBeacon/i);
+  assert.match(behaviorSource, /aria-current/i);
+  assert.match(stylesSource, /\.project-qarar\s*{[^}]*grid-column:\s*1\s*\/\s*-1/is);
 });
