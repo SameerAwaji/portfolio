@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/project-image";
 import Link from "next/link";
 import content from "@/content/portfolio.json";
 import SiteBehavior from "@/app/scroll-motion";
@@ -175,6 +175,7 @@ function QararProject({ locale }: { locale: Locale }) {
               width={420}
               height={913}
               sizes="(max-width: 640px) 60vw, 260px"
+              zoom locale={locale}
             />
             <figcaption>{locale === "ar" ? "01 / تسجيل الدخول" : "01 / Sign in"}</figcaption>
           </figure>
@@ -185,6 +186,7 @@ function QararProject({ locale }: { locale: Locale }) {
               width={1206}
               height={2622}
               sizes="(max-width: 640px) 60vw, 260px"
+              zoom locale={locale}
             />
             <figcaption>{locale === "ar" ? "02 / الحساب والخصوصية" : "02 / Account & privacy"}</figcaption>
           </figure>
@@ -214,19 +216,19 @@ function MaeenProject({ locale }: { locale: Locale }) {
           <figure className="maeen-feature">
             <Image src="/projects/maeen-summer-form.png"
               alt={locale === "ar" ? "نموذج بيانات ولي الأمر والطالب للتسجيل في معين" : "Maeen registration form for guardian and student details"}
-              width={1280} height={720} sizes="(max-width: 780px) 85vw, 48vw" />
+              width={1280} height={720} sizes="(max-width: 900px) 85vw, 680px" zoom locale={locale} />
             <figcaption>{locale === "ar" ? "التسجيل / بيانات ولي الأمر والطالب" : "Registration / guardian & student details"}</figcaption>
           </figure>
           <figure>
             <Image src="/projects/maeen-summer-home-preview.webp"
               alt={locale === "ar" ? "صفحة البرنامج الصيفي في معين" : "Maeen summer program homepage"}
-              width={900} height={506} sizes="(max-width: 780px) 40vw, 24vw" />
+              width={900} height={506} sizes="(max-width: 900px) 40vw, 280px" zoom locale={locale} />
             <figcaption>{locale === "ar" ? "اكتشاف البرنامج" : "Discover the program"}</figcaption>
           </figure>
           <figure>
             <Image src="/projects/maeen-summer-program-preview.webp"
               alt={locale === "ar" ? "تفاصيل البرنامج الصيفي في معين" : "Maeen summer program details"}
-              width={560} height={315} sizes="(max-width: 780px) 40vw, 24vw" />
+              width={560} height={315} sizes="(max-width: 900px) 40vw, 280px" zoom locale={locale} />
             <figcaption>{locale === "ar" ? "تفاصيل البرنامج" : "Program details"}</figcaption>
           </figure>
         </div>
@@ -302,7 +304,6 @@ function NumoProject({ locale }: { locale: Locale }) {
               </li>
             ))}
           </ol>
-          <small>{l.schematic}</small>
         </div>
       </div>
     </article>
@@ -394,7 +395,7 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
       <main id="main-content">
         <section className="hero" id="top">
           <div className="page hero-grid">
-            <div className="hero-copy" data-reveal>
+            <div className="hero-copy">
               <p className="opportunity-label"><span className="status-dot" aria-hidden="true" />{pick(content.site.opportunities, locale)}</p>
               <p className="eyebrow">{pick(content.hero.eyebrow, locale)}</p>
               <h1><span>{heroTitle[0]}</span><em>{heroTitle[1]}</em></h1>
@@ -421,18 +422,18 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
                 <span>{pick(content.site.timezone, locale)}</span>
               </div>
             </div>
-            <div className="hero-showcase" data-reveal>
-              <p className="showcase-label">{isArabic ? "من الويب إلى الجوال" : "From web to mobile"}</p>
+            <div className="hero-showcase">
+              <p className="showcase-label">{isArabic ? "الويب والجوال" : "Web & mobile"}</p>
               <a className="hero-web" href="#maeen" data-analytics="project_visual" data-project="maeen" aria-label={isArabic ? "استكشف مشروع معين" : "Explore the Maeen project"}>
                 <span className="browser-bar" aria-hidden="true"><i /><i /><i /><small>maeen.com.sa</small></span>
                 <Image src="/projects/maeen-summer-home-preview.webp" alt={isArabic ? "موقع التسجيل للبرنامج الصيفي في معين" : "Maeen’s summer program registration website"} width={900} height={506} sizes="(max-width: 640px) 75vw, 420px" priority />
-                <span className="hero-visual-name">Maeen <span aria-hidden="true">↗</span></span>
+                <span className="hero-visual-name">Maeen <span aria-hidden="true">01</span></span>
               </a>
               <a className="hero-mobile" href="#qarar" data-analytics="project_visual" data-project="qarar" aria-label={isArabic ? "استكشف مشروع قرار" : "Explore the QARAR project"}>
                 <Image src="/projects/qarar-decision-preview.webp" alt={isArabic ? "إدخال القرار وتصنيفه في واجهة قرار العربية" : "QARAR’s Arabic decision entry and category selection"} width={420} height={913} sizes="(max-width: 640px) 40vw, 185px" priority />
-                <span className="hero-visual-name">QARAR <span aria-hidden="true">↗</span></span>
+                <span className="hero-visual-name">QARAR <span aria-hidden="true">02</span></span>
               </a>
-              <p className="showcase-footnote">{isArabic ? "معين / ويب · قرار / محاكاة الجوال" : "Maeen / web · QARAR / mobile simulator"}</p>
+              <p className="showcase-footnote">{isArabic ? "ويب · محاكاة الجوال" : "Web · mobile simulator"}</p>
             </div>
           </div>
         </section>
@@ -443,6 +444,9 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
             <div>
               <h2 id="work-title">{l.selectedTitle}</h2>
             </div>
+            <nav className="project-index" aria-label={isArabic ? "انتقل إلى المشروع" : "Jump to a project"}>
+              {content.projects.map((project) => <a key={project.id} href={`#${project.id}`}>{pick(project.title, locale)}</a>)}
+            </nav>
           </div>
           <div className="project-list">
             <QararProject locale={locale} />
@@ -542,6 +546,23 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
             <div data-reveal>
               <h2 id="about-title">{l.aboutTitle}</h2>
               <p className="about-description">{pick(content.about, locale)}</p>
+              <aside className="about-strengths" aria-labelledby="strengths-title">
+                <h3 id="strengths-title"><bdi lang="en" dir="ltr">{content.strengths.title}</bdi></h3>
+                <p className="strengths-former-name">{pick(content.strengths.formerName, locale)}</p>
+                <p className="strengths-description">{pick(content.strengths.description, locale)}</p>
+                <p className="strengths-results-label" id="strengths-results">{pick(content.strengths.resultsLabel, locale)}</p>
+                <ol className="strengths-list" aria-labelledby="strengths-results">
+                  {content.strengths.topFive.map((theme) => (
+                    <li key={theme.name}>
+                      <bdi lang="en" dir="ltr">{theme.name}</bdi>
+                      {isArabic ? <span className="strengths-translation">{" "}{theme.ar}</span> : null}
+                    </li>
+                  ))}
+                </ol>
+                <a className="strengths-source" href={content.strengths.link.url} target="_blank" rel="noreferrer">
+                  {pick(content.strengths.link.label, locale)}
+                </a>
+              </aside>
             </div>
             <dl className="about-facts" data-reveal>
               <div>
@@ -583,6 +604,14 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
           </div>
         </section>
       </main>
+
+      <dialog className="image-viewer" aria-labelledby="image-viewer-caption">
+        <div className="image-viewer-toolbar">
+          <p id="image-viewer-caption" />
+          <button type="button" data-close-viewer autoFocus>{isArabic ? "إغلاق" : "Close"}<span aria-hidden="true">×</span></button>
+        </div>
+        <div className="image-viewer-content" />
+      </dialog>
 
       <footer className="site-footer">
         <div className="page footer-grid">

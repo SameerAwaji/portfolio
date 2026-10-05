@@ -32,8 +32,8 @@
       "ar": "سمير عواجي. مهندس برمجيات."
     },
     "lead": {
-      "en": "I work on Flutter apps and Laravel backends at Mrasim. I also built Maeen’s registration site and staff dashboard.",
-      "ar": "أعمل على تطبيقات Flutter وأنظمة Laravel في مراسم. وطوّرت لمعين موقع التسجيل ولوحة عمل الفريق."
+      "en": "At Mrasim, I develop Flutter apps and Laravel backends; I built Maeen’s registration site and staff dashboard.",
+      "ar": "أطوّر تطبيقات Flutter وأنظمة Laravel في مراسم، وطوّرت لمعين موقع التسجيل ولوحة الفريق."
     },
     "current": {
       "label": {
@@ -74,12 +74,12 @@
         "ar": "خاص"
       },
       "summary": {
-        "en": "I develop login, account recovery, and realtime updates across the Flutter app and Laravel backend.",
-        "ar": "أطوّر تسجيل الدخول واستعادة الحساب والتحديثات الفورية في تطبيق Flutter ونظامه الخلفي المبني بـLaravel."
+        "en": "I develop login, account recovery, and realtime updates in Flutter and Laravel.",
+        "ar": "أطوّر تسجيل الدخول واستعادة الحساب والتحديثات الفورية باستخدام Flutter وLaravel."
       },
       "evidence": {
-        "en": "Private project · simulator previews.",
-        "ar": "مشروع خاص · شاشات من المحاكي."
+        "en": "Simulator previews.",
+        "ar": "شاشات من المحاكي."
       },
       "stack": [
         {
@@ -136,7 +136,7 @@
         "ar": "مستمر"
       },
       "summary": {
-        "en": "I built the registration forms and staff dashboard with React and Supabase, and continue to maintain them.",
+        "en": "I built and maintain React/Supabase registration forms and a staff dashboard.",
         "ar": "طوّرت نماذج التسجيل ولوحة الفريق باستخدام React وSupabase، وأواصل صيانتها."
       },
       "evidence": {
@@ -198,8 +198,8 @@
         "ar": "منشور"
       },
       "summary": {
-        "en": "I rebuilt mipksa.com from WordPress to Next.js while working as Marketing Manager, focusing on performance and SEO.",
-        "ar": "أعدت بناء mipksa.com من WordPress إلى Next.js خلال عملي مديراً للتسويق، مع التركيز على الأداء وتهيئة محركات البحث."
+        "en": "As Marketing Manager, I rebuilt mipksa.com from WordPress to Next.js for performance and SEO.",
+        "ar": "خلال عملي مديراً للتسويق، أعدت بناء mipksa.com من WordPress إلى Next.js لتحسين الأداء وتهيئة محركات البحث."
       },
       "evidence": {
         "en": "Performance results in my résumé.",
@@ -260,12 +260,12 @@
         "ar": "قيد التطوير"
       },
       "summary": {
-        "en": "I’m part of the Mrasim team building Numo Ads, an Arabic campaign-management tool with Vue and Laravel.",
+        "en": "With Mrasim’s team, I’m building Numo Ads, an Arabic campaign-management tool using Vue and Laravel.",
         "ar": "أشارك مع فريق مراسم في تطوير نمو ادز، أداة عربية لإدارة الحملات باستخدام Vue وLaravel."
       },
       "evidence": {
-        "en": "In development · workflow diagram.",
-        "ar": "قيد التطوير · مخطط لمسار العمل."
+        "en": "Workflow diagram.",
+        "ar": "مخطط لمسار العمل."
       },
       "stack": [
         {
@@ -316,8 +316,8 @@
       },
       "organization": "Mrasim",
       "note": {
-        "en": "Mobile apps, web development, and backend work.",
-        "ar": "تطبيقات جوال وتطوير ويب وأنظمة خلفية."
+        "en": "Mobile, web, and backend development.",
+        "ar": "تطوير تطبيقات الجوال والويب والأنظمة الخلفية."
       }
     },
     {
@@ -588,8 +588,37 @@
     "headline": "Software Engineer | Web & Mobile"
   },
   "about": {
-    "en": "I’ve worked in product management, marketing, and teaching. That experience shapes how I approach software: understand the people using it, then build.",
-    "ar": "عملت في إدارة المنتجات والتسويق والتدريب. هذه الخبرة تؤثر في طريقتي لبناء البرمجيات: أفهم احتياج من سيستخدمها، ثم أبدأ التطوير."
+    "en": "Product management, marketing, and teaching shaped my approach: understand users, then build.",
+    "ar": "خبرتي في إدارة المنتجات والتسويق والتدريب شكّلت طريقتي في بناء البرمجيات: أفهم المستخدم، ثم أبدأ التطوير."
+  },
+  "strengths": {
+    "title": "Gallup CliftonStrengths",
+    "formerName": {
+      "en": "Formerly StrengthsFinder",
+      "ar": "المعروف سابقاً باسم StrengthsFinder"
+    },
+    "description": {
+      "en": "Gallup’s research-based assessment maps thinking, feeling, and behavior across 34 talent themes.",
+      "ar": "تقييم طوّرته Gallup ويستند إلى أبحاثها، يحدّد أنماط التفكير والشعور والسلوك الطبيعية ضمن 34 سمة من سمات الموهبة."
+    },
+    "resultsLabel": {
+      "en": "My top five",
+      "ar": "أبرز خمس سمات لدي"
+    },
+    "topFive": [
+      { "name": "Intellection", "ar": "التفكير المتعمّق" },
+      { "name": "Achiever", "ar": "الإنجاز" },
+      { "name": "Positivity", "ar": "الإيجابية" },
+      { "name": "Harmony", "ar": "الانسجام" },
+      { "name": "Responsibility", "ar": "المسؤولية" }
+    ],
+    "link": {
+      "label": {
+        "en": "About the assessment",
+        "ar": "عن التقييم"
+      },
+      "url": "https://support.gallup.com/hc/en-us/articles/44814767818643-What-is-the-CliftonStrengths-assessment"
+    }
   },
   "skills": [
     {

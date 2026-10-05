@@ -89,7 +89,7 @@ test("renders the new engineering position and current context", async () => {
   assert.match(html, /<title>Sameer Awaji — Software Engineer<\/title>/i);
   assert.match(hero, /Sameer Awaji\. Software engineer\./i);
   assert.match(hero, /Looking for a remote software engineering role/i);
-  assert.match(hero, /Flutter apps and Laravel backends at Mrasim.*Maeen’s registration site and staff dashboard/i);
+  assert.match(hero, /At Mrasim, I develop Flutter apps and Laravel backends.*Maeen’s registration site and staff dashboard/i);
   assert.match(hero, /React \/ Next\.js.*TypeScript.*Flutter.*Laravel/i);
   assert.match(hero, /Software Engineer/i);
   assert.match(hero, /Download résumé/i);
@@ -126,7 +126,7 @@ test("presents QARAR specifically without exposing private material", async () =
 
   assert.match(project, /Private/i);
   assert.match(project, /Mrasim/i);
-  assert.match(project, /Flutter app and Laravel backend/i);
+  assert.match(project, /Flutter and Laravel/i);
   assert.match(project, /login, account recovery, and realtime updates/i);
   assert.match(project, /simulator previews/i);
   assert.match(html, /projects\/qarar-login-preview\.webp/i);
@@ -211,7 +211,7 @@ test("renders all three bilingual engineering notes", async () => {
   }
 });
 
-test("keeps the personal section human and avoids personality-test labels", async () => {
+test("keeps the personal section human and attributes CliftonStrengths to Gallup", async () => {
   const html = await (await request()).text();
   const about = textContent(elementContent(html, "section", "about"));
 
@@ -219,7 +219,15 @@ test("keeps the personal section human and avoids personality-test labels", asyn
   assert.match(about, /Jeddah, Saudi Arabia/i);
   assert.match(about, /Arabic and English/i);
   assert.match(about, /product management, marketing, and teaching/i);
-  assert.doesNotMatch(about, /Intellection|Achiever|Responsibility|Harmony|Relator|DISC/i);
+  assert.match(about, /Gallup CliftonStrengths.*Formerly StrengthsFinder/i);
+  assert.match(about, /research-based assessment.*34 talent themes/i);
+  assertInOrder(about, ["Intellection", "Achiever", "Positivity", "Harmony", "Responsibility"]);
+  assert.match(elementContent(html, "section", "about"), /href=["']https:\/\/support\.gallup\.com\/hc\/en-us\/articles\/44814767818643-What-is-the-CliftonStrengths-assessment["']/i);
+  const arabicHtml = await (await request("/ar")).text();
+  const arabicAbout = textContent(elementContent(arabicHtml, "section", "about"));
+  assert.match(arabicAbout, /أبرز خمس سمات لدي/i);
+  assertInOrder(arabicAbout, ["Intellection", "Achiever", "Positivity", "Harmony", "Responsibility"]);
+  assert.doesNotMatch(about, /DISC|Gallup-certified|certified engineer/i);
   assert.doesNotMatch(about, /innovative|passionate|results-driven|unique blend/i);
 });
 
@@ -306,6 +314,29 @@ test("keeps the homepage short and readable", async () => {
   assert.match(html, /property=["']og:image["'][^>]+og\.jpg/i);
   assert.match(html, /name=["']twitter:card["'][^>]+summary_large_image/i);
   assert.doesNotMatch(pageText, /repository commits|test dashboard|69 commits|29 commits/i);
+});
+
+test("serves lightweight direct screenshots and an accessible image viewer", async () => {
+  for (const path of ["/", "/ar"]) {
+    const html = await (await request(path)).text();
+    const images = [...html.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0]);
+    assert.ok(images.length >= 7);
+    assert.equal(images.filter((image) => /loading="eager"/.test(image)).length, 2);
+    for (const image of images) {
+      assert.match(image, /width="\d+"/);
+      assert.match(image, /height="\d+"/);
+      assert.match(image, /alt="[^"]+"/);
+      assert.doesNotMatch(image, /_vinext\/image|_next\/image/);
+      assert.doesNotMatch(image, /src="[^"]+\.png"/);
+    }
+    assert.match(html, /srcSet="[^\"]*qarar-account-520\.webp 520w[^\"]*qarar-account-1040\.webp 1040w/i);
+    assert.match(html, /<dialog[^>]*aria-labelledby="image-viewer-caption"/);
+    assert.match(html, /href="\/projects\/qarar-account-clean\.png"[^>]*data-image-viewer/);
+  }
+  const compactPhone = await stat(new URL("public/projects/qarar-account-520.webp", projectRoot));
+  assert.ok(compactPhone.size < 30_000);
+  const fullForm = await stat(new URL("public/projects/maeen-form-1280.webp", projectRoot));
+  assert.ok(fullForm.size < 35_000);
 });
 
 test("presents short project contributions and useful skills in both locales", async () => {

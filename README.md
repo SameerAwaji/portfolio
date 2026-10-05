@@ -29,6 +29,12 @@ contributions near the project title and retain a keyboard-focusable QARAR galle
 Reduced-motion and print styles keep content visible. Browser visual QA remains
 required before treating a design change as verified.
 
+About includes Sameer’s recorded Gallup CliftonStrengths top five, in order:
+Intellection, Achiever, Positivity, Harmony, and Responsibility. The brief assessment
+description links to Gallup; results were retrieved from the ChatGPT conversation
+“Memory and Obsidian Use” on October 4, 2026. They are personal assessment results,
+not a professional certification. The one-page résumé remains engineering-focused.
+
 ## Factual source
 
 `content/portfolio.json` is the shared source for public claims, translations,
@@ -59,6 +65,7 @@ user path or a real external dependency.
 
 - `content/portfolio.json` — facts, translations, notes, and résumé content
 - `components/portfolio-page.tsx` — shared English/Arabic homepage
+- `components/project-image.tsx` — direct responsive assets and progressive image-viewer links
 - `components/note-page.tsx` — shared bilingual note template
 - `app/(en)` and `app/(ar)` — locale-specific root layouts and routes
 - `app/globals.css` — visual system, responsive layout, motion, and RTL rules
@@ -145,3 +152,27 @@ external operations and require explicit approval.
   English and Arabic layouts were reviewed at desktop and phone widths; the
   one-page résumé was rendered and checked. Analytics rejects non-object JSON,
   and image fallback stays on the local origin, with regression coverage.
+
+## Visual and performance refresh — 2026-10-05
+
+- Preserved bilingual content, factual project boundaries, and the pending
+  CliftonStrengths addition. Refined the forest-green showcase, project index,
+  staggered screenshots, skills, experience, and numbered strengths.
+- Screenshots use server-rendered native images with explicit dimensions,
+  lazy loading below the opening, and two high-priority opening images.
+  Local WebP variants replace the large PNG previews; original screenshots
+  open on demand in a keyboard-accessible dialog or via normal links without JS.
+- QARAR account preview: 237,106-byte PNG to 22,936-byte 520px WebP
+  (90.3% smaller); a 1040px variant is available. Maeen form variants retain
+  full 1280px detail when needed. Original captures are preserved.
+- Production client JavaScript totals 92,883 bytes gzip versus the prior
+  local build's 106,563 bytes (12.8% reduction). These are aggregate build
+  sizes, not a measured production loading-time or Core Web Vitals score.
+- Scroll effects read geometry before writing styles, avoid repeatedly
+  scanning reveal elements, and keep section highlighting independent of
+  the project index. Optional analytics failures do not interrupt navigation.
+- Browser checks cover English and Arabic at desktop and phone widths,
+  narrow 320px Arabic, image enlargement and Escape focus return, mobile
+  menu keyboard dismissal, RTL gallery keys, language hash preservation,
+  and a note at desktop/phone widths. No overflow or browser errors appeared
+  in those checks. Evidence is in the sibling `portfolio-evidence` directory.
