@@ -74,8 +74,12 @@ DETAIL = ParagraphStyle(
     "Detail", parent=BODY, fontSize=10.3, leading=14, textColor=SOFT,
 )
 HEADLINE = ParagraphStyle(
-    "Headline", parent=BODY, fontName=BOLD_FONT, fontSize=13,
-    leading=17.5, textColor=ACCENT,
+    "Headline", parent=BODY, fontName=BOLD_FONT, fontSize=12.5,
+    leading=16.5, textColor=ACCENT,
+)
+COMPACT_BULLET = ParagraphStyle(
+    "CompactBullet", parent=BODY, fontSize=9.5, leading=12.5,
+    leftIndent=11, firstLineIndent=-11, textColor=SOFT,
 )
 
 
@@ -107,6 +111,14 @@ def short_url(url):
     return url.removeprefix("https://").removeprefix("http://").rstrip("/")
 
 
+def resume_location(site):
+    location = english(site["location"])
+    timezone = english(site.get("timezone", ""))
+    if "UTC+3" in timezone and "UTC+3" not in location:
+        return f"{location} (UTC+3)"
+    return location
+
+
 def draw_contact_line(pdf, contacts, y):
     size = 10
     gap = 16
@@ -125,32 +137,47 @@ def draw_contact_line(pdf, contacts, y):
 
 
 def ordered_experience(entries):
-    # Keep concurrent freelance work alongside engineering employment.
+    # Engineering employment and freelance work lead. Earlier non-engineering
+    # roles stay in the source and render in a quieter block.
     priority = {"Mrasim": 0, "Maeen": 1, "MIP Marketing Agency": 2, "Nana": 3}
     return sorted(entries, key=lambda entry: priority.get(entry["company"], 4))
 
 
+def is_compact(entry):
+    return entry.get("tier") == "compact"
+
+
 def experience_entry(pdf, y, entry):
+    compact = is_compact(entry)
     title = f"{entry['role']} | {entry['company']}"
     period = plain(entry["period"])
-    title_width = stringWidth(plain(title), BOLD_FONT, 11.2)
-    date_width = stringWidth(period, NORMAL_FONT, 10.3)
+    title_font = NORMAL_FONT if compact else BOLD_FONT
+    title_size = 10 if compact else 11.2
+    date_size = 9.5 if compact else 10.3
+    title_width = stringWidth(plain(title), title_font, title_size)
+    date_width = stringWidth(period, NORMAL_FONT, date_size)
     if title_width + date_width + 18 <= CONTENT_W:
-        pdf.setFillColor(INK)
-        pdf.setFont(BOLD_FONT, 11.2)
-        pdf.drawString(LEFT, y - 11.2, plain(title))
+        pdf.setFillColor(SOFT if compact else INK)
+        pdf.setFont(title_font, title_size)
+        pdf.drawString(LEFT, y - title_size, plain(title))
         pdf.setFillColor(SOFT)
-        pdf.setFont(NORMAL_FONT, 10.3)
-        pdf.drawRightString(RIGHT, y - 11.2, period)
-        y -= 22
+        pdf.setFont(NORMAL_FONT, date_size)
+        pdf.drawRightString(RIGHT, y - title_size, period)
+        y -= 16 if compact else 22
     else:
-        y = draw_paragraph(pdf, f"<b>{markup(title)}</b>", y)
+        y = draw_paragraph(
+            pdf,
+            f"<b>{markup(title)}</b>" if not compact else markup(title),
+            y,
+            style=DETAIL if compact else BODY,
+        )
         y = draw_paragraph(pdf, markup(period), y, style=DETAIL)
-        y -= 4
+        y -= 2
+    bullet_style = COMPACT_BULLET if compact else BULLET
     for bullet in entry["bullets"]:
-        y = draw_paragraph(pdf, f"- {bullet_markup(bullet)}", y, style=BULLET)
-        y -= 3
-    return y - 8
+        y = draw_paragraph(pdf, f"- {bullet_markup(bullet)}", y, style=bullet_style)
+        y -= 2 if compact else 3
+    return y - (4 if compact else 8)
 
 
 def build_plain_text(site, resume, education, experience):
@@ -158,15 +185,19 @@ def build_plain_text(site, resume, education, experience):
     lines = [
         site["name"],
         resume.get("headline", "Software Engineer | Web & Mobile"),
-        f"{english(site['location'])} | {english(site.get('opportunities', 'Open to remote software engineering roles'))}",
+        f"{resume_location(site)} | {english(site.get('opportunities', 'Open to remote software engineering roles'))}",
         f"Email: {site['email']}",
         f"GitHub: {site['github']}",
         f"LinkedIn: {site['linkedin']}",
     ]
-    if portfolio:
+    if isinstance(portfolio, str) and portfolio.startswith("http") and "chatgpt.site" not in portfolio:
         lines.append(f"Portfolio: {portfolio}")
     lines += ["", "SUMMARY", resume["profile"], "", "PROFESSIONAL EXPERIENCE"]
+    wrote_additional = False
     for entry in experience:
+        if is_compact(entry) and not wrote_additional:
+            lines += ["ADDITIONAL EXPERIENCE"]
+            wrote_additional = True
         lines += [f"{entry['role']} | {entry['company']}", entry["period"]]
         lines += [f"- {bullet}" for bullet in entry["bullets"]]
         lines.append("")
@@ -202,7 +233,7 @@ def build_resume():
         y -= 38
         y = draw_paragraph(pdf, markup(resume.get("headline", "Software Engineer | Web & Mobile")), y, style=HEADLINE)
         y -= 4
-        location = english(site["location"])
+        location = resume_location(site)
         opportunities = english(site.get("opportunities", "Open to remote software engineering roles"))
         y = draw_paragraph(pdf, markup(f"{location} | {opportunities}"), y, style=DETAIL)
         y -= 16
@@ -211,8 +242,9 @@ def build_resume():
             (short_url(site["github"]), site["github"]),
             ("LinkedIn", site["linkedin"]),
         ]
-        if site.get("portfolio"):
-            contacts.append(("Portfolio", site["portfolio"]))
+        portfolio = site.get("portfolio")
+        if isinstance(portfolio, str) and portfolio.startswith("http") and "chatgpt.site" not in portfolio:
+            contacts.append(("Portfolio", portfolio))
         y = draw_contact_line(pdf, contacts, y)
         pdf.setStrokeColor(ACCENT)
         pdf.setLineWidth(1.3)
@@ -223,8 +255,14 @@ def build_resume():
         y = draw_paragraph(pdf, markup(resume["profile"]), y)
 
         y = section_title(pdf, "Professional Experience", y)
-        for entry in experience:
+        primary = [entry for entry in experience if not is_compact(entry)]
+        compact = [entry for entry in experience if is_compact(entry)]
+        for entry in primary:
             y = experience_entry(pdf, y, entry)
+        if compact:
+            y = section_title(pdf, "Additional experience", y)
+            for entry in compact:
+                y = experience_entry(pdf, y, entry)
 
         y = section_title(pdf, "Technical Skills", y)
         for label, value in resume["capabilities"]:

@@ -1,34 +1,34 @@
 Sameer Awaji
-Software Engineer | Web & Mobile
-Jeddah, Saudi Arabia | Looking for a remote software engineering role
+Full-stack Engineer | React/Next.js, Flutter, APIs
+Jeddah, Saudi Arabia (UTC+3) | Open to remote full-stack roles
 Email: sameer2study@gmail.com
 GitHub: https://github.com/SameerAwaji
 LinkedIn: https://linkedin.com/in/sameer-awaji-6a0986211
-Portfolio: https://sameer-awaji-portfolio.kill7737.chatgpt.site
 
 SUMMARY
-Software engineer building web and mobile apps with React, Next.js, Flutter, and Laravel. Experience with Arabic interfaces, APIs, and internal tools.
+Full-stack engineer shipping Arabic and RTL web and mobile products with React, Next.js, Flutter, and Laravel APIs. Open to remote roles.
 
 PROFESSIONAL EXPERIENCE
 Software Engineer | Mrasim
 Apr 2026 - Present
-- Work on QARAR's Flutter app and Laravel backend, including login, account recovery, and realtime updates.
-- Keep mobile and backend APIs in sync and test the app before releases.
-- Help build Numo Ads with Vue 3, Laravel, and MySQL. The product is in development.
+- Build QARAR's Flutter app and Laravel APIs for login, account recovery, and realtime updates. Private team work; public screens are sanitized simulator states.
+- Keep mobile and backend contracts in sync, then test in the browser and simulator before release checks.
+- Contribute to Numo Ads (Vue 3, Laravel, MySQL) as Mrasim employment. In development, with no launch metrics.
 
 Freelance Developer & AI Tutor | Maeen
 2023 - Present
-- Built registration forms and a staff dashboard with React and Supabase; maintain them as a freelance developer.
-- Dashboard used by 40+ active team users. The wider summer program benefited 1,400+ students.
+- Built and maintain registration forms and a staff dashboard with React and Supabase, hosted on Netlify.
+- Dashboard used by 40+ active team users. The wider summer program benefited 1,400+ students; that figure is not website traffic.
 
+ADDITIONAL EXPERIENCE
 Marketing Manager | MIP Marketing Agency
 2025 - Mar 2026
-- Rebuilt mipksa.com from WordPress to Next.js while managing marketing and business development.
+- Also rebuilt mipksa.com from WordPress to Next.js for performance and SEO.
 - Raised Lighthouse performance from 77 to 100 and reduced Largest Contentful Paint from 4.8s to 0.8s.
 
 Product Manager Intern | Nana
 Feb 2025 - Apr 2025
-- Helped with product research, documentation, and user acceptance testing.
+- Product research, documentation, and user acceptance testing.
 
 TECHNICAL SKILLS
 Web & mobile: React, Next.js, TypeScript, Vue 3, Flutter

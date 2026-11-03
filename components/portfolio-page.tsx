@@ -317,7 +317,7 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
   const languageHref = isArabic ? "/" : "/ar";
   const notePrefix = isArabic ? "/ar/notes" : "/notes";
   const emailSubject = encodeURIComponent(
-    isArabic ? "فرصة هندسة برمجيات عن بعد" : "Remote software engineering opportunity",
+    isArabic ? "دور فل-ستاك عن بعد" : "Remote full-stack engineering role",
   );
   const jsonLd = {
     "@context": "https://schema.org",
@@ -413,6 +413,7 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
               </div>
               <div className="hero-profile-links">
                 <a href={content.site.github} target="_blank" rel="noreferrer" data-analytics="github_click">GitHub</a>
+                <a href={content.site.linkedin} target="_blank" rel="noreferrer" data-analytics="linkedin_click">LinkedIn</a>
                 <a
                   href={`mailto:${content.site.email}?subject=${emailSubject}`}
                   data-analytics="email_click"
@@ -433,7 +434,7 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
                 <Image src="/projects/qarar-decision-preview.webp" alt={isArabic ? "إدخال القرار وتصنيفه في واجهة قرار العربية" : "QARAR’s Arabic decision entry and category selection"} width={420} height={913} sizes="(max-width: 640px) 40vw, 185px" priority />
                 <span className="hero-visual-name">QARAR <span aria-hidden="true">02</span></span>
               </a>
-              <p className="showcase-footnote">{isArabic ? "ويب · محاكاة الجوال" : "Web · mobile simulator"}</p>
+              <p className="showcase-footnote">{isArabic ? "محاكاة الجوال" : "Mobile simulator"}</p>
             </div>
           </div>
         </section>
@@ -471,7 +472,11 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
                 <p className="list-label">{l.employment}</p>
                 <div className="experience-list">
                   {content.experience.map((item) => (
-                    <article key={`${item.organization}-${item.period}`} data-reveal>
+                    <article
+                      key={`${item.organization}-${item.period}`}
+                      className={item.emphasis === "supporting" ? "is-supporting" : undefined}
+                      data-reveal
+                    >
                       <time>{isArabic ? item.periodAr : item.period}</time>
                       <div>
                         <h3>{pick(item.role, locale)}</h3>
@@ -582,7 +587,11 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
             <p className="section-index">05 / 05</p>
             <div>
               <h2 id="contact-title">{l.contactTitle}</h2>
-              <p className="contact-description">{isArabic ? "أخبرني عمّا تعمل عليه." : "Tell me what you’re building."}</p>
+              <p className="contact-description">
+                {isArabic
+                  ? "أدوار عن بُعد. جدة، UTC+3."
+                  : "Remote roles. Jeddah, UTC+3."}
+              </p>
             </div>
             <div className="contact-links">
               <a href="/Sameer_Awaji_Resume.pdf" download data-analytics="resume_download">

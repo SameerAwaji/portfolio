@@ -87,17 +87,22 @@ test("renders the new engineering position and current context", async () => {
 
   assert.match(html, /<html[^>]+lang=["']en["'][^>]+dir=["']ltr["']/i);
   assert.match(html, /<title>Sameer Awaji — Software Engineer<\/title>/i);
-  assert.match(hero, /Sameer Awaji\. Software engineer\./i);
-  assert.match(hero, /Looking for a remote software engineering role/i);
-  assert.match(hero, /At Mrasim, I develop Flutter apps and Laravel backends.*Maeen’s registration site and staff dashboard/i);
+  assert.match(hero, /Sameer Awaji\. Full-stack engineer\./i);
+  assert.match(hero, /Open to remote full-stack roles/i);
+  assert.match(hero, /Arabic and RTL products/i);
+  assert.match(hero, /Flutter, React\/Next\.js, and Laravel APIs/i);
+  assert.match(hero, /Mrasim and Maeen/i);
   assert.match(hero, /React \/ Next\.js.*TypeScript.*Flutter.*Laravel/i);
-  assert.match(hero, /Software Engineer/i);
   assert.match(hero, /Download résumé/i);
   assert.match(hero, /GitHub/i);
+  assert.match(hero, /LinkedIn/i);
   assert.match(hero, /UTC\+3/i);
   assert.match(pageText, /Selected work\./i);
-  assert.match(html, /href=["']mailto:sameer2study@gmail\.com\?subject=Remote%20software%20engineering%20opportunity["']/i);
+  assert.match(pageText, /Remote roles\. Jeddah, UTC\+3\./i);
+  assert.match(html, /href=["']mailto:sameer2study@gmail\.com\?subject=Remote%20full-stack%20engineering%20role["']/i);
   assert.match(html, /href=["']\/Sameer_Awaji_Resume\.pdf["']/i);
+  assert.match(html, /href=["']\/Sameer_Awaji_Resume\.txt["']/i);
+  assert.doesNotMatch(html, /chatgpt\.site|signin-with-chatgpt|kill7737/i);
 });
 
 test("keeps the homepage narrative and project groups in order", async () => {
@@ -126,6 +131,7 @@ test("presents QARAR specifically without exposing private material", async () =
 
   assert.match(project, /Private/i);
   assert.match(project, /Mrasim/i);
+  assert.match(project, /Mrasim’s team/i);
   assert.match(project, /Flutter and Laravel/i);
   assert.match(project, /login, account recovery, and realtime updates/i);
   assert.match(project, /simulator previews/i);
@@ -145,8 +151,10 @@ test("keeps Maeen attribution and MIP claims within verified boundaries", async 
   const mip = textContent(elementContent(html, "article", "mip"));
 
   assert.match(maeen, /Maeen · freelance/i);
+  assert.match(maeen, /hosted on Netlify/i);
   assert.match(maeen, /40\+ active team users/i);
   assert.match(maeen, /wider program benefited 1,400\+ students/i);
+  assert.doesNotMatch(maeen, /Vercel/i);
   assert.match(html, /projects\/maeen-summer-home-preview\.webp/i);
   assert.match(html, /projects\/maeen-summer-form\.png/i);
   assert.match(html, /projects\/maeen-summer-program-preview\.webp/i);
@@ -178,8 +186,10 @@ test("ships a deliberately translated RTL route with language alternates", async
   const pageText = textContent(html);
 
   assert.match(html, /<html[^>]+lang=["']ar["'][^>]+dir=["']rtl["']/i);
-  assert.match(pageText, /سمير عواجي\. مهندس برمجيات\./i);
-  assert.match(pageText, /فرصة هندسة برمجيات عن بُعد/i);
+  assert.match(pageText, /سمير عواجي\. مهندس برمجيات فل-ستاك\./i);
+  assert.match(pageText, /متاح لأدوار فل-ستاك عن بُعد/i);
+  assert.match(pageText, /Netlify/i);
+  assert.doesNotMatch(pageText, /Vercel/i);
   assert.match(pageText, /أعمال مختارة\./i);
   assert.match(pageText, /الأرشفة ليست حذفاً/i);
   assert.match(html, /hreflang=["']en["'][^>]+href=["'][^"']+\/["']/i);
@@ -352,6 +362,8 @@ test("presents short project contributions and useful skills in both locales", a
     for (const skill of ["TypeScript", "Vue 3", "Flutter", "REST APIs", "Supabase"]) {
       assert.ok(experience.includes(skill), `Missing technical skill: ${skill}`);
     }
+    assert.match(experience, /Marketing Manager|مدير تسويق/);
+    assert.match(html, /class=["'][^"']*is-supporting[^"']*["']/);
     assert.match(html, /id=["']skills-title["']/i);
   }
 });
@@ -390,8 +402,42 @@ test("ships optimized proof assets and a one-source resume generator", async () 
     readFile(new URL("app/globals.css", projectRoot), "utf8"),
   ]);
   assert.match(resumeSource, /content.*portfolio\.json/i);
+  assert.match(resumeSource, /tier.*compact|is_compact/i);
   assert.match(portfolioSource, /40\+ active team users/i);
   assert.match(portfolioSource, /1,400\+ students/i);
+  assert.match(portfolioSource, /hosted on Netlify/i);
+  assert.match(portfolioSource, /77 to 100/);
+  assert.match(portfolioSource, /4\.8s to 0\.8s/);
+  assert.doesNotMatch(portfolioSource, /chatgpt\.site|github\.io|workers\.dev|vercel/i);
+  assert.equal(JSON.parse(portfolioSource).site.portfolio, null);
+  const packageJson = JSON.parse(await readFile(new URL("package.json", projectRoot), "utf8"));
+  assert.match(packageJson.scripts.build, /vinext build && node scripts\/prerender-client\.mjs/);
+  const netlifyToml = await readFile(new URL("netlify.toml", projectRoot), "utf8");
+  assert.match(netlifyToml, /command\s*=\s*"npm run build"/);
+  assert.match(netlifyToml, /publish\s*=\s*"dist\/client"/);
+  assert.match(netlifyToml, /NETLIFY_NEXT_PLUGIN_SKIP\s*=\s*"true"/);
+  assert.doesNotMatch(netlifyToml, /\[\[plugins\]\]|github\.io|chatgpt\.site/);
+  const publishedHome = await readFile(new URL("dist/client/index.html", projectRoot), "utf8");
+  const publishedArabic = await readFile(new URL("dist/client/ar/index.html", projectRoot), "utf8");
+  assert.match(publishedHome, /Full-stack engineer/);
+  assert.match(publishedHome, /hosted on Netlify/);
+  assert.match(publishedArabic, /فل-ستاك/);
+  assert.match(await readFile(new URL("dist/client/_headers", projectRoot), "utf8"), /\/assets\/\*/);
+  assert.match(await readFile(new URL("dist/client/_redirects", projectRoot), "utf8"), /\/work\/qarar/);
+
+  const resumeTxt = await readFile(new URL("public/Sameer_Awaji_Resume.txt", projectRoot), "utf8");
+  assert.match(resumeTxt, /Full-stack Engineer \| React\/Next\.js, Flutter, APIs/);
+  assert.match(resumeTxt, /Jeddah, Saudi Arabia \(UTC\+3\)/);
+  assert.match(resumeTxt, /hosted on Netlify/);
+  assert.match(resumeTxt, /77 to 100/);
+  assert.match(resumeTxt, /4\.8s to 0\.8s/);
+  assert.match(resumeTxt, /40\+ active team users/);
+  assert.match(resumeTxt, /1,400\+ students; that figure is not website traffic/);
+  assert.match(resumeTxt, /sanitized simulator states/);
+  assert.match(resumeTxt, /no launch metrics/);
+  assert.match(resumeTxt, /ADDITIONAL EXPERIENCE\nMarketing Manager \| MIP Marketing Agency/);
+  assert.doesNotMatch(resumeTxt, /chatgpt\.site|Vercel/i);
+  assert.doesNotMatch(resumeTxt, /^Portfolio:/m);
   assert.match(pageSource, /content\/portfolio\.json/i);
   assert.match(pageSource, /note-card-link/i);
   assert.match(behaviorSource, /IntersectionObserver/i);
