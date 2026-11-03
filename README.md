@@ -49,9 +49,10 @@ Keep these distinctions intact:
   public Next.js rebuild as an additional engineering contribution. Verified
   performance metrics belong in the résumé, not the homepage.
 - Nana was a Product Manager internship from February to April 2025.
-- Maeen is ongoing freelance work beginning in 2023. The latest summer program
-  had 40+ active team users and benefited 1,400+ students; the wider impact must
-  not be attributed to the website alone.
+- Maeen is ongoing freelance work beginning in 2023. The registration site is
+  hosted on Netlify, not Vercel. The latest summer program had 40+ active team
+  users and benefited 1,400+ students; the wider impact must not be attributed
+  to the website alone.
 - Sameer clarified on September 7 that Numo Ads is employment work, not a
   personal project. Its Vue/Laravel system is presented as in development.
   The diagram is explicitly a workflow schematic rather than a product
@@ -60,6 +61,41 @@ Keep these distinctions intact:
 
 Use short factual copy. Tests support a claim but do not replace the visible
 user path or a real external dependency.
+
+## Public hosting
+
+Netlify publishes `dist/client`. `npm run build` runs vinext, then
+`scripts/prerender-client.mjs` writes the English and Arabic HTML into that
+folder. vinext alone does not emit `.next` or HTML pages. Hashed assets keep
+the `_headers` file vinext already generates. `public/_redirects` sends
+`/work/qarar` to `/#qarar`.
+
+`@netlify/plugin-nextjs` is not used. `NETLIFY_NEXT_PLUGIN_SKIP=true` stops a
+plugin installed in the Netlify UI from forcing `publish=.next`.
+
+Maeen’s registration product is hosted on Netlify. This portfolio is a
+separate Netlify site. `site.portfolio` stays `null` until the live
+`*.netlify.app` address exists. The résumé omits that link until then. When
+Netlify sets `URL` during the build, canonical tags use it.
+
+Netlify UI, then clear cache and deploy:
+
+1. Site configuration → Build & deploy → Continuous deployment → Build settings
+   - Base directory: empty
+   - Build command: `npm run build`
+   - Publish directory: `dist/client`
+   - Clear any UI value of `.next` so `netlify.toml` wins
+2. Site configuration → Build & deploy → Plugins
+   - Remove `@netlify/plugin-nextjs`
+3. If the site framework is locked to Next.js, clear that detection or set the
+   framework to none / Other so Netlify does not reinstall the Next plugin or
+   reset the publish directory to `.next`
+4. Deploys → Trigger deploy → Clear cache and deploy site
+5. Open `/` and `/ar` in a private window. Paste the public URL into
+   `site.portfolio`, run `python3 scripts/build_resume.py`, and push.
+
+`/api/portfolio-events` is not deployed. The page treats that request as
+optional and continues if it fails.
 
 ## Main files
 

@@ -196,6 +196,10 @@ html:has(.image-viewer[open]) { overflow: hidden; }
 .experience-list h3, .experience-aside h3 { margin: 0; font-size: 1.25rem; font-weight: 600; line-height: 1.4; letter-spacing: -.025em; }
 .experience-list article > div p { margin: .35rem 0 0; color: var(--signal); font-size: .9375rem; }
 .experience-list article > div .experience-description { margin-top: .8rem; color: var(--ink-soft); font-size: 1rem; line-height: 1.7; }
+.experience-list article.is-supporting { padding-block: 1.15rem; }
+.experience-list article.is-supporting > div { border-inline-start-color: var(--line); }
+.experience-list article.is-supporting h3 { font-size: 1rem; font-weight: 500; color: var(--ink-soft); }
+.experience-list article.is-supporting .experience-description { font-size: .9375rem; }
 .experience-aside { display: grid; gap: 2rem; align-content: start; }
 .experience-aside > div { border-top: 1px solid var(--ink); padding-top: 1.4rem; }
 .experience-aside h3 { margin-top: .8rem; }

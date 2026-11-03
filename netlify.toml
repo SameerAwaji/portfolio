@@ -1,0 +1,11 @@
+# Publish the vinext client directory. It has hashed assets, public files,
+# _headers, and the HTML pages added by scripts/prerender-client.mjs.
+# There is no Next runtime plugin. This build does not create .next.
+
+[build]
+  command = "npm run build"
+  publish = "dist/client"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"

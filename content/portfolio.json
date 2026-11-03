@@ -12,10 +12,10 @@
       "en": "Arabic and English",
       "ar": "العربية والإنجليزية"
     },
-    "portfolio": "https://sameer-awaji-portfolio.kill7737.chatgpt.site",
+    "portfolio": null,
     "opportunities": {
-      "en": "Looking for a remote software engineering role",
-      "ar": "أبحث عن فرصة هندسة برمجيات عن بُعد"
+      "en": "Open to remote full-stack roles",
+      "ar": "متاح لأدوار فل-ستاك عن بُعد"
     },
     "timezone": {
       "en": "UTC+3 · Saudi Arabia",
@@ -28,12 +28,12 @@
       "ar": "أهلاً، أنا"
     },
     "title": {
-      "en": "Sameer Awaji. Software engineer.",
-      "ar": "سمير عواجي. مهندس برمجيات."
+      "en": "Sameer Awaji. Full-stack engineer.",
+      "ar": "سمير عواجي. مهندس برمجيات فل-ستاك."
     },
     "lead": {
-      "en": "At Mrasim, I develop Flutter apps and Laravel backends; I built Maeen’s registration site and staff dashboard.",
-      "ar": "أطوّر تطبيقات Flutter وأنظمة Laravel في مراسم، وطوّرت لمعين موقع التسجيل ولوحة الفريق."
+      "en": "I ship Arabic and RTL products with Flutter, React/Next.js, and Laravel APIs for Mrasim and Maeen.",
+      "ar": "أبني منتجات عربية باتجاه RTL باستخدام Flutter وReact/Next.js وواجهات Laravel، لمراسم ولمعين."
     },
     "current": {
       "label": {
@@ -74,8 +74,8 @@
         "ar": "خاص"
       },
       "summary": {
-        "en": "I develop login, account recovery, and realtime updates in Flutter and Laravel.",
-        "ar": "أطوّر تسجيل الدخول واستعادة الحساب والتحديثات الفورية باستخدام Flutter وLaravel."
+        "en": "On Mrasim’s team, I develop login, account recovery, and realtime updates in Flutter and Laravel.",
+        "ar": "ضمن فريق مراسم، أطوّر تسجيل الدخول واستعادة الحساب والتحديثات الفورية بـ Flutter وLaravel."
       },
       "evidence": {
         "en": "Simulator previews.",
@@ -136,8 +136,8 @@
         "ar": "مستمر"
       },
       "summary": {
-        "en": "I built and maintain React/Supabase registration forms and a staff dashboard.",
-        "ar": "طوّرت نماذج التسجيل ولوحة الفريق باستخدام React وSupabase، وأواصل صيانتها."
+        "en": "I built and maintain React/Supabase registration forms and a staff dashboard, hosted on Netlify.",
+        "ar": "بنيت وأصون نماذج التسجيل ولوحة الفريق بـ React وSupabase، والموقع مستضاف على Netlify."
       },
       "evidence": {
         "en": "The wider program benefited 1,400+ students.",
@@ -153,8 +153,8 @@
           "ar": "Supabase"
         },
         {
-          "en": "Database-backed forms",
-          "ar": "نماذج مرتبطة بالبيانات"
+          "en": "Netlify",
+          "ar": "Netlify"
         }
       ],
       "link": "https://maeen.com.sa",
@@ -172,8 +172,8 @@
           "ar": "تحتاج الأسر إلى تسجيل واضح، ويحتاج فريق البرنامج إلى أدوات منفصلة للعمل اليومي."
         },
         "approach": {
-          "en": "Build database-backed React registration forms with Supabase and an internal dashboard. Maintain the public and staff workflows over time.",
-          "ar": "أطوّر نماذج تسجيل باستخدام React وSupabase ولوحة عمل داخلية، وأواصل صيانة مسارات الأسر والفريق."
+          "en": "Build database-backed React registration forms with Supabase and an internal dashboard, hosted on Netlify. Maintain the public and staff workflows over time.",
+          "ar": "أطوّر نماذج تسجيل باستخدام React وSupabase ولوحة عمل داخلية مستضافة على Netlify، وأواصل صيانة مسارات الأسر والفريق."
         },
         "validation": {
           "en": "The dashboard served 40+ active team users. Screens show the public registration flow; 1,400+ students refers to the wider program.",
@@ -202,8 +202,8 @@
         "ar": "خلال عملي مديراً للتسويق، أعدت بناء mipksa.com من WordPress إلى Next.js لتحسين الأداء وتهيئة محركات البحث."
       },
       "evidence": {
-        "en": "Performance results in my résumé.",
-        "ar": "نتائج الأداء في سيرتي الذاتية."
+        "en": "On the résumé.",
+        "ar": "في السيرة الذاتية."
       },
       "stack": [
         {
@@ -260,8 +260,8 @@
         "ar": "قيد التطوير"
       },
       "summary": {
-        "en": "With Mrasim’s team, I’m building Numo Ads, an Arabic campaign-management tool using Vue and Laravel.",
-        "ar": "أشارك مع فريق مراسم في تطوير نمو ادز، أداة عربية لإدارة الحملات باستخدام Vue وLaravel."
+        "en": "With Mrasim’s team, I’m building Arabic Numo Ads in Vue and Laravel.",
+        "ar": "أساهم مع فريق مراسم في بناء نمو ادز بالعربية باستخدام Vue وLaravel."
       },
       "evidence": {
         "en": "Workflow diagram.",
@@ -315,9 +315,10 @@
         "ar": "مهندس برمجيات"
       },
       "organization": "Mrasim",
+      "emphasis": "primary",
       "note": {
-        "en": "Mobile, web, and backend development.",
-        "ar": "تطوير تطبيقات الجوال والويب والأنظمة الخلفية."
+        "en": "Flutter, Laravel APIs, and web tools.",
+        "ar": "Flutter وواجهات Laravel وأدوات ويب."
       }
     },
     {
@@ -328,9 +329,10 @@
         "ar": "مدير تسويق"
       },
       "organization": "MIP Marketing Agency",
+      "emphasis": "supporting",
       "note": {
-        "en": "Managed marketing and rebuilt the agency website in Next.js.",
-        "ar": "أدرت التسويق وأعدت بناء موقع الوكالة باستخدام Next.js."
+        "en": "Marketing role, plus the Next.js site rebuild.",
+        "ar": "دور تسويقي، مع إعادة بناء الموقع باستخدام Next.js."
       }
     },
     {
@@ -341,6 +343,7 @@
         "ar": "متدرب إدارة منتج"
       },
       "organization": "Nana",
+      "emphasis": "supporting",
       "note": {
         "en": "Product research, documentation, and acceptance testing.",
         "ar": "بحث المنتج وتوثيقه واختبارات القبول."
@@ -356,8 +359,8 @@
     },
     "organization": "Maeen",
     "note": {
-      "en": "Registration tools, staff dashboards, and AI teaching.",
-      "ar": "أدوات تسجيل ولوحات للفريق وتدريب على الذكاء الاصطناعي."
+      "en": "Registration site, staff dashboard, and AI teaching.",
+      "ar": "موقع تسجيل ولوحة للفريق، مع تدريب على الذكاء الاصطناعي."
     }
   },
   "education": {
@@ -510,7 +513,7 @@
     }
   ],
   "resume": {
-    "profile": "Software engineer building web and mobile apps with React, Next.js, Flutter, and Laravel. Experience with Arabic interfaces, APIs, and internal tools.",
+    "profile": "Full-stack engineer shipping Arabic and RTL web and mobile products with React, Next.js, Flutter, and Laravel APIs. Open to remote roles.",
     "capabilities": [
       [
         "Web & mobile",
@@ -535,10 +538,11 @@
         "role": "Software Engineer",
         "company": "Mrasim",
         "period": "Apr 2026 - Present",
+        "tier": "primary",
         "bullets": [
-          "Work on QARAR’s Flutter app and Laravel backend, including login, account recovery, and realtime updates.",
-          "Keep mobile and backend APIs in sync and test the app before releases.",
-          "Help build Numo Ads with Vue 3, Laravel, and MySQL. The product is in development."
+          "Build QARAR’s Flutter app and Laravel APIs for login, account recovery, and realtime updates. Private team work; public screens are sanitized simulator states.",
+          "Keep mobile and backend contracts in sync, then test in the browser and simulator before release checks.",
+          "Contribute to Numo Ads (Vue 3, Laravel, MySQL) as Mrasim employment. In development, with no launch metrics."
         ]
       },
       {
@@ -546,8 +550,9 @@
         "role": "Marketing Manager",
         "company": "MIP Marketing Agency",
         "period": "2025 - Mar 2026",
+        "tier": "compact",
         "bullets": [
-          "Rebuilt mipksa.com from WordPress to Next.js while managing marketing and business development.",
+          "Also rebuilt mipksa.com from WordPress to Next.js for performance and SEO.",
           "Raised Lighthouse performance from 77 to 100 and reduced Largest Contentful Paint from 4.8s to 0.8s."
         ]
       },
@@ -556,8 +561,9 @@
         "role": "Product Manager Intern",
         "company": "Nana",
         "period": "Feb 2025 - Apr 2025",
+        "tier": "compact",
         "bullets": [
-          "Helped with product research, documentation, and user acceptance testing."
+          "Product research, documentation, and user acceptance testing."
         ]
       },
       {
@@ -565,9 +571,10 @@
         "role": "Freelance Developer & AI Tutor",
         "company": "Maeen",
         "period": "2023 - Present",
+        "tier": "primary",
         "bullets": [
-          "Built registration forms and a staff dashboard with React and Supabase; maintain them as a freelance developer.",
-          "Dashboard used by 40+ active team users. The wider summer program benefited 1,400+ students."
+          "Built and maintain registration forms and a staff dashboard with React and Supabase, hosted on Netlify.",
+          "Dashboard used by 40+ active team users. The wider summer program benefited 1,400+ students; that figure is not website traffic."
         ]
       }
     ],
@@ -585,7 +592,7 @@
         "Maeen team users / program students"
       ]
     ],
-    "headline": "Software Engineer | Web & Mobile"
+    "headline": "Full-stack Engineer | React/Next.js, Flutter, APIs"
   },
   "about": {
     "en": "Product management, marketing, and teaching shaped my approach: understand users, then build.",

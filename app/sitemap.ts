@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import content from "@/content/portfolio.json";
 import { canonicalOrigin } from "@/lib/site-metadata";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const noteRoutes = content.notes.flatMap((note) => [
     {

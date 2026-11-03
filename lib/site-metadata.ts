@@ -1,12 +1,31 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/components/portfolio-page";
+import content from "@/content/portfolio.json";
 
-export const canonicalOrigin =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://sameer-awaji-portfolio.kill7737.chatgpt.site";
+function hostedOrigin(): string | null {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL || content.site.portfolio;
+  if (
+    explicit &&
+    explicit.startsWith("http") &&
+    !explicit.includes("chatgpt.site") &&
+    !explicit.includes("github.io")
+  ) {
+    return explicit;
+  }
+  // Netlify sets URL to the primary site address, including https://.
+  const netlifyUrl = process.env.URL;
+  if (netlifyUrl && netlifyUrl.startsWith("http") && !netlifyUrl.includes("chatgpt.site")) {
+    return netlifyUrl.replace(/\/$/, "");
+  }
+  return null;
+}
+
+// Local builds have no public host yet.
+export const canonicalOrigin = hostedOrigin() || "http://127.0.0.1:3000";
 
 const descriptions = {
-  en: "Sameer Awaji, software engineer in Jeddah. I build web and mobile apps and am looking for a remote role.",
-  ar: "سمير عواجي، مهندس برمجيات في جدة. أطوّر تطبيقات للويب والجوال وأبحث عن فرصة عمل عن بُعد.",
+  en: "Sameer Awaji, full-stack engineer in Jeddah (UTC+3). Arabic and RTL products with Flutter, React/Next.js, and Laravel APIs. Open to remote roles.",
+  ar: "سمير عواجي، مهندس برمجيات فل-ستاك في جدة (UTC+3). منتجات عربية باتجاه RTL باستخدام Flutter وReact/Next.js وواجهات Laravel. متاح للعمل عن بُعد.",
 };
 
 export function siteMetadata(locale: Locale): Metadata {
