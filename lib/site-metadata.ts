@@ -23,8 +23,8 @@ function hostedOrigin(): string | null {
 export const canonicalOrigin = hostedOrigin() || "http://127.0.0.1:3000";
 
 const descriptions = {
-  en: "Sameer Awaji, full-stack engineer in Jeddah (UTC+3). Arabic and RTL products with Flutter, React/Next.js, and Laravel APIs. Open to remote roles.",
-  ar: "سمير عواجي، مهندس برمجيات فل-ستاك في جدة (UTC+3). منتجات عربية باتجاه RTL باستخدام Flutter وReact/Next.js وواجهات Laravel. متاح للعمل عن بُعد.",
+  en: "Sameer Awaji, full-stack engineer in Jeddah (UTC+3). Arabic and RTL products with React/Next.js, Flutter, and Laravel. Open to remote full-stack roles.",
+  ar: "سمير عواجي، مهندس برمجيات فل-ستاك في جدة (UTC+3). منتجات عربية باتجاه RTL باستخدام React/Next.js وFlutter وLaravel. متاح لأدوار فل-ستاك عن بُعد.",
 };
 
 export function siteMetadata(locale: Locale): Metadata {

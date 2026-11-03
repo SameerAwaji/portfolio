@@ -1,5 +1,5 @@
 Sameer Awaji
-Full-stack Engineer | React/Next.js, Flutter, APIs
+Full-stack Engineer | React/Next.js, Flutter, Laravel
 Jeddah, Saudi Arabia (UTC+3) | Open to remote full-stack roles
 Email: sameer2study@gmail.com
 GitHub: https://github.com/SameerAwaji
@@ -7,14 +7,14 @@ LinkedIn: https://linkedin.com/in/sameer-awaji-6a0986211
 Portfolio: https://sameer-awaji.netlify.app
 
 SUMMARY
-Full-stack engineer shipping Arabic and RTL web and mobile products with React, Next.js, Flutter, and Laravel APIs. Open to remote roles.
+Full-stack engineer shipping Arabic and RTL products with React, Next.js, Flutter, and Laravel. Open to remote full-stack roles.
 
 PROFESSIONAL EXPERIENCE
 Software Engineer | Mrasim
 Apr 2026 - Present
 - Build QARAR's Flutter app and Laravel APIs for login, account recovery, and realtime updates. Private team work; public screens are sanitized simulator states.
-- Keep mobile and backend contracts in sync, then test in the browser and simulator before release checks.
-- Contribute to Numo Ads (Vue 3, Laravel, MySQL) as Mrasim employment. In development, with no launch metrics.
+- Keep mobile and backend contracts in sync, test in the browser and simulator, and build internal tools for the team.
+- Build Numo Ads, an Arabic campaign-planning product (Vue 3, Laravel, MySQL). In development; local checks and a workflow diagram only, with no launch metrics.
 
 Freelance Developer & AI Tutor | Maeen
 2023 - Present

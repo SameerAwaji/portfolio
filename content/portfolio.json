@@ -32,8 +32,8 @@
       "ar": "سمير عواجي. مهندس برمجيات فل-ستاك."
     },
     "lead": {
-      "en": "I ship Arabic and RTL products with Flutter, React/Next.js, and Laravel APIs for Mrasim and Maeen.",
-      "ar": "أبني منتجات عربية باتجاه RTL باستخدام Flutter وReact/Next.js وواجهات Laravel، لمراسم ولمعين."
+      "en": "I ship Arabic and RTL products with React/Next.js, Flutter, and Laravel.",
+      "ar": "أبني منتجات عربية باتجاه RTL باستخدام React/Next.js وFlutter وLaravel."
     },
     "current": {
       "label": {
@@ -78,8 +78,8 @@
         "ar": "ضمن فريق مراسم، أطوّر تسجيل الدخول واستعادة الحساب والتحديثات الفورية بـ Flutter وLaravel."
       },
       "evidence": {
-        "en": "Simulator previews.",
-        "ar": "شاشات من المحاكي."
+        "en": "Sanitized simulator previews only.",
+        "ar": "معاينات محاكاة منقّحة فقط."
       },
       "stack": [
         {
@@ -114,8 +114,8 @@
           "ar": "أنسّق عقود Flutter وLaravel للجلسات واستعادة الحساب والتحديثات الفورية، وأتحقق من استمرار مسار المستخدم بعد التغييرات."
         },
         "validation": {
-          "en": "Browser and simulator testing, QA, and release checks. Public evidence is limited to sanitized simulator screens; source code is private.",
-          "ar": "اختبارات المتصفح والمحاكي وضمان الجودة وفحوصات الإطلاق. الدليل العام شاشات محاكاة منقّحة، والشيفرة خاصة."
+          "en": "Browser and simulator testing, QA, and release checks. Public evidence is sanitized simulator screens only; source code stays private.",
+          "ar": "اختبارات المتصفح والمحاكي وضمان الجودة وفحوصات الإطلاق. الدليل العام شاشات محاكاة منقّحة فقط، والشيفرة خاصة."
         }
       }
     },
@@ -140,8 +140,8 @@
         "ar": "بنيت وأصون نماذج التسجيل ولوحة الفريق بـ React وSupabase، والموقع مستضاف على Netlify."
       },
       "evidence": {
-        "en": "The wider program benefited 1,400+ students.",
-        "ar": "استفاد من البرنامج الأوسع أكثر من 1,400 طالب."
+        "en": "The wider program benefited 1,400+ students, not site traffic.",
+        "ar": "استفاد من البرنامج الأوسع أكثر من 1,400 طالب، وليس زيارات للموقع."
       },
       "stack": [
         {
@@ -176,14 +176,76 @@
           "ar": "أطوّر نماذج تسجيل باستخدام React وSupabase ولوحة عمل داخلية مستضافة على Netlify، وأواصل صيانة مسارات الأسر والفريق."
         },
         "validation": {
-          "en": "The dashboard served 40+ active team users. Screens show the public registration flow; 1,400+ students refers to the wider program.",
-          "ar": "استخدم اللوحة أكثر من 40 مستخدماً نشطاً من الفريق. الشاشات للتسجيل العام، وعدد 1,400+ طالب يخص البرنامج الأوسع."
+          "en": "The dashboard served 40+ active team users. Screens show the public registration flow; 1,400+ students refers to the wider program, not website traffic.",
+          "ar": "استخدم اللوحة أكثر من 40 مستخدماً نشطاً من الفريق. الشاشات للتسجيل العام، وعدد 1,400+ طالب يخص البرنامج الأوسع لا زيارات الموقع."
+        }
+      }
+    },
+    {
+      "id": "numo",
+      "number": "03",
+      "group": "selected",
+      "title": {
+        "en": "Numo Ads",
+        "ar": "نمو ادز"
+      },
+      "context": {
+        "en": "Mrasim · web development",
+        "ar": "مراسم · تطوير ويب"
+      },
+      "status": {
+        "en": "In development",
+        "ar": "قيد التطوير"
+      },
+      "summary": {
+        "en": "I build Numo at Mrasim with Vue 3, Laravel, and MySQL.",
+        "ar": "أبني نمو ادز في مراسم باستخدام Vue 3 وLaravel وMySQL."
+      },
+      "evidence": {
+        "en": "Workflow diagram. Local development only.",
+        "ar": "مخطط لمسار العمل. تحقق محلي فقط."
+      },
+      "stack": [
+        {
+          "en": "Vue 3",
+          "ar": "Vue 3"
+        },
+        {
+          "en": "Laravel",
+          "ar": "Laravel"
+        },
+        {
+          "en": "MySQL",
+          "ar": "MySQL"
+        }
+      ],
+      "link": null,
+      "role": {
+        "en": "Software Engineer · Mrasim team",
+        "ar": "مهندس برمجيات · فريق مراسم"
+      },
+      "description": {
+        "en": "Arabic campaign-planning product.",
+        "ar": "منتج عربي لتخطيط الحملات."
+      },
+      "engineering": {
+        "problem": {
+          "en": "Campaign work needs one Arabic path from project selection through planning, content, and review.",
+          "ar": "يحتاج عمل الحملات إلى مسار عربي واحد من اختيار المشروع إلى التخطيط والمحتوى والمراجعة."
+        },
+        "approach": {
+          "en": "Build that path in Numo Ads with Vue 3, Laravel, and MySQL, on the Mrasim team.",
+          "ar": "أبني هذا المسار في نمو ادز باستخدام Vue 3 وLaravel وMySQL ضمن فريق مراسم."
+        },
+        "validation": {
+          "en": "Local development checks and the workflow diagram only. No public URL, launch metrics, spend, or campaign results.",
+          "ar": "فحوصات التطوير المحلي ومخطط مسار العمل فقط. لا رابط عام ولا مقاييس إطلاق ولا إنفاق ولا نتائج حملات."
         }
       }
     },
     {
       "id": "mip",
-      "number": "03",
+      "number": "04",
       "group": "selected",
       "title": {
         "en": "MIP website",
@@ -242,68 +304,6 @@
           "ar": "قارنت Lighthouse وأكبر عنصر محتوى مرئي قبل إعادة البناء وبعدها. تتضمن السيرة القياسات المنسوبة لهذا العمل."
         }
       }
-    },
-    {
-      "id": "numo",
-      "number": "04",
-      "group": "selected",
-      "title": {
-        "en": "Numo Ads",
-        "ar": "نمو ادز"
-      },
-      "context": {
-        "en": "Mrasim · web development",
-        "ar": "مراسم · تطوير ويب"
-      },
-      "status": {
-        "en": "In development",
-        "ar": "قيد التطوير"
-      },
-      "summary": {
-        "en": "With Mrasim’s team, I’m building Arabic Numo Ads in Vue and Laravel.",
-        "ar": "أساهم مع فريق مراسم في بناء نمو ادز بالعربية باستخدام Vue وLaravel."
-      },
-      "evidence": {
-        "en": "Workflow diagram.",
-        "ar": "مخطط لمسار العمل."
-      },
-      "stack": [
-        {
-          "en": "Vue 3",
-          "ar": "Vue 3"
-        },
-        {
-          "en": "Laravel",
-          "ar": "Laravel"
-        },
-        {
-          "en": "MySQL",
-          "ar": "MySQL"
-        }
-      ],
-      "link": null,
-      "role": {
-        "en": "Software Engineer · Mrasim team",
-        "ar": "مهندس برمجيات · فريق مراسم"
-      },
-      "description": {
-        "en": "One place to plan campaigns.",
-        "ar": "مكان واحد لتخطيط الحملات."
-      },
-      "engineering": {
-        "problem": {
-          "en": "Campaign planning, content preparation, and review need a coherent Arabic workflow.",
-          "ar": "يحتاج تخطيط الحملات وإعداد المحتوى ومراجعته إلى مسار عربي مترابط."
-        },
-        "approach": {
-          "en": "Contribute to the Vue and Laravel campaign-management system within Mrasim, connecting interface workflows with backend behavior.",
-          "ar": "أساهم ضمن مراسم في نظام إدارة الحملات باستخدام Vue وLaravel، وأربط مسارات الواجهة بسلوك النظام الخلفي."
-        },
-        "validation": {
-          "en": "Local development verification only. The diagram explains the workflow; it does not establish provider approval, live delivery, or campaign results.",
-          "ar": "التحقق محلي أثناء التطوير. يوضّح المخطط المسار، ولا يثبت موافقة مزوّد أو تنفيذ حملات فعلية أو نتائجها."
-        }
-      }
     }
   ],
   "experience": [
@@ -317,8 +317,8 @@
       "organization": "Mrasim",
       "emphasis": "primary",
       "note": {
-        "en": "Flutter, Laravel APIs, and web tools.",
-        "ar": "Flutter وواجهات Laravel وأدوات ويب."
+        "en": "QARAR, Numo Ads, and internal tools.",
+        "ar": "قرار، نمو ادز، وأدوات داخلية."
       }
     },
     {
@@ -513,7 +513,7 @@
     }
   ],
   "resume": {
-    "profile": "Full-stack engineer shipping Arabic and RTL web and mobile products with React, Next.js, Flutter, and Laravel APIs. Open to remote roles.",
+    "profile": "Full-stack engineer shipping Arabic and RTL products with React, Next.js, Flutter, and Laravel. Open to remote full-stack roles.",
     "capabilities": [
       [
         "Web & mobile",
@@ -541,8 +541,8 @@
         "tier": "primary",
         "bullets": [
           "Build QARAR’s Flutter app and Laravel APIs for login, account recovery, and realtime updates. Private team work; public screens are sanitized simulator states.",
-          "Keep mobile and backend contracts in sync, then test in the browser and simulator before release checks.",
-          "Contribute to Numo Ads (Vue 3, Laravel, MySQL) as Mrasim employment. In development, with no launch metrics."
+          "Keep mobile and backend contracts in sync, test in the browser and simulator, and build internal tools for the team.",
+          "Build Numo Ads, an Arabic campaign-planning product (Vue 3, Laravel, MySQL). In development; local checks and a workflow diagram only, with no launch metrics."
         ]
       },
       {
@@ -592,7 +592,7 @@
         "Maeen team users / program students"
       ]
     ],
-    "headline": "Full-stack Engineer | React/Next.js, Flutter, APIs"
+    "headline": "Full-stack Engineer | React/Next.js, Flutter, Laravel"
   },
   "about": {
     "en": "Product management, marketing, and teaching shaped my approach: understand users, then build.",
