@@ -74,9 +74,9 @@ the `_headers` file vinext already generates. `public/_redirects` sends
 plugin installed in the Netlify UI from forcing `publish=.next`.
 
 Maeen’s registration product is hosted on Netlify. This portfolio is a
-separate Netlify site. `site.portfolio` stays `null` until the live
-`*.netlify.app` address exists. The résumé omits that link until then. When
-Netlify sets `URL` during the build, canonical tags use it.
+separate site at https://sameer-awaji.netlify.app. `site.portfolio` and the
+résumé use that URL. Canonical tags use `NEXT_PUBLIC_SITE_URL` when it is set,
+then `site.portfolio`.
 
 Netlify UI, then clear cache and deploy:
 
@@ -91,8 +91,7 @@ Netlify UI, then clear cache and deploy:
    framework to none / Other so Netlify does not reinstall the Next plugin or
    reset the publish directory to `.next`
 4. Deploys → Trigger deploy → Clear cache and deploy site
-5. Open `/` and `/ar` in a private window. Paste the public URL into
-   `site.portfolio`, run `python3 scripts/build_resume.py`, and push.
+5. Confirm https://sameer-awaji.netlify.app loads `/` and `/ar` with no login.
 
 `/api/portfolio-events` is not deployed. The page treats that request as
 optional and continues if it fails.

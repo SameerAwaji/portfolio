@@ -20,7 +20,6 @@ function hostedOrigin(): string | null {
   return null;
 }
 
-// Local builds have no public host yet.
 export const canonicalOrigin = hostedOrigin() || "http://127.0.0.1:3000";
 
 const descriptions = {
