@@ -13,8 +13,8 @@ React, TypeScript, vinext, and Cloudflare Sites.
   server logs without analytics cookies or form data
 
 The homepage order is hero, selected work, experience and technical skills, notes,
-about, and contact. QARAR, Maeen, MIP, and Numo Ads are selected work. Numo is attributed
-to Mrasim employment and explicitly remains in development.
+about, and contact. QARAR, Maeen, and Numo Ads lead selected work; MIP stays in the
+supporting row. Numo is Mrasim employment, still in development, and has no public URL.
 
 Project cards use one short contribution paragraph with project context, stack,
 and a brief result or status. The opening introduces Sameer, his current work,
@@ -23,8 +23,8 @@ Experience preserves the factual roles and dates. Both languages use plain copy;
 the homepage copy budget is 500 words, including navigation and captions.
 
 The visual system uses a light introduction, green accents, editorial typography,
-and actual project screenshots. QARAR and Maeen are flagship projects; MIP and Numo
-share a supporting row. Notes use a compact reading list. Narrow layouts keep
+and actual project screenshots. QARAR, Maeen, and Numo Ads are the primary projects;
+MIP stays supporting. Numo uses a workflow diagram rather than a screenshot. Notes use a compact reading list. Narrow layouts keep
 contributions near the project title and retain a keyboard-focusable QARAR gallery.
 Reduced-motion and print styles keep content visible. Browser visual QA remains
 required before treating a design change as verified.

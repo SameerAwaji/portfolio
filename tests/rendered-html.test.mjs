@@ -90,8 +90,10 @@ test("renders the new engineering position and current context", async () => {
   assert.match(hero, /Sameer Awaji\. Full-stack engineer\./i);
   assert.match(hero, /Open to remote full-stack roles/i);
   assert.match(hero, /Arabic and RTL products/i);
-  assert.match(hero, /Flutter, React\/Next\.js, and Laravel APIs/i);
-  assert.match(hero, /Mrasim and Maeen/i);
+  assert.match(hero, /React\/Next\.js, Flutter, and Laravel/i);
+  assert.match(hero, /QARAR/);
+  assert.match(hero, /Numo Ads/);
+  assert.match(hero, /Maeen/);
   assert.match(hero, /React \/ Next\.js.*TypeScript.*Flutter.*Laravel/i);
   assert.match(hero, /Download résumé/i);
   assert.match(hero, /GitHub/i);
@@ -113,13 +115,19 @@ test("keeps the homepage narrative and project groups in order", async () => {
     "Selected work",
     "QARAR",
     "Maeen",
-    "MIP website",
     "Numo Ads",
+    "MIP website",
     "Experience",
     "Notes from the work.",
     "A little about me.",
     "Let’s talk.",
   ]);
+  const work = textContent(elementContent(html, "section", "work"));
+  assertInOrder(work, ["QARAR", "Maeen", "Numo Ads", "MIP website"]);
+  assert.deepEqual(
+    [...html.matchAll(/<article\b[^>]*\bid=["'](qarar|maeen|numo|mip)["']/gi)].map((match) => match[1]),
+    ["qarar", "maeen", "numo", "mip"],
+  );
   for (const id of ["work", "qarar", "maeen", "mip", "numo", "experience", "notes", "about", "contact"]) {
     assert.match(html, new RegExp(`id=["']${id}["']`, "i"));
   }
@@ -134,7 +142,7 @@ test("presents QARAR specifically without exposing private material", async () =
   assert.match(project, /Mrasim’s team/i);
   assert.match(project, /Flutter and Laravel/i);
   assert.match(project, /login, account recovery, and realtime updates/i);
-  assert.match(project, /simulator previews/i);
+  assert.match(project, /Sanitized simulator previews only/i);
   assert.match(html, /projects\/qarar-login-preview\.webp/i);
   assert.match(html, /projects\/qarar-account-clean\.png/i);
   assert.match(html, /projects\/qarar-decision-preview\.webp/i);
@@ -154,6 +162,7 @@ test("keeps Maeen attribution and MIP claims within verified boundaries", async 
   assert.match(maeen, /hosted on Netlify/i);
   assert.match(maeen, /40\+ active team users/i);
   assert.match(maeen, /wider program benefited 1,400\+ students/i);
+  assert.match(maeen, /not site traffic/i);
   assert.doesNotMatch(maeen, /Vercel/i);
   assert.match(html, /projects\/maeen-summer-home-preview\.webp/i);
   assert.match(html, /projects\/maeen-summer-form\.png/i);
@@ -168,15 +177,26 @@ test("keeps Maeen attribution and MIP claims within verified boundaries", async 
 
 test("attributes Numo to employment and distinguishes its schematic from product evidence", async () => {
   const html = await (await request()).text();
-  const project = textContent(elementContent(html, "article", "numo"));
+  const projectHtml = elementContent(html, "article", "numo");
+  const project = textContent(projectHtml);
 
   assert.match(project, /Mrasim · web development/i);
   assert.doesNotMatch(project, /Personal project|Personal product lab/i);
   assert.match(project, /In development/i);
+  assert.match(project, /Arabic campaign-planning product/i);
+  assert.match(project, /Local development only/i);
+  assert.doesNotMatch(projectHtml, /<a\b/i);
   assertInOrder(project, ["Vue 3", "Laravel", "MySQL"]);
   assertInOrder(project, ["01", "Project selection", "02", "Campaign planning", "03", "Content", "04", "Review"]);
   assert.match(project, /Workflow diagram/i);
-  assert.doesNotMatch(project, /live campaigns|real provider integration|production-ready/i);
+  assert.doesNotMatch(project, /live campaigns|real provider integration|production-ready|launch metrics|ad spend/i);
+  const hero = textContent(elementContent(html, "section", "top"));
+  assert.match(elementContent(html, "section", "top"), /class=["']hero-numo["'][^>]*href=["']#numo["']/i);
+  assert.match(hero, /Numo Ads\s+03/);
+  assert.match(hero, /QARAR\s+01/);
+  assert.match(hero, /Maeen\s+02/);
+  assert.match(hero, /In development/i);
+  assert.doesNotMatch(elementContent(html, "section", "top"), /hero-numo[\s\S]*?<img/i);
 });
 
 test("ships a deliberately translated RTL route with language alternates", async () => {
@@ -363,6 +383,7 @@ test("presents short project contributions and useful skills in both locales", a
       assert.ok(experience.includes(skill), `Missing technical skill: ${skill}`);
     }
     assert.match(experience, /Marketing Manager|مدير تسويق/);
+    assert.match(experience, /QARAR, Numo Ads, and internal tools|قرار، نمو ادز، وأدوات داخلية/);
     assert.match(html, /class=["'][^"']*is-supporting[^"']*["']/);
     assert.match(html, /id=["']skills-title["']/i);
   }
@@ -409,7 +430,14 @@ test("ships optimized proof assets and a one-source resume generator", async () 
   assert.match(portfolioSource, /77 to 100/);
   assert.match(portfolioSource, /4\.8s to 0\.8s/);
   assert.doesNotMatch(portfolioSource, /chatgpt\.site|github\.io|workers\.dev|vercel/i);
-  assert.equal(JSON.parse(portfolioSource).site.portfolio, "https://sameer-awaji.netlify.app");
+  const portfolio = JSON.parse(portfolioSource);
+  assert.equal(portfolio.site.portfolio, "https://sameer-awaji.netlify.app");
+  const numo = portfolio.projects.find((item) => item.id === "numo");
+  assert.equal(numo.link, null);
+  assert.equal(numo.number, "03");
+  assert.equal(numo.status.en, "In development");
+  assert.equal(portfolio.projects.find((item) => item.id === "mip").number, "04");
+  assert.match(portfolio.experience[0].note.en, /QARAR, Numo Ads, and internal tools/);
   const packageJson = JSON.parse(await readFile(new URL("package.json", projectRoot), "utf8"));
   assert.match(packageJson.scripts.build, /vinext build && node scripts\/prerender-client\.mjs/);
   const netlifyToml = await readFile(new URL("netlify.toml", projectRoot), "utf8");
@@ -426,7 +454,10 @@ test("ships optimized proof assets and a one-source resume generator", async () 
   assert.match(await readFile(new URL("dist/client/_redirects", projectRoot), "utf8"), /\/work\/qarar/);
 
   const resumeTxt = await readFile(new URL("public/Sameer_Awaji_Resume.txt", projectRoot), "utf8");
-  assert.match(resumeTxt, /Full-stack Engineer \| React\/Next\.js, Flutter, APIs/);
+  assert.match(resumeTxt, /Full-stack Engineer \| React\/Next\.js, Flutter, Laravel/);
+  assert.match(resumeTxt, /Open to remote full-stack roles/);
+  assert.match(resumeTxt, /internal tools/);
+  assert.match(resumeTxt, /workflow diagram only, with no launch metrics/);
   assert.match(resumeTxt, /Jeddah, Saudi Arabia \(UTC\+3\)/);
   assert.match(resumeTxt, /hosted on Netlify/);
   assert.match(resumeTxt, /77 to 100/);

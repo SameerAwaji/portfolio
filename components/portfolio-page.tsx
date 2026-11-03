@@ -87,6 +87,30 @@ function pick(value: { en: string; ar: string }, locale: Locale) {
   return value[locale];
 }
 
+function projectById(id: string) {
+  const project = content.projects.find((item) => item.id === id);
+  if (!project) throw new Error(`Missing project: ${id}`);
+  return project;
+}
+
+const numoStages = {
+  en: ["Project selection", "Campaign planning", "Content", "Review"],
+  ar: ["اختيار المشروع", "تخطيط الحملة", "إعداد المحتوى", "المراجعة"],
+} as const;
+
+function NumoStages({ locale }: { locale: Locale }) {
+  return (
+    <ol aria-label={labels[locale].workflow}>
+      {numoStages[locale].map((stage, index) => (
+        <li key={stage}>
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <strong>{stage}</strong>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 function localePath(locale: Locale, path = "") {
   if (locale === "ar") return `/ar${path}`;
   return path || "/";
@@ -153,7 +177,7 @@ function ProjectCopy({
 }
 
 function QararProject({ locale }: { locale: Locale }) {
-  const project = content.projects.find((item) => item.id === "qarar")!;
+  const project = projectById("qarar");
   const l = labels[locale];
 
   return (
@@ -200,7 +224,7 @@ function QararProject({ locale }: { locale: Locale }) {
 }
 
 function MaeenProject({ locale }: { locale: Locale }) {
-  const project = content.projects.find((item) => item.id === "maeen")!;
+  const project = projectById("maeen");
 
   return (
     <article className="project-card project-maeen" id="maeen" data-reveal>
@@ -238,7 +262,7 @@ function MaeenProject({ locale }: { locale: Locale }) {
 }
 
 function MipProject({ locale }: { locale: Locale }) {
-  const project = content.projects.find((item) => item.id === "mip")!;
+  const project = projectById("mip");
 
   return (
     <article className="project-card project-mip" id="mip" data-reveal>
@@ -275,12 +299,7 @@ function MipProject({ locale }: { locale: Locale }) {
 }
 
 function NumoProject({ locale }: { locale: Locale }) {
-  const project = content.projects.find((item) => item.id === "numo")!;
-  const l = labels[locale];
-  const stages =
-    locale === "ar"
-      ? ["اختيار المشروع", "تخطيط الحملة", "إعداد المحتوى", "المراجعة"]
-      : ["Project selection", "Campaign planning", "Content", "Review"];
+  const project = projectById("numo");
 
   return (
     <article className="project-card project-numo" id="numo" data-reveal>
@@ -295,15 +314,7 @@ function NumoProject({ locale }: { locale: Locale }) {
               نمو ادز
             </strong>
           </div>
-          <p>{l.workflow}</p>
-          <ol>
-            {stages.map((stage, index) => (
-              <li key={stage}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{stage}</strong>
-              </li>
-            ))}
-          </ol>
+          <NumoStages locale={locale} />
         </div>
       </div>
     </article>
@@ -425,14 +436,21 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
             </div>
             <div className="hero-showcase">
               <p className="showcase-label">{isArabic ? "الويب والجوال" : "Web & mobile"}</p>
+              <a className="hero-mobile" href="#qarar" data-analytics="project_visual" data-project="qarar" aria-label={isArabic ? "استكشف مشروع قرار" : "Explore the QARAR project"}>
+                <Image src="/projects/qarar-decision-preview.webp" alt={isArabic ? "إدخال القرار وتصنيفه في واجهة قرار العربية" : "QARAR’s Arabic decision entry and category selection"} width={420} height={913} sizes="(max-width: 640px) 40vw, 185px" priority />
+                <span className="hero-visual-name">QARAR <span aria-hidden="true">{projectById("qarar").number}</span></span>
+              </a>
               <a className="hero-web" href="#maeen" data-analytics="project_visual" data-project="maeen" aria-label={isArabic ? "استكشف مشروع معين" : "Explore the Maeen project"}>
                 <span className="browser-bar" aria-hidden="true"><i /><i /><i /><small>maeen.com.sa</small></span>
                 <Image src="/projects/maeen-summer-home-preview.webp" alt={isArabic ? "موقع التسجيل للبرنامج الصيفي في معين" : "Maeen’s summer program registration website"} width={900} height={506} sizes="(max-width: 640px) 75vw, 420px" priority />
-                <span className="hero-visual-name">Maeen <span aria-hidden="true">01</span></span>
+                <span className="hero-visual-name">Maeen <span aria-hidden="true">{projectById("maeen").number}</span></span>
               </a>
-              <a className="hero-mobile" href="#qarar" data-analytics="project_visual" data-project="qarar" aria-label={isArabic ? "استكشف مشروع قرار" : "Explore the QARAR project"}>
-                <Image src="/projects/qarar-decision-preview.webp" alt={isArabic ? "إدخال القرار وتصنيفه في واجهة قرار العربية" : "QARAR’s Arabic decision entry and category selection"} width={420} height={913} sizes="(max-width: 640px) 40vw, 185px" priority />
-                <span className="hero-visual-name">QARAR <span aria-hidden="true">02</span></span>
+              <a className="hero-numo" href="#numo" data-analytics="project_visual" data-project="numo" aria-label={isArabic ? "استكشف مشروع نمو ادز" : "Explore the Numo Ads project"}>
+                <span className="hero-numo-name">
+                  <bdi>{pick(projectById("numo").title, locale)}</bdi>
+                  <span aria-hidden="true">{projectById("numo").number}</span>
+                  <small>{pick(projectById("numo").status, locale)}</small>
+                </span>
               </a>
               <p className="showcase-footnote">{isArabic ? "محاكاة الجوال" : "Mobile simulator"}</p>
             </div>
@@ -452,9 +470,9 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
           <div className="project-list">
             <QararProject locale={locale} />
             <MaeenProject locale={locale} />
+            <NumoProject locale={locale} />
             <div className="supporting-projects">
               <MipProject locale={locale} />
-              <NumoProject locale={locale} />
             </div>
           </div>
         </section>
