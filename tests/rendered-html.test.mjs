@@ -409,7 +409,7 @@ test("ships optimized proof assets and a one-source resume generator", async () 
   assert.match(portfolioSource, /77 to 100/);
   assert.match(portfolioSource, /4\.8s to 0\.8s/);
   assert.doesNotMatch(portfolioSource, /chatgpt\.site|github\.io|workers\.dev|vercel/i);
-  assert.equal(JSON.parse(portfolioSource).site.portfolio, null);
+  assert.equal(JSON.parse(portfolioSource).site.portfolio, "https://sameer-awaji.netlify.app");
   const packageJson = JSON.parse(await readFile(new URL("package.json", projectRoot), "utf8"));
   assert.match(packageJson.scripts.build, /vinext build && node scripts\/prerender-client\.mjs/);
   const netlifyToml = await readFile(new URL("netlify.toml", projectRoot), "utf8");
@@ -436,8 +436,8 @@ test("ships optimized proof assets and a one-source resume generator", async () 
   assert.match(resumeTxt, /sanitized simulator states/);
   assert.match(resumeTxt, /no launch metrics/);
   assert.match(resumeTxt, /ADDITIONAL EXPERIENCE\nMarketing Manager \| MIP Marketing Agency/);
-  assert.doesNotMatch(resumeTxt, /chatgpt\.site|Vercel/i);
-  assert.doesNotMatch(resumeTxt, /^Portfolio:/m);
+  assert.doesNotMatch(resumeTxt, /chatgpt\.site|github\.io|Vercel/i);
+  assert.match(resumeTxt, /^Portfolio: https:\/\/sameer-awaji\.netlify\.app$/m);
   assert.match(pageSource, /content\/portfolio\.json/i);
   assert.match(pageSource, /note-card-link/i);
   assert.match(behaviorSource, /IntersectionObserver/i);
