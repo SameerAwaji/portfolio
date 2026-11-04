@@ -12,9 +12,6 @@ export default function SiteBehavior({ locale }: { locale: "en" | "ar" }) {
     root.lang = locale;
     root.dir = locale === "ar" ? "rtl" : "ltr";
 
-    const revealItems = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-reveal]"),
-    );
     const navigationLinks = Array.from(
       document.querySelectorAll<HTMLAnchorElement>('.site-header nav a[href^="#"]'),
     );
@@ -25,25 +22,84 @@ export default function SiteBehavior({ locale }: { locale: "en" | "ar" }) {
           .filter((section): section is HTMLElement => Boolean(section)),
       ),
     );
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    if (reduceMotion) revealItems.forEach((item) => item.classList.add("is-visible"));
-    else root.classList.add("motion-ready");
-
-    const observer = new IntersectionObserver(
+    const projectLinks = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>(".project-index a[href^='#']"),
+    );
+    const projectObserver = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        for (const link of projectLinks) {
+          if (link.hash === `#${visible.target.id}`) link.setAttribute("aria-current", "location");
+          else link.removeAttribute("aria-current");
         }
       },
-      { rootMargin: "0px 0px -10%", threshold: 0.12 },
+      { threshold: [0.35, 0.6] },
     );
+    for (const link of projectLinks) {
+      const section = document.getElementById(link.hash.slice(1));
+      if (section) projectObserver.observe(section);
+    }
 
-    if (!reduceMotion) revealItems.forEach((item) => observer.observe(item));
+    const mediaAbort = new AbortController();
+    const shotObservers: IntersectionObserver[] = [];
+    const refreshMedia = (media: HTMLElement) => {
+      const group = Array.from(media.querySelectorAll<HTMLElement>("[data-shot]"));
+      if (group.length === 0 || group.every((shot) => shot.dataset.state === "empty")) {
+        media.dataset.state = "empty";
+        return;
+      }
+      const states = group.map((shot) => shot.dataset.state ?? "pending");
+      if (states.every((state) => state === "error")) media.dataset.state = "error";
+      else if (states.some((state) => state === "loading")) media.dataset.state = "loading";
+      else media.dataset.state = "ready";
+    };
+    const markShot = (shot: HTMLElement, state: string) => {
+      shot.dataset.state = state;
+      const media = shot.closest<HTMLElement>("[data-media]");
+      if (media) refreshMedia(media);
+    };
+    for (const shot of Array.from(document.querySelectorAll<HTMLElement>("[data-shot]"))) {
+      const img = shot.querySelector("img");
+      if (!img) {
+        markShot(shot, "empty");
+        continue;
+      }
+      const watch = () => {
+        let timer = 0;
+        const commit = () => {
+          if (timer) window.clearTimeout(timer);
+          markShot(shot, img.naturalWidth > 0 ? "ready" : "error");
+        };
+        const fail = () => {
+          if (timer) window.clearTimeout(timer);
+          markShot(shot, "error");
+        };
+        img.addEventListener("load", commit, { signal: mediaAbort.signal });
+        img.addEventListener("error", fail, { signal: mediaAbort.signal });
+        if (img.complete) commit();
+        else {
+          timer = window.setTimeout(() => {
+            if (!img.complete) markShot(shot, "loading");
+          }, 400);
+        }
+      };
+      if (img.complete) watch();
+      else {
+        const observer = new IntersectionObserver((entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          observer.disconnect();
+          watch();
+        }, { rootMargin: "200px" });
+        observer.observe(shot);
+        shotObservers.push(observer);
+      }
+    }
+    for (const media of Array.from(document.querySelectorAll<HTMLElement>("[data-media]"))) {
+      if (!media.querySelector("[data-shot]")) media.dataset.state = "empty";
+    }
 
     let frame = 0;
     let previousActiveId = "";
@@ -57,14 +113,7 @@ export default function SiteBehavior({ locale }: { locale: "en" | "ar" }) {
     };
 
     const updateFrame = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
-      // Complete geometry reads before updating styles; reveals use the observer.
       const activeId = activeNavigationId();
-      root.style.setProperty(
-        "--scroll-progress",
-        String(Math.min(1, Math.max(0, progress))),
-      );
       if (activeId !== previousActiveId) {
         for (const link of navigationLinks) {
           if (activeId && link.hash === `#${activeId}`) link.setAttribute("aria-current", "location");
@@ -99,6 +148,14 @@ export default function SiteBehavior({ locale }: { locale: "en" | "ar" }) {
 
     const viewer = document.querySelector<HTMLDialogElement>(".image-viewer");
     let imageTrigger: HTMLAnchorElement | null = null;
+    const setViewerState = (state: "empty" | "loading" | "ready" | "error") => {
+      if (!viewer) return;
+      viewer.dataset.state = state;
+      const status = viewer.querySelector<HTMLElement>(".viewer-status");
+      if (!status) return;
+      status.hidden = state === "ready";
+      status.textContent = state === "ready" ? "" : viewer.getAttribute(`data-label-${state}`) ?? "";
+    };
     const openImage = (event: MouseEvent) => {
       const trigger = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>("[data-image-viewer]");
       if (!trigger || !viewer || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -108,13 +165,16 @@ export default function SiteBehavior({ locale }: { locale: "en" | "ar" }) {
       if (!sourceImage || !imageContainer || !caption || !viewer.showModal) return;
       event.preventDefault();
       const image = new Image();
-      image.src = trigger.href;
       image.alt = sourceImage.alt;
       image.decoding = "async";
+      setViewerState("loading");
+      image.onload = () => setViewerState("ready");
+      image.onerror = () => setViewerState("error");
+      image.src = trigger.href;
       imageContainer.replaceChildren(image);
       caption.textContent = sourceImage.alt;
       imageTrigger = trigger;
-      viewer.showModal();
+      if (!viewer.open) viewer.showModal();
     };
     const closeImage = (event: MouseEvent) => {
       if ((event.target as HTMLElement | null)?.closest("[data-close-viewer]")) viewer?.close();
@@ -125,6 +185,7 @@ export default function SiteBehavior({ locale }: { locale: "en" | "ar" }) {
     };
     const restoreImageFocus = () => {
       viewer?.querySelector(".image-viewer-content")?.replaceChildren();
+      setViewerState("empty");
       imageTrigger?.focus({ preventScroll: true });
       imageTrigger = null;
     };
@@ -145,9 +206,9 @@ export default function SiteBehavior({ locale }: { locale: "en" | "ar" }) {
       event.preventDefault();
       const step = gallery.querySelector("figure")?.getBoundingClientRect().width ?? 240;
       if (event.key === "Home" || event.key === "End") {
-        gallery.scrollTo({ left: event.key === "Home" ? 0 : (locale === "ar" ? -1 : 1) * gallery.scrollWidth, behavior: reduceMotion ? "instant" : "smooth" });
+        gallery.scrollTo({ left: event.key === "Home" ? 0 : (locale === "ar" ? -1 : 1) * gallery.scrollWidth, behavior: "instant" });
       } else {
-        gallery.scrollBy({ left: (event.key === "ArrowRight" ? 1 : -1) * (step + 14), behavior: reduceMotion ? "instant" : "smooth" });
+        gallery.scrollBy({ left: (event.key === "ArrowRight" ? 1 : -1) * (step + 14), behavior: "instant" });
       }
     };
 
@@ -186,7 +247,9 @@ export default function SiteBehavior({ locale }: { locale: "en" | "ar" }) {
     viewer?.addEventListener("close", restoreImageFocus);
 
     return () => {
-      observer.disconnect();
+      projectObserver.disconnect();
+      for (const observer of shotObservers) observer.disconnect();
+      mediaAbort.abort();
       window.removeEventListener("scroll", requestFrame);
       window.removeEventListener("resize", requestFrame);
       document.removeEventListener("keydown", dismissMobileMenu);
@@ -199,10 +262,8 @@ export default function SiteBehavior({ locale }: { locale: "en" | "ar" }) {
       viewer?.removeEventListener("close", restoreImageFocus);
       viewer?.close();
       if (frame) window.cancelAnimationFrame(frame);
-      root.classList.remove("motion-ready");
-      root.style.removeProperty("--scroll-progress");
     };
   }, [locale, pathname]);
 
-  return <div className="scroll-progress" aria-hidden="true" />;
+  return null;
 }

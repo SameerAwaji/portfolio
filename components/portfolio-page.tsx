@@ -1,5 +1,6 @@
 import Image from "@/components/project-image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import content from "@/content/portfolio.json";
 import SiteBehavior from "@/app/scroll-motion";
 import { canonicalOrigin } from "@/lib/site-metadata";
@@ -17,13 +18,12 @@ const labels = {
     notes: "Notes",
     about: "About",
     contact: "Contact",
-    resume: "Résumé",
+    resume: "Download résumé",
     language: "العربية",
     languageLabel: "Read in Arabic",
     selectedEyebrow: "Selected work",
     selectedTitle: "Selected work.",
     skills: "Technical skills",
-    downloadResume: "Download résumé",
     openSite: "Visit",
     swipe: "Swipe through screens · ← → keys",
     workflow: "Campaign workflow",
@@ -43,6 +43,9 @@ const labels = {
     privacy: "Privacy",
     privacyCopy: "Anonymous interaction logs only. No analytics cookies or form data.",
     backTop: "Back to top",
+    mediaLoading: "Loading",
+    mediaEmpty: "No image.",
+    mediaError: "Could not load.",
   },
   ar: {
     skip: "تجاوز إلى المحتوى",
@@ -54,13 +57,12 @@ const labels = {
     notes: "ملاحظات",
     about: "عني",
     contact: "تواصل",
-    resume: "السيرة الذاتية",
+    resume: "تحميل السيرة",
     language: "English",
     languageLabel: "Read in English",
     selectedEyebrow: "أعمال مختارة",
     selectedTitle: "أعمال مختارة.",
     skills: "المهارات التقنية",
-    downloadResume: "تحميل السيرة",
     openSite: "زيارة",
     swipe: "اسحب أو استخدم مفتاحَي ← →",
     workflow: "مسار الحملة",
@@ -70,7 +72,7 @@ const labels = {
     freelance: "عمل مستقل",
     education: "التعليم",
     notesTitle: "ملاحظات من العمل.",
-    readNote: "اقرأ الملاحظة",
+    readNote: "اقرأ",
     technologies: "التقنيات",
     aboutTitle: "نبذة عني.",
     based: "الموقع",
@@ -80,6 +82,9 @@ const labels = {
     privacy: "الخصوصية",
     privacyCopy: "سجلات تفاعل مجهولة فقط. بلا ملفات تحليلات أو بيانات نماذج.",
     backTop: "العودة للأعلى",
+    mediaLoading: "جارٍ التحميل",
+    mediaEmpty: "لا توجد صورة.",
+    mediaError: "تعذّر التحميل.",
   },
 } as const;
 
@@ -111,9 +116,39 @@ function NumoStages({ locale }: { locale: Locale }) {
   );
 }
 
+function KeepHyphen({ text }: { text: string }) {
+  if (!/[\u0600-\u06FF]/.test(text)) return text;
+  const parts = text.split(/(\S*-\S*)/g);
+  return parts.map((part, index) =>
+    part.includes("-") ? <span key={index} className="keep-hyphen">{part}</span> : part,
+  );
+}
+
 function localePath(locale: Locale, path = "") {
   if (locale === "ar") return `/ar${path}`;
   return path || "/";
+}
+
+function Shot({ locale, children }: { locale: Locale; children: ReactNode }) {
+  const l = labels[locale];
+  return (
+    <div className="shot" data-shot data-label-loading={l.mediaLoading} data-label-error={l.mediaError}>
+      {children}
+    </div>
+  );
+}
+
+function MediaStatus({ locale }: { locale: Locale }) {
+  const l = labels[locale];
+  return (
+    <span
+      className="media-status"
+      role="status"
+      data-label-loading={l.mediaLoading}
+      data-label-empty={l.mediaEmpty}
+      data-label-error={l.mediaError}
+    />
+  );
 }
 
 function ProjectHeading({
@@ -135,7 +170,7 @@ function ProjectHeading({
         <h3>{pick(project.title, locale)}</h3>
       </div>
       <span className="status-pill">{pick(project.status, locale)}</span>
-      {project.link && project.id !== "mip" ? (
+      {project.link ? (
         <a
           className="project-link"
           href={project.link}
@@ -144,7 +179,7 @@ function ProjectHeading({
           data-analytics="project_link"
           data-project={project.id}
         >
-          {project.id === "qarar" ? (locale === "ar" ? "موقع مراسم" : "Mrasim website") : l.openSite} <span aria-hidden="true">↗</span>
+          {l.openSite} <span aria-hidden="true">↗</span>
         </a>
       ) : null}
     </header>
@@ -188,30 +223,36 @@ function QararProject({ locale }: { locale: Locale }) {
         <ProjectCopy project={project} locale={locale} />
         <div
           className="phone-gallery"
+          data-media
           tabIndex={0}
           role="region"
           aria-label={locale === "ar" ? "شاشات محاكاة قرار" : "QARAR simulator screens"}
         >
+          <MediaStatus locale={locale} />
           <figure>
-            <Image
-              src="/projects/qarar-login-preview.webp"
-              alt={locale === "ar" ? "شاشة دخول عربية في قرار" : "QARAR Arabic sign-in screen"}
-              width={420}
-              height={913}
-              sizes="(max-width: 640px) 60vw, 260px"
-              zoom locale={locale}
-            />
+            <Shot locale={locale}>
+              <Image
+                src="/projects/qarar-login-preview.webp"
+                alt={locale === "ar" ? "شاشة دخول عربية في قرار" : "QARAR Arabic sign-in screen"}
+                width={420}
+                height={913}
+                sizes="(max-width: 640px) 60vw, 260px"
+                zoom locale={locale}
+              />
+            </Shot>
             <figcaption>{locale === "ar" ? "01 / تسجيل الدخول" : "01 / Sign in"}</figcaption>
           </figure>
           <figure>
-            <Image
-              src="/projects/qarar-account-clean.png"
-              alt={locale === "ar" ? "إعدادات الحساب والخصوصية لضيف في قرار" : "QARAR guest account and privacy controls"}
-              width={1206}
-              height={2622}
-              sizes="(max-width: 640px) 60vw, 260px"
-              zoom locale={locale}
-            />
+            <Shot locale={locale}>
+              <Image
+                src="/projects/qarar-account-clean.png"
+                alt={locale === "ar" ? "إعدادات الحساب والخصوصية لضيف في قرار" : "QARAR guest account and privacy controls"}
+                width={1206}
+                height={2622}
+                sizes="(max-width: 640px) 60vw, 260px"
+                zoom locale={locale}
+              />
+            </Shot>
             <figcaption>{locale === "ar" ? "02 / الحساب والخصوصية" : "02 / Account & privacy"}</figcaption>
           </figure>
         </div>
@@ -236,23 +277,30 @@ function MaeenProject({ locale }: { locale: Locale }) {
           <strong><bdi>40+</bdi></strong>
           <span>{locale === "ar" ? "مستخدم نشط من الفريق" : "active team users"}</span>
         </div>
-        <div className="maeen-gallery">
+        <div className="maeen-gallery" data-media>
+          <MediaStatus locale={locale} />
           <figure className="maeen-feature">
-            <Image src="/projects/maeen-summer-form.png"
-              alt={locale === "ar" ? "نموذج بيانات ولي الأمر والطالب للتسجيل في معين" : "Maeen registration form for guardian and student details"}
-              width={1280} height={720} sizes="(max-width: 900px) 85vw, 680px" zoom locale={locale} />
+            <Shot locale={locale}>
+              <Image src="/projects/maeen-summer-form.png"
+                alt={locale === "ar" ? "نموذج بيانات ولي الأمر والطالب للتسجيل في معين" : "Maeen registration form for guardian and student details"}
+                width={1280} height={720} sizes="(max-width: 900px) 85vw, 680px" zoom locale={locale} />
+            </Shot>
             <figcaption>{locale === "ar" ? "التسجيل / بيانات ولي الأمر والطالب" : "Registration / guardian & student details"}</figcaption>
           </figure>
           <figure>
-            <Image src="/projects/maeen-summer-home-preview.webp"
-              alt={locale === "ar" ? "صفحة البرنامج الصيفي في معين" : "Maeen summer program homepage"}
-              width={900} height={506} sizes="(max-width: 900px) 40vw, 280px" zoom locale={locale} />
+            <Shot locale={locale}>
+              <Image src="/projects/maeen-summer-home-preview.webp"
+                alt={locale === "ar" ? "صفحة البرنامج الصيفي في معين" : "Maeen summer program homepage"}
+                width={900} height={506} sizes="(max-width: 900px) 40vw, 280px" zoom locale={locale} />
+            </Shot>
             <figcaption>{locale === "ar" ? "اكتشاف البرنامج" : "Discover the program"}</figcaption>
           </figure>
           <figure>
-            <Image src="/projects/maeen-summer-program-preview.webp"
-              alt={locale === "ar" ? "تفاصيل البرنامج الصيفي في معين" : "Maeen summer program details"}
-              width={560} height={315} sizes="(max-width: 900px) 40vw, 280px" zoom locale={locale} />
+            <Shot locale={locale}>
+              <Image src="/projects/maeen-summer-program-preview.webp"
+                alt={locale === "ar" ? "تفاصيل البرنامج الصيفي في معين" : "Maeen summer program details"}
+                width={560} height={315} sizes="(max-width: 900px) 40vw, 280px" zoom locale={locale} />
+            </Shot>
             <figcaption>{locale === "ar" ? "تفاصيل البرنامج" : "Program details"}</figcaption>
           </figure>
         </div>
@@ -263,6 +311,7 @@ function MaeenProject({ locale }: { locale: Locale }) {
 
 function MipProject({ locale }: { locale: Locale }) {
   const project = projectById("mip");
+  const l = labels[locale];
 
   return (
     <article className="project-card project-mip" id="mip" data-reveal>
@@ -275,23 +324,24 @@ function MipProject({ locale }: { locale: Locale }) {
           href="https://mipksa.com"
           target="_blank"
           rel="noreferrer"
-          aria-label={locale === "ar" ? "فتح موقع MIP" : "Open the MIP website"}
+          aria-label={`${l.openSite} MIP`}
           data-analytics="project_visual"
           data-project="mip"
+          data-media
         >
+          <MediaStatus locale={locale} />
           <span className="browser-bar" aria-hidden="true">
-            <i />
-            <i />
-            <i />
             <small>mipksa.com</small>
           </span>
-          <Image
-            src="/projects/mip-home-preview.webp"
-            alt={locale === "ar" ? "الصفحة الرئيسية لموقع MIP" : "MIP marketing agency homepage"}
-            width={1000}
-            height={625}
-            sizes="(max-width: 780px) 92vw, 55vw"
-          />
+          <Shot locale={locale}>
+            <Image
+              src="/projects/mip-home-preview.webp"
+              alt={locale === "ar" ? "الصفحة الرئيسية لموقع MIP" : "MIP marketing agency homepage"}
+              width={1000}
+              height={625}
+              sizes="(max-width: 780px) 92vw, 55vw"
+            />
+          </Shot>
         </a>
       </div>
     </article>
@@ -409,17 +459,17 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
             <div className="hero-copy">
               <p className="opportunity-label"><span className="status-dot" aria-hidden="true" />{pick(content.site.opportunities, locale)}</p>
               <p className="eyebrow">{pick(content.hero.eyebrow, locale)}</p>
-              <h1><span>{heroTitle[0]}</span><em>{heroTitle[1]}</em></h1>
+              <h1><span>{heroTitle[0]}</span><em><KeepHyphen text={heroTitle[1] ?? ""} /></em></h1>
               <p className="hero-lead">{pick(content.hero.lead, locale)}</p>
               <ul className="hero-stack" aria-label={l.technologies} dir="ltr">
                 {content.hero.stack.map((technology) => <li key={technology}>{technology}</li>)}
               </ul>
               <div className="hero-actions">
-                <a className="button button-dark" href="#work" data-analytics="hero_work">
-                  {l.selectedEyebrow}
+                <a className="button" href="/Sameer_Awaji_Resume.pdf" download data-analytics="resume_download">
+                  {l.resume} <span aria-hidden="true">↓</span>
                 </a>
-                <a className="button button-light" href="/Sameer_Awaji_Resume.pdf" download data-analytics="resume_download">
-                  {l.downloadResume}
+                <a className="text-link" href="#work" data-analytics="hero_work">
+                  {l.work}
                 </a>
               </div>
               <div className="hero-profile-links">
@@ -434,25 +484,34 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
                 <span>{pick(content.site.timezone, locale)}</span>
               </div>
             </div>
-            <div className="hero-showcase">
-              <p className="showcase-label">{isArabic ? "الويب والجوال" : "Web & mobile"}</p>
-              <a className="hero-mobile" href="#qarar" data-analytics="project_visual" data-project="qarar" aria-label={isArabic ? "استكشف مشروع قرار" : "Explore the QARAR project"}>
-                <Image src="/projects/qarar-decision-preview.webp" alt={isArabic ? "إدخال القرار وتصنيفه في واجهة قرار العربية" : "QARAR’s Arabic decision entry and category selection"} width={420} height={913} sizes="(max-width: 640px) 40vw, 185px" priority />
-                <span className="hero-visual-name">QARAR <span aria-hidden="true">{projectById("qarar").number}</span></span>
+            <div className="hero-showcase" data-media>
+              <MediaStatus locale={locale} />
+              <a className="hero-mobile" href="#qarar" data-analytics="project_visual" data-project="qarar" aria-labelledby="hero-qarar-name">
+                <Shot locale={locale}>
+                  <Image src="/projects/qarar-decision-preview.webp" alt={isArabic ? "إدخال القرار وتصنيفه في واجهة قرار العربية" : "QARAR’s Arabic decision entry and category selection"} width={420} height={913} sizes="(max-width: 640px) 28vw, 120px" priority />
+                </Shot>
+                <span id="hero-qarar-name" className="hero-visual-name">
+                  <bdi>{pick(projectById("qarar").title, locale)}</bdi>{" "}
+                  <span aria-hidden="true">{projectById("qarar").number}</span>
+                </span>
               </a>
-              <a className="hero-web" href="#maeen" data-analytics="project_visual" data-project="maeen" aria-label={isArabic ? "استكشف مشروع معين" : "Explore the Maeen project"}>
-                <span className="browser-bar" aria-hidden="true"><i /><i /><i /><small>maeen.com.sa</small></span>
-                <Image src="/projects/maeen-summer-home-preview.webp" alt={isArabic ? "موقع التسجيل للبرنامج الصيفي في معين" : "Maeen’s summer program registration website"} width={900} height={506} sizes="(max-width: 640px) 75vw, 420px" priority />
-                <span className="hero-visual-name">Maeen <span aria-hidden="true">{projectById("maeen").number}</span></span>
+              <a className="hero-web" href="#maeen" data-analytics="project_visual" data-project="maeen" aria-labelledby="hero-maeen-name">
+                <span className="browser-bar" aria-hidden="true"><small>maeen.com.sa</small></span>
+                <Shot locale={locale}>
+                  <Image src="/projects/maeen-summer-home-preview.webp" alt={isArabic ? "موقع التسجيل للبرنامج الصيفي في معين" : "Maeen’s summer program registration website"} width={900} height={506} sizes="(max-width: 640px) 70vw, 420px" priority />
+                </Shot>
+                <span id="hero-maeen-name" className="hero-visual-name">
+                  <bdi>{pick(projectById("maeen").title, locale)}</bdi>{" "}
+                  <span aria-hidden="true">{projectById("maeen").number}</span>
+                </span>
               </a>
-              <a className="hero-numo" href="#numo" data-analytics="project_visual" data-project="numo" aria-label={isArabic ? "استكشف مشروع نمو ادز" : "Explore the Numo Ads project"}>
+              <a className="hero-numo" href="#numo" data-analytics="project_visual" data-project="numo">
                 <span className="hero-numo-name">
                   <bdi>{pick(projectById("numo").title, locale)}</bdi>
                   <span aria-hidden="true">{projectById("numo").number}</span>
                   <small>{pick(projectById("numo").status, locale)}</small>
                 </span>
               </a>
-              <p className="showcase-footnote">{isArabic ? "محاكاة الجوال" : "Mobile simulator"}</p>
             </div>
           </div>
         </section>
@@ -613,7 +672,7 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
             </div>
             <div className="contact-links">
               <a href="/Sameer_Awaji_Resume.pdf" download data-analytics="resume_download">
-                {isArabic ? "السيرة الذاتية (PDF · الإنجليزية)" : "Résumé (PDF)"} <span aria-hidden="true">↓</span>
+                {l.resume} <span aria-hidden="true">↓</span>
               </a>
               <a href="/Sameer_Awaji_Resume.txt" download>
                 {isArabic ? "نسخة نصية للتقديم (الإنجليزية)" : "Plain-text résumé"}
@@ -632,11 +691,19 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
         </section>
       </main>
 
-      <dialog className="image-viewer" aria-labelledby="image-viewer-caption">
+      <dialog
+        className="image-viewer"
+        data-state="empty"
+        data-label-empty={l.mediaEmpty}
+        data-label-loading={l.mediaLoading}
+        data-label-error={l.mediaError}
+        aria-labelledby="image-viewer-caption"
+      >
         <div className="image-viewer-toolbar">
           <p id="image-viewer-caption" />
           <button type="button" data-close-viewer autoFocus>{isArabic ? "إغلاق" : "Close"}<span aria-hidden="true">×</span></button>
         </div>
+        <p className="viewer-status" role="status">{l.mediaEmpty}</p>
         <div className="image-viewer-content" />
       </dialog>
 
