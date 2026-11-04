@@ -26,7 +26,7 @@ const labels = {
     skills: "Technical skills",
     openSite: "Visit",
     swipe: "Swipe through screens · ← → keys",
-    workflow: "Campaign workflow",
+    workflow: "Ad pipeline",
     schematic: "Workflow diagram",
     experienceTitle: "Experience.",
     employment: "Employment",
@@ -65,7 +65,7 @@ const labels = {
     skills: "المهارات التقنية",
     openSite: "زيارة",
     swipe: "اسحب أو استخدم مفتاحَي ← →",
-    workflow: "مسار الحملة",
+    workflow: "مسار الإعلان",
     schematic: "مخطط لمسار العمل",
     experienceTitle: "الخبرة.",
     employment: "الوظائف",
@@ -99,8 +99,8 @@ function projectById(id: string) {
 }
 
 const numoStages = {
-  en: ["Project selection", "Campaign planning", "Content", "Review"],
-  ar: ["اختيار المشروع", "تخطيط الحملة", "إعداد المحتوى", "المراجعة"],
+  en: ["Project selection", "Plan", "Arabic copy", "Video layers", "Review versions", "Paused publish"],
+  ar: ["اختيار المشروع", "الخطة", "النص العربي", "طبقات الفيديو", "نسخ المراجعة", "نشر متوقف"],
 } as const;
 
 function NumoStages({ locale }: { locale: Locale }) {
@@ -197,6 +197,7 @@ function ProjectCopy({
 
   return (
     <div className="project-copy">
+      {project.id === "numo" ? <p className="project-role">{pick(project.role, locale)}</p> : null}
       <p className="project-contribution">{pick(project.summary, locale)}</p>
       <ul
         className="stack-list"
@@ -350,6 +351,7 @@ function MipProject({ locale }: { locale: Locale }) {
 
 function NumoProject({ locale }: { locale: Locale }) {
   const project = projectById("numo");
+  const details = "detail" in project ? project.detail : [];
 
   return (
     <article className="project-card project-numo" id="numo" data-reveal>
@@ -359,13 +361,17 @@ function NumoProject({ locale }: { locale: Locale }) {
         <ProjectCopy project={project} locale={locale} />
         <div className="numo-schematic">
           <div className="numo-topline">
-            <span>Numo Ads</span>
-            <strong lang="ar" dir="rtl">
-              نمو ادز
-            </strong>
+            <span>{labels[locale].schematic}</span>
           </div>
           <NumoStages locale={locale} />
         </div>
+        {details.length > 0 ? (
+          <ul className="numo-details">
+            {details.map((item) => (
+              <li key={item.en}>{pick(item, locale)}</li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </article>
   );

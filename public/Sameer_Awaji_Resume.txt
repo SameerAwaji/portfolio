@@ -14,7 +14,7 @@ Software Engineer | Mrasim
 Apr 2026 - Present
 - Build QARAR's Flutter app and Laravel APIs for login, account recovery, and realtime updates. Private team work; public screens are sanitized simulator states.
 - Keep mobile and backend contracts in sync, test in the browser and simulator, and build internal tools for the team.
-- Build Numo Ads, an Arabic campaign-planning product (Vue 3, Laravel, MySQL). In development; local checks and a workflow diagram only, with no launch metrics.
+- Build Numo Ads for charities: project selection, plan, Arabic copy, video, review, and paused publish (Vue 3, Laravel). In development; workflow diagram only, with no launch metrics.
 
 Freelance Developer & AI Tutor | Maeen
 2023 - Present

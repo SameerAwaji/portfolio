@@ -180,16 +180,75 @@ test("attributes Numo to employment and distinguishes its schematic from product
   const projectHtml = elementContent(html, "article", "numo");
   const project = textContent(projectHtml);
 
-  assert.match(project, /Mrasim · web development/i);
-  assert.doesNotMatch(project, /Personal project|Personal product lab/i);
+  assert.match(project, /Mrasim · Numo platform for charities/i);
+  assert.match(project, /Software Engineer · Mrasim team/);
+  assert.doesNotMatch(project, /primary developer|Personal project|Personal product lab/i);
   assert.match(project, /In development/i);
-  assert.match(project, /Arabic campaign-planning product/i);
-  assert.match(project, /Local development only/i);
+  assert.match(project, /Arabic-first ad platform for charity accounts/i);
+  assert.match(project, /every charity account/i);
+  assert.match(project, /each charity account/i);
+  assert.match(project, /first ad integration \(Snapchat\)/i);
+  assert.equal((project.match(/Snapchat/g) ?? []).length, 1);
+  assert.match(project, /no public launch/i);
+  assert.doesNotMatch(project, /Snapchat video|Snapchat Marketing|Snapchat objects|Snapchat only|one charity/i);
   assert.doesNotMatch(projectHtml, /<a\b/i);
-  assertInOrder(project, ["Vue 3", "Laravel", "MySQL"]);
-  assertInOrder(project, ["01", "Project selection", "02", "Campaign planning", "03", "Content", "04", "Review"]);
+  assert.doesNotMatch(projectHtml, /<img\b/i);
+  assertInOrder(project, [
+    "Laravel 12",
+    "Vue 3 + TypeScript",
+    "Inertia",
+    "Tailwind CSS",
+    "MySQL",
+    "Redis / Horizon",
+    "FFmpeg",
+    "Paid social APIs",
+    "Generative AI",
+  ]);
+  assertInOrder(project, [
+    "01",
+    "Project selection",
+    "02",
+    "Plan",
+    "03",
+    "Arabic copy",
+    "04",
+    "Video layers",
+    "05",
+    "Review versions",
+    "06",
+    "Paused publish",
+  ]);
   assert.match(project, /Workflow diagram/i);
-  assert.doesNotMatch(project, /live campaigns|real provider integration|production-ready|launch metrics|ad spend/i);
+  assert.match(projectHtml, /aria-label="Ad pipeline"/);
+  assert.match(project, /Creative engine/i);
+  assert.match(project, /integer micro-riyals/i);
+  assert.doesNotMatch(project, /live campaigns|real provider integration|production-ready|launch metrics|ad spend|DeepSeek|TikTok|GitLab|Gemini|\bJev\b|Phase 6|sole architect|959|1,424/i);
+  const arabicHtml = await (await request("/ar")).text();
+  const arabicProjectHtml = elementContent(arabicHtml, "article", "numo");
+  const arabicProject = textContent(arabicProjectHtml);
+  assert.match(arabicProject, /قيد التطوير/);
+  assert.match(arabicProject, /مهندس برمجيات · فريق مراسم/);
+  assert.doesNotMatch(arabicProject, /المطوّر الرئيسي/);
+  assert.match(arabicProject, /مخطط مسار العمل/);
+  assert.match(arabicProject, /كل حساب جمعية/);
+  assert.match(arabicProject, /أول تكامل إعلاني \(سناب شات\)/);
+  assert.equal((arabicProject.match(/سناب شات/g) ?? []).length, 1);
+  assert.doesNotMatch(arabicProject, /حملة فيديو على سناب شات/);
+  assert.doesNotMatch(arabicProjectHtml, /<a\b|<img\b/i);
+  assertInOrder(arabicProject, [
+    "01",
+    "اختيار المشروع",
+    "02",
+    "الخطة",
+    "03",
+    "النص العربي",
+    "04",
+    "طبقات الفيديو",
+    "05",
+    "نسخ المراجعة",
+    "06",
+    "نشر متوقف",
+  ]);
   const hero = textContent(elementContent(html, "section", "top"));
   assert.match(elementContent(html, "section", "top"), /class=["']hero-numo["'][^>]*href=["']#numo["']/i);
   assert.match(hero, /Numo Ads\s+03/);
@@ -337,7 +396,7 @@ test("preserves local image fallback with and without an asset binding", async (
 test("keeps the homepage short and readable", async () => {
   const html = await (await request()).text();
   const pageText = textContent(html);
-  assert.ok(wordCount(pageText) < 500, `Expected homepage under 500 words, received ${wordCount(pageText)}`);
+  assert.ok(wordCount(pageText) < 750, `Expected homepage under 750 words, received ${wordCount(pageText)}`);
   assert.doesNotMatch(pageText, /Engineering details|My contribution|Validation|identity and session continuity|verification boundary/i);
   assert.match(html, /application\/ld\+json/i);
   assert.match(html, /rel=["']canonical["']/i);
@@ -376,7 +435,11 @@ test("presents short project contributions and useful skills in both locales", a
       const project = elementContent(html, "article", id);
       const contribution = /<p[^>]*class=["']project-contribution["'][^>]*>([\s\S]*?)<\/p>/i.exec(project);
       assert.ok(contribution, `Missing contribution for ${id}`);
-      assert.ok(wordCount(textContent(contribution[1])) <= 30, `Contribution for ${id} is too long`);
+      const contributionLimit = id === "numo" ? 45 : 30;
+      assert.ok(
+        wordCount(textContent(contribution[1])) <= contributionLimit,
+        `Contribution for ${id} is too long`,
+      );
     }
     const experience = textContent(elementContent(html, "section", "experience"));
     for (const skill of ["TypeScript", "Vue 3", "Flutter", "REST APIs", "Supabase"]) {
