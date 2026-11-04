@@ -190,34 +190,31 @@
         "ar": "نمو ادز"
       },
       "context": {
-        "en": "Mrasim · web development",
-        "ar": "مراسم · تطوير ويب"
+        "en": "Mrasim · Numo platform for charities",
+        "ar": "مراسم · منصة نمو للجمعيات الخيرية"
       },
       "status": {
         "en": "In development",
         "ar": "قيد التطوير"
       },
       "summary": {
-        "en": "I build Numo at Mrasim with Vue 3, Laravel, and MySQL.",
-        "ar": "أبني نمو ادز في مراسم باستخدام Vue 3 وLaravel وMySQL."
+        "en": "I build the pipeline behind one form on every charity account: project selection, plan, Arabic copy, video with verified logo and QR layers, review versions, and paused publish until a person approves.",
+        "ar": "أبني المسار خلف نموذج واحد في كل حساب جمعية: اختيار المشروع، والخطة، والنص العربي، والفيديو بطبقات شعار ورمز QR متحققة، ونسخ المراجعة، ثم نشر متوقف حتى يعتمده شخص."
       },
       "evidence": {
-        "en": "Workflow diagram. Local development only.",
-        "ar": "مخطط لمسار العمل. تحقق محلي فقط."
+        "en": "Workflow diagram. Internal builds and one paused test on the first ad integration (Snapchat); no public launch, spend, or campaign results.",
+        "ar": "مخطط مسار العمل. نسخ داخلية واختبار نشر متوقف واحد على أول تكامل إعلاني (سناب شات)، دون إطلاق عام أو إنفاق أو نتائج حملات."
       },
       "stack": [
-        {
-          "en": "Vue 3",
-          "ar": "Vue 3"
-        },
-        {
-          "en": "Laravel",
-          "ar": "Laravel"
-        },
-        {
-          "en": "MySQL",
-          "ar": "MySQL"
-        }
+        { "en": "Laravel 12", "ar": "Laravel 12" },
+        { "en": "Vue 3 + TypeScript", "ar": "Vue 3 + TypeScript" },
+        { "en": "Inertia", "ar": "Inertia" },
+        { "en": "Tailwind CSS", "ar": "Tailwind CSS" },
+        { "en": "MySQL", "ar": "MySQL" },
+        { "en": "Redis / Horizon", "ar": "Redis / Horizon" },
+        { "en": "FFmpeg", "ar": "FFmpeg" },
+        { "en": "Paid social APIs", "ar": "واجهات إعلانات مدفوعة" },
+        { "en": "Generative AI (text, image, video)", "ar": "ذكاء اصطناعي توليدي (نص، صورة، فيديو)" }
       ],
       "link": null,
       "role": {
@@ -225,21 +222,51 @@
         "ar": "مهندس برمجيات · فريق مراسم"
       },
       "description": {
-        "en": "Arabic campaign-planning product.",
-        "ar": "منتج عربي لتخطيط الحملات."
+        "en": "Arabic-first ad platform for charity accounts.",
+        "ar": "منصة إعلانات عربية أولاً لحسابات الجمعيات."
       },
+      "detail": [
+        {
+          "en": "Creative engine: AI generates the scene; each charity’s name, figures, logo and QR are stamped as separate verified layers on a 1080×1920 closing card.",
+          "ar": "محرك إبداعي: الذكاء الاصطناعي يولّد المشهد، أما اسم كل جمعية وأرقامها وشعارها ورمز QR فتُضاف طبقات مستقلة يُتحقق منها على بطاقة ختامية بمقاس 1080×1920."
+        },
+        {
+          "en": "Versioned visual styles (editorial, warm frame, cinematic, curtain reveal, arched window) so campaigns across charities don’t look the same.",
+          "ar": "أنماط بصرية بإصدارات ثابتة (تحريري، إطار دافئ، سينمائي، كشف الستارة، بوابة مقوسة) حتى لا تتشابه حملات الجمعيات."
+        },
+        {
+          "en": "Review loop: reject with a reason, add change notes, regenerate a new version; approvals and past versions are never overwritten.",
+          "ar": "حلقة مراجعة: رفض مع سبب، وملاحظات للتعديل، ثم توليد نسخة جديدة دون الكتابة فوق النسخ أو الموافقات السابقة."
+        },
+        {
+          "en": "Arabic-first, RTL by default with full English; Arabic text shaping verified inside the video renderer, not assumed.",
+          "ar": "العربية أولاً واتجاه RTL افتراضياً مع دعم كامل للإنجليزية، والتحقق من تشكيل الحروف العربية داخل محرك الفيديو نفسه."
+        },
+        {
+          "en": "Content checks block any number or claim not backed by that charity account’s approved project facts.",
+          "ar": "فحص المحتوى يمنع أي رقم أو ادعاء لا تدعمه بيانات المشروع المعتمدة لذلك الحساب."
+        },
+        {
+          "en": "Money safety: budgets in exact integer micro-riyals, paid AI generations reserved and capped before sending, ad objects created paused and verified before any spend.",
+          "ar": "حماية مالية: الميزانيات بوحدات صحيحة دقيقة من الريال، وتوليد الذكاء الاصطناعي المدفوع محجوز ومحدود قبل الإرسال، والعناصر الإعلانية تُنشأ متوقفة ويُتحقق منها قبل أي صرف."
+        },
+        {
+          "en": "Multi-tenant: each charity account sees only its own campaigns, enforced in backend policies.",
+          "ar": "تعدد المستأجرين: كل حساب جمعية يرى حملاته فقط، ويُفرض ذلك في سياسات الخادم."
+        }
+      ],
       "engineering": {
         "problem": {
-          "en": "Campaign work needs one Arabic path from project selection through planning, content, and review.",
-          "ar": "يحتاج عمل الحملات إلى مسار عربي واحد من اختيار المشروع إلى التخطيط والمحتوى والمراجعة."
+          "en": "Charities aren’t marketers. Each account needs one clear step (budget and duration) while the system handles project choice, Arabic creative, review, and paused publishing without inventing facts or spending by surprise.",
+          "ar": "الجمعيات ليست جهات تسويق. كل حساب يحتاج خطوة واحدة واضحة (الميزانية والمدة)، ويتولى النظام اختيار المشروع والإبداع العربي والمراجعة والنشر المتوقف دون اختلاق معلومات أو صرف مفاجئ."
         },
         "approach": {
-          "en": "Build that path in Numo Ads with Vue 3, Laravel, and MySQL, on the Mrasim team.",
-          "ar": "أبني هذا المسار في نمو ادز باستخدام Vue 3 وLaravel وMySQL ضمن فريق مراسم."
+          "en": "A staged Laravel pipeline run by managed background jobs: AI for the scene and copy, deterministic code for facts, logo, QR, money, and publishing. Publish stays paused, and every stage is saved as an immutable version a person can review.",
+          "ar": "مسار مراحل في Laravel تديره مهام خلفية: الذكاء الاصطناعي للمشهد والنص، والمنطق الثابت للحقائق والشعار ورمز QR والمال والنشر. يبقى النشر متوقفاً، وكل مرحلة تُحفظ نسخة ثابتة قابلة للمراجعة."
         },
         "validation": {
-          "en": "Local development checks and the workflow diagram only. No public URL, launch metrics, spend, or campaign results.",
-          "ar": "فحوصات التطوير المحلي ومخطط مسار العمل فقط. لا رابط عام ولا مقاييس إطلاق ولا إنفاق ولا نتائج حملات."
+          "en": "Automated tests with simulated providers, rendered Arabic/English video checks, and one paused test on the first ad integration (Snapchat). No public URL, launch metrics, spend or donation results.",
+          "ar": "اختبارات آلية بمزودات محاكاة، وفحص فيديوهات عربية وإنجليزية مُنتَجة، واختبار نشر متوقف واحد على أول تكامل إعلاني (سناب شات). لا رابط عام ولا مقاييس إطلاق ولا إنفاق ولا نتائج تبرعات."
         }
       }
     },
@@ -542,7 +569,7 @@
         "bullets": [
           "Build QARAR’s Flutter app and Laravel APIs for login, account recovery, and realtime updates. Private team work; public screens are sanitized simulator states.",
           "Keep mobile and backend contracts in sync, test in the browser and simulator, and build internal tools for the team.",
-          "Build Numo Ads, an Arabic campaign-planning product (Vue 3, Laravel, MySQL). In development; local checks and a workflow diagram only, with no launch metrics."
+          "Build Numo Ads for charities: project selection, plan, Arabic copy, video, review, and paused publish (Vue 3, Laravel). In development; workflow diagram only, with no launch metrics."
         ]
       },
       {
