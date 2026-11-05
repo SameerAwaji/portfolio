@@ -461,6 +461,7 @@ test("redirects the legacy QARAR route", async () => {
 test("ships optimized proof assets and a one-source resume generator", async () => {
   const assets = [
     "public/Sameer_Awaji_Resume.pdf",
+    "public/Sameer_Awaji_CV.pdf",
     "public/Sameer_Awaji_Resume.txt",
     "public/og.jpg",
     "public/brands/mrasim-logo-white.svg",
@@ -517,10 +518,22 @@ test("ships optimized proof assets and a one-source resume generator", async () 
   assert.match(await readFile(new URL("dist/client/_redirects", projectRoot), "utf8"), /\/work\/qarar/);
 
   const resumeTxt = await readFile(new URL("public/Sameer_Awaji_Resume.txt", projectRoot), "utf8");
-  assert.match(resumeTxt, /Full-stack Engineer \| React\/Next\.js, Flutter, Laravel/);
+  const [resumePdf, cvPdf] = await Promise.all([
+    readFile(new URL("public/Sameer_Awaji_Resume.pdf", projectRoot)),
+    readFile(new URL("public/Sameer_Awaji_CV.pdf", projectRoot)),
+  ]);
+  assert.deepEqual(cvPdf, resumePdf);
+  assert.match(resumeTxt, /Full-stack Engineer \| React\/Next\.js, TypeScript, Flutter, Laravel, Vue/);
+  assert.match(resumeTxt, /Product management, marketing, and teaching shaped how I build/);
   assert.match(resumeTxt, /Open to remote full-stack roles/);
-  assert.match(resumeTxt, /internal tools/);
-  assert.match(resumeTxt, /workflow diagram only, with no launch metrics/);
+  assert.match(resumeTxt, /QARAR/);
+  assert.match(resumeTxt, /internal tools for the team/);
+  assert.match(resumeTxt, /multi-tenant paid social for charity accounts/);
+  assert.match(resumeTxt, /Vue 3, TypeScript, Laravel/);
+  assert.match(resumeTxt, /Snapchat is the first ad integration only/);
+  assert.equal((resumeTxt.match(/Snapchat/g) ?? []).length, 1);
+  assert.match(resumeTxt, /one paused test/);
+  assert.match(resumeTxt, /no public launch, spend, or campaign results/);
   assert.match(resumeTxt, /Jeddah, Saudi Arabia \(UTC\+3\)/);
   assert.match(resumeTxt, /hosted on Netlify/);
   assert.match(resumeTxt, /77 to 100/);
@@ -528,10 +541,11 @@ test("ships optimized proof assets and a one-source resume generator", async () 
   assert.match(resumeTxt, /40\+ active team users/);
   assert.match(resumeTxt, /1,400\+ students; that figure is not website traffic/);
   assert.match(resumeTxt, /sanitized simulator states/);
-  assert.match(resumeTxt, /no launch metrics/);
+  assert.match(resumeTxt, /Freelance Developer & AI Tutor \| Maeen/);
   assert.match(resumeTxt, /ADDITIONAL EXPERIENCE\nMarketing Manager \| MIP Marketing Agency/);
-  assert.doesNotMatch(resumeTxt, /chatgpt\.site|github\.io|Vercel/i);
+  assert.doesNotMatch(resumeTxt, /chatgpt\.site|github\.io|Vercel|one charity|Snapchat only|workflow diagram only|launch metrics/i);
   assert.match(resumeTxt, /^Portfolio: https:\/\/sameer-awaji\.netlify\.app$/m);
+  assert.match(resumeTxt, /sameer2study@gmail\.com/);
   assert.match(pageSource, /content\/portfolio\.json/i);
   assert.match(pageSource, /note-card-link/i);
   assert.match(behaviorSource, /IntersectionObserver/i);

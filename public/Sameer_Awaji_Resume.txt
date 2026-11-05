@@ -1,5 +1,5 @@
 Sameer Awaji
-Full-stack Engineer | React/Next.js, Flutter, Laravel
+Full-stack Engineer | React/Next.js, TypeScript, Flutter, Laravel, Vue
 Jeddah, Saudi Arabia (UTC+3) | Open to remote full-stack roles
 Email: sameer2study@gmail.com
 GitHub: https://github.com/SameerAwaji
@@ -7,14 +7,14 @@ LinkedIn: https://linkedin.com/in/sameer-awaji-6a0986211
 Portfolio: https://sameer-awaji.netlify.app
 
 SUMMARY
-Full-stack engineer shipping Arabic and RTL products with React, Next.js, Flutter, and Laravel. Open to remote full-stack roles.
+I ship Arabic and RTL products with React/Next.js, TypeScript, Flutter, Laravel, and Vue. Product management, marketing, and teaching shaped how I build: understand users, then build.
 
 PROFESSIONAL EXPERIENCE
 Software Engineer | Mrasim
 Apr 2026 - Present
 - Build QARAR's Flutter app and Laravel APIs for login, account recovery, and realtime updates. Private team work; public screens are sanitized simulator states.
-- Keep mobile and backend contracts in sync, test in the browser and simulator, and build internal tools for the team.
-- Build Numo Ads for charities: project selection, plan, Arabic copy, video, review, and paused publish (Vue 3, Laravel). In development; workflow diagram only, with no launch metrics.
+- Build Numo Ads, multi-tenant paid social for charity accounts: project selection, plan, Arabic copy, verified logo and QR layers, review, and paused publish (Vue 3, TypeScript, Laravel).
+- Numo Ads is in development. Snapchat is the first ad integration only (one paused test); no public launch, spend, or campaign results. I also build internal tools for the team.
 
 Freelance Developer & AI Tutor | Maeen
 2023 - Present
