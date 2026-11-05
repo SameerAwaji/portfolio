@@ -19,6 +19,7 @@ from reportlab.platypus import Paragraph
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "public" / "Sameer_Awaji_Resume.pdf"
 TEXT_OUTPUT = OUTPUT.with_suffix(".txt")
+CV_OUTPUT = ROOT / "public" / "Sameer_Awaji_CV.pdf"
 PAGE_W, PAGE_H = letter
 LEFT = 42
 RIGHT = PAGE_W - LEFT
@@ -291,8 +292,10 @@ def build_resume():
         pdf.showPage()
         pdf.save()
         temporary.replace(OUTPUT)
+        CV_OUTPUT.write_bytes(OUTPUT.read_bytes())
         TEXT_OUTPUT.write_text(build_plain_text(site, resume, education, experience), encoding="utf-8")
         print(f"Built {OUTPUT.name}: one page, 11pt body text, {y:.1f}pt bottom clearance.")
+        print(f"Built {CV_OUTPUT.name}: same PDF for applications that ask for a CV filename.")
         print(f"Built {TEXT_OUTPUT.name}: plain-text application copy.")
     finally:
         temporary.unlink(missing_ok=True)
